@@ -9,7 +9,7 @@ import SelectDropdown from './SelectDropdown';
 const LocationModal = ({ location, locationData, currentGame, onClose, onSave }) => {
   const [selectedType, setSelectedType] = useState('useful');
   const [selectedLocationId, setSelectedLocationId] = useState(null);
-  const [selectedUsefulType, setSelectedUsefulType] = useState('chests');
+  const [selectedUsefulType, setSelectedUsefulType] = useState('special');
   const [selectedChestCount, setSelectedChestCount] = useState('1');
 
   // Determine which world this location is in

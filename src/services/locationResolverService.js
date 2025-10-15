@@ -145,7 +145,7 @@ export const locationResolverService = {
     const usedSpecialIds = this.getUsedLocationIds(currentGame, excludeLocationId).specialUseful;
     return usefulLocationData
       .filter(loc => loc.type === 'special')
-      .filter(loc => !usedSpecialIds.includes(loc.id));
+      .filter(loc => !usedSpecialIds.includes(loc.id) || loc.id === 3098 || loc.id === 3099);
   },
 
   /**

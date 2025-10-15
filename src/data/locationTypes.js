@@ -94,7 +94,10 @@ export const connectorData = [
   { id: 2022, name: 'Spectacle Rock Side', number: 10 },
   // Hookshot/Floating Island System (Dark World)
   { id: 2023, name: 'Old Man Rescue Entrance', number: 11 },
-  { id: 2024, name: 'Old Man Rescue Exit', number: 11 }
+  { id: 2024, name: 'Old Man Rescue Exit', number: 11 },
+//Bumper cave
+  { id: 2025, name: 'Bumper Cave Entrance', number: 12 },
+  { id: 2026, name: 'Bumper Cave Exit', number: 12 }
 ];
 
 // Normalized useful location data
@@ -104,15 +107,21 @@ export const usefulLocationData = [
   
   // Non-chest useful locations with numeric IDs
   { id: 3001, type: 'special', value: 'MC', display: 'MC', name: 'Mimic Cave' },
-  { id: 3002, type: 'special', value: 'D', display: 'D', name: 'Dam' },
+  { id: 3002, type: 'special', value: 'D', display: 'D', name: 'Dam' },  
   { id: 3003, type: 'special', value: 'LH', display: 'LH', name: 'Link\'s House' },
   { id: 3004, type: 'special', value: 'DS', display: 'DS', name: 'Dark Sanctuary' },
+  { id: 3004, type: 'special', value: 'DS', display: 'DS', name: 'Sanctuary' },  
   { id: 3005, type: 'special', value: 'WH', display: 'WH', name: 'Witch\'s Hut' },
   { id: 3006, type: 'special', value: 'SK', display: 'SK', name: 'Sick Kid' },
   { id: 3007, type: 'special', value: 'SM', display: 'SM', name: 'Smith\'s' },
   { id: 3008, type: 'special', value: 'MB', display: 'MB', name: 'Magic Bat' },
   { id: 3009, type: 'special', value: 'GD', display: 'GD', name: 'Ganon\'s Drop' },
   { id: 3010, type: 'special', value: 'SC', display: 'SC', name: 'Spike Cave' },
+  { id: 3011, type: 'special', value: 'SC', display: 'CH', name: 'Chicken Hut' },
+  { id: 3012, type: 'special', value: 'SC', display: 'SH', name: 'Sahasrala' },
+  { id: 3013, type: 'special', value: 'BS', display: 'BS', name: 'Bomb Shop' },
+  { id: 3098, type: 'special', value: 'S3', display: 'S3', name: 'Shop' },
+  { id: 3099, type: 'special', value: 'DR', display: 'DR', name: 'Dark Room' },
   
   // Useless location - special case with ID 5001
   { id: 5001, type: 'useless', display: '', name: 'Useless Location' }
