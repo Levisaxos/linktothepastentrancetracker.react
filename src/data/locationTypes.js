@@ -109,8 +109,7 @@ export const usefulLocationData = [
   { id: 3001, type: 'special', value: 'MC', display: 'MC', name: 'Mimic Cave' },
   { id: 3002, type: 'special', value: 'D', display: 'D', name: 'Dam' },  
   { id: 3003, type: 'special', value: 'LH', display: 'LH', name: 'Link\'s House' },
-  { id: 3004, type: 'special', value: 'DS', display: 'DS', name: 'Dark Sanctuary' },
-  { id: 3004, type: 'special', value: 'DS', display: 'DS', name: 'Sanctuary' },  
+  { id: 3004, type: 'special', value: 'DS', display: 'DS', name: 'Dark Sanctuary' },  
   { id: 3005, type: 'special', value: 'WH', display: 'WH', name: 'Witch\'s Hut' },
   { id: 3006, type: 'special', value: 'SK', display: 'SK', name: 'Sick Kid' },
   { id: 3007, type: 'special', value: 'SM', display: 'SM', name: 'Smith\'s' },
@@ -120,6 +119,7 @@ export const usefulLocationData = [
   { id: 3011, type: 'special', value: 'SC', display: 'CH', name: 'Chicken Hut' },
   { id: 3012, type: 'special', value: 'SC', display: 'SH', name: 'Sahasrala' },
   { id: 3013, type: 'special', value: 'BS', display: 'BS', name: 'Bomb Shop' },
+  { id: 3014, type: 'special', value: 'DS', display: 'DS', name: 'Sanctuary' },  
   { id: 3098, type: 'special', value: 'S3', display: 'S3', name: 'Shop' },
   { id: 3099, type: 'special', value: 'DR', display: 'DR', name: 'Dark Room' },
   

@@ -1,26 +1,35 @@
 // src/components/LocationButton.jsx
-import React from 'react';
+import React, { useMemo } from 'react';
 import { locationTypes } from '../data/locationTypes';
 import { locationResolverService } from '../services/locationResolverService';
-import { mapData } from '../data/mapData';
 
-const LocationButton = ({ location, locationData, onClick, onRightClick, imageDimensions, isReadOnly = false, currentGame }) => {
-  const getLocationDisplay = () => {
+const LocationButton = React.memo(({ 
+  location, 
+  locationData, 
+  onClick, 
+  onRightClick, 
+  imageDimensions, 
+  isReadOnly = false
+}) => {
+  // Memoize the location display calculation
+  const display = useMemo(() => {
     let resolvedData = null;
 
-
+    console.log("Loading button")
     // Only show user-set location data, not defaults
     if (locationData) {
       if (locationData.locationId) {
         // ID-based location (dungeons, connectors, special useful, chests)
-        const chestCount = locationData.chestCount || 1; // Default to 1 if not specified
-        resolvedData = locationResolverService.resolveLocationById(locationData.locationId, locationData.completed, chestCount);
+        const chestCount = locationData.chestCount || 1;
+        resolvedData = locationResolverService.resolveLocationById(
+          locationData.locationId, 
+          locationData.completed, 
+          chestCount
+        );
       }
     }
-    // Remove the default location logic - only show what user has explicitly set
 
     if (!resolvedData) {
-      // No user-set data means show empty button
       return null;
     }
 
@@ -58,36 +67,41 @@ const LocationButton = ({ location, locationData, onClick, onRightClick, imageDi
         displayText = resolvedData.acronym;
     }
 
-    const result = {
+    return {
       text: displayText,
       color: color,
       size: isUseless ? 'w-4 h-4 text-xs' : 'w-8 h-8 text-sm'
     };
+  }, [locationData]);
 
-    return result;
-  };
-
-  const display = getLocationDisplay();
-
-  if (!imageDimensions) return null;
-
-  // Calculate position based on actual rendered image dimensions
-  const scaleX = imageDimensions.width / imageDimensions.naturalWidth;
-  const scaleY = imageDimensions.height / imageDimensions.naturalHeight;
-  
-  const scaledX = location.x * scaleX;
-  const scaledY = location.y * scaleY;
+  // Memoize position calculation
+  const position = useMemo(() => {
+    if (!imageDimensions) return null;
+    
+    const scaleX = imageDimensions.width / imageDimensions.naturalWidth;
+    const scaleY = imageDimensions.height / imageDimensions.naturalHeight;
+    
+    return {
+      left: `${location.x * scaleX}px`,
+      top: `${location.y * scaleY}px`
+    };
+  }, [location.x, location.y, imageDimensions]);
 
   // Check if location is editable
   const isLocationEditable = !locationData || locationData.isEditable !== false;
   const canEdit = !isReadOnly && isLocationEditable;
 
+  // Early return after all hooks
+  if (!imageDimensions || !position) return null;
+
   return (
-    <div className="absolute" style={{
-      left: `${scaledX}px`,
-      top: `${scaledY}px`,
-      transform: 'translate(-50%, -50%)'
-    }}>
+    <div 
+      className="absolute" 
+      style={{
+        ...position,
+        transform: 'translate(-50%, -50%)'
+      }}
+    >
       <button
         onMouseUp={(e) => {
           e.stopPropagation();
@@ -121,6 +135,16 @@ const LocationButton = ({ location, locationData, onClick, onRightClick, imageDi
       </button>
     </div>
   );
-};
+}, (prevProps, nextProps) => {
+  // Custom comparison - only re-render if these specific props change
+  return (
+    prevProps.location.id === nextProps.location.id &&
+    prevProps.locationData === nextProps.locationData &&
+    prevProps.imageDimensions === nextProps.imageDimensions &&
+    prevProps.isReadOnly === nextProps.isReadOnly
+  );
+});
+
+LocationButton.displayName = 'LocationButton';
 
 export default LocationButton;
