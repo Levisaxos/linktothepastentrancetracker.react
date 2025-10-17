@@ -1,42 +1,156 @@
 // src/components/LocationHoverTooltip.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { locationResolverService } from '../services/locationResolverService';
+import { locationTypes } from '../data/locationTypes';
 
-const LocationHoverTooltip = ({ isVisible, position, location, locationData }) => {
-  if (!isVisible) return null;
+const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave }) => {
+  if (!isVisible || !position.x || !position.y) return null;
+
+  // Resolve location data to get display information
+  const getLocationInfo = () => {
+    if (!locationData?.locationId) {
+      return {
+        type: 'Unassigned',
+        description: 'Click to assign a location type',
+        linkedLocationName: null,
+        color: 'text-gray-400',
+        bgColor: 'bg-gray-700'
+      };
+    }
+
+    const chestCount = locationData.chestCount || 1;
+    const resolvedData = locationResolverService.resolveLocationById(
+      locationData.locationId,
+      locationData.completed,
+      chestCount
+    );
+
+    if (!resolvedData) {
+      return {
+        type: 'Unknown',
+        description: 'Unknown location type',
+        linkedLocationName: null,
+        color: 'text-gray-400',
+        bgColor: 'bg-gray-700'
+      };
+    }
+
+    const type = locationTypes[resolvedData.type];
+    let typeDisplay = '';
+    let description = '';
+    let linkedLocationName = null;
+    let color = 'text-white';
+    let bgColor = type?.color || 'bg-gray-700';
+
+    switch (resolvedData.type) {
+      case 'useful':
+        typeDisplay = 'Useful Item';
+        linkedLocationName = resolvedData.description || resolvedData.displayValue;
+        description = `Contains: ${resolvedData.displayValue}`;
+        color = 'text-green-300';
+        break;
+      case 'connector':
+        typeDisplay = 'Connector';
+        linkedLocationName = resolvedData.name;
+        description = `Connector Group #${resolvedData.number}`;
+        color = 'text-yellow-300';
+        break;
+      case 'dungeon':
+        typeDisplay = locationData.completed ? 'Dungeon (Completed)' : 'Dungeon (Active)';
+        linkedLocationName = resolvedData.fullName;
+        description = locationData.completed ? 'This dungeon has been completed' : 'This dungeon is still active';
+        color = locationData.completed ? 'text-red-300' : 'text-purple-300';
+        bgColor = locationData.completed ? 'bg-red-900' : 'bg-purple-600';
+        break;
+      case 'useless':
+        typeDisplay = 'Useless Location';
+        linkedLocationName = 'Nothing Useful';
+        description = 'This location has been marked as not useful';
+        color = 'text-red-400';
+        break;
+      default:
+        typeDisplay = 'Unknown';
+        description = 'Unknown location type';
+        linkedLocationName = null;
+    }
+
+    return { type: typeDisplay, description, linkedLocationName, color, bgColor };
+  };
+
+  const locationInfo = getLocationInfo();
+
+  // Minimal tooltip for unassigned and useless locations
+  const isMinimal = !locationInfo.linkedLocationName || locationInfo.type === 'Useless Location';
 
   const tooltipContent = (
     <div 
-      className="fixed bg-gray-800 border-2 border-gray-600 rounded-lg p-4 shadow-2xl"
+      className="bg-gray-900 border-2 border-gray-600 rounded-lg shadow-2xl"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       style={{
+        position: 'fixed',
         left: `${position.x}px`,
         top: `${position.y}px`,
-        transform: 'translate(-50%, calc(-100% - 8px))',
-        zIndex: 99999,
-        pointerEvents: 'none',
-        minWidth: '200px'
+        transform: 'translate(-50%, calc(-100% - 12px))',
+        zIndex: 999999,
+        pointerEvents: 'auto',
+        minWidth: isMinimal ? '180px' : '220px',
+        maxWidth: '350px'
       }}
     >
-      <div className="text-white text-sm">
-        <div className="font-bold mb-2 text-blue-300">Hello!</div>
-        <div className="text-gray-300 mb-1">This is a hover tooltip</div>
-        <div className="text-gray-400 text-xs mt-2 pt-2 border-t border-gray-700">
-          Location: {location?.name || 'Unknown'}
-        </div>
-        {locationData?.linkedLocationId && (
-          <div className="text-gray-400 text-xs">
-            Linked ID: {locationData.linkedLocationId}
-          </div>
+      <div className="p-4">
+        {isMinimal ? (
+          // Minimal view for unassigned/useless
+          <>
+            <div className="font-bold text-base mb-2 text-gray-400">
+              {location?.name || 'Unknown Location'}
+            </div>
+            <div className="text-xs text-gray-500">
+              {locationInfo.type === 'Useless Location' 
+                ? '• Right click to unmark' 
+                : '• Click to assign location'}
+            </div>
+          </>
+        ) : (
+          // Full view for assigned locations
+          <>
+            {/* Title showing connection */}
+            <div className="font-bold text-lg mb-3 text-blue-300 border-b border-gray-700 pb-2">
+              <div className="text-sm text-gray-400 mb-1">{location?.name || 'Unknown Location'}</div>
+              <div className="flex items-center gap-1">
+                <span className="text-base">Connected to</span>
+                <span className={locationInfo.color}>{locationInfo.linkedLocationName}</span>
+              </div>
+            </div>         
+
+            {/* Location Description */}
+            <div className={`text-sm ${locationInfo.color} mb-3`}>
+              {locationInfo.description}
+            </div>
+
+            {/* Controls Hint */}
+            <div className="text-xs text-gray-500 pt-2 border-t border-gray-700">
+              {locationData?.isEditable !== false ? (
+                <>
+                  <div>• Left click to edit</div>
+                  {locationData?.locationId && locationResolverService.resolveLocationById(locationData.locationId)?.type === 'dungeon' ? (
+                    <div>• Right click to toggle completion</div>
+                  ) : (
+                    <div>• Right click to mark useless</div>
+                  )}
+                </>
+              ) : (
+                <div>• Location is locked (read-only)</div>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>
   );
 
-  // Render to document body using portal to ensure highest z-index
-  return ReactDOM.createPortal(
-    tooltipContent,
-    document.body
-  );
+  return ReactDOM.createPortal(tooltipContent, document.body);
 };
 
 export default LocationHoverTooltip;

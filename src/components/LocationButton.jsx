@@ -1,7 +1,8 @@
 // src/components/LocationButton.jsx
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { locationTypes } from '../data/locationTypes';
 import { locationResolverService } from '../services/locationResolverService';
+import LocationHoverTooltip from './LocationHoverTooltip';
 
 const LocationButton = React.memo(({ 
   location, 
@@ -11,11 +12,13 @@ const LocationButton = React.memo(({
   imageDimensions, 
   isReadOnly = false
 }) => {
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+
   // Memoize the location display calculation
   const display = useMemo(() => {
     let resolvedData = null;
 
-    console.log("Loading button")
     // Only show user-set location data, not defaults
     if (locationData) {
       if (locationData.locationId) {
@@ -94,49 +97,79 @@ const LocationButton = React.memo(({
   // Early return after all hooks
   if (!imageDimensions || !position) return null;
 
+  const handleMouseEnter = (e) => {
+    e.stopPropagation();
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTooltipPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top
+    });
+    setTooltipVisible(true);
+  };
+
+  const handleMouseLeave = (e) => {
+    e.stopPropagation();
+    setTooltipVisible(false);
+  };
+
   return (
-    <div 
-      className="absolute" 
-      style={{
-        ...position,
-        transform: 'translate(-50%, -50%)'
-      }}
-    >
-      <button
-        onMouseUp={(e) => {
-          e.stopPropagation();
-          
-          if (e.button === 0) { // Left click
-            if (canEdit && onClick) {
-              onClick();
-            }
-          } else if (e.button === 2) { // Right click
-            if (canEdit && onRightClick) {
-              onRightClick();
-            }
-          }
-        }}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-        className={`border-2 border-gray-500 rounded flex items-center justify-center font-bold transition-colors ${
-          display 
-            ? `${display.color} text-white ${display.size}` 
-            : 'w-6 h-6 bg-gray-600 hover:bg-gray-500 text-white text-xs'
-        } ${canEdit ? 'cursor-pointer hover:border-white' : 'opacity-75 cursor-default'}`}
+    <>
+      <div 
+        className="absolute" 
         style={{
-          zIndex: 10,
-          pointerEvents: 'auto'
+          ...position,
+          transform: 'translate(-50%, -50%)'
         }}
-        title={`${location.name}${!isLocationEditable ? ' (Locked)' : ''}`}
       >
-        {display ? display.text : '?'}
-      </button>
-    </div>
+        <button
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={(e) => {
+            e.stopPropagation();
+            
+            if (e.button === 0) { // Left click
+              if (canEdit && onClick) {
+                onClick();
+              }
+            } else if (e.button === 2) { // Right click
+              if (canEdit && onRightClick) {
+                onRightClick();
+              }
+            }
+          }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          className={`border-2 border-gray-500 rounded flex items-center justify-center font-bold transition-colors ${
+            display 
+              ? `${display.color} text-white ${display.size}` 
+              : 'w-6 h-6 bg-gray-600 hover:bg-gray-500 text-white text-xs'
+          } ${canEdit ? 'cursor-pointer hover:border-white' : 'opacity-75 cursor-default'}`}
+          style={{
+            zIndex: 10,
+            pointerEvents: 'auto'
+          }}
+          title={`${location.name}${!isLocationEditable ? ' (Locked)' : ''}`}
+        >
+          {display ? display.text : '?'}
+        </button>
+      </div>
+
+      <LocationHoverTooltip
+        isVisible={tooltipVisible}
+        position={tooltipPosition}
+        location={location}
+        locationData={locationData}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      />
+    </>
   );
 }, (prevProps, nextProps) => {
   // Custom comparison - only re-render if these specific props change
+  // Note: We don't compare onClick/onRightClick to avoid unnecessary re-renders
+  // State changes (like tooltip) will still cause re-renders as they're internal
   return (
     prevProps.location.id === nextProps.location.id &&
     prevProps.locationData === nextProps.locationData &&
