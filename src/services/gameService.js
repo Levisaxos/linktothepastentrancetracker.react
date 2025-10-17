@@ -2,6 +2,7 @@
 import { mapData } from '../data/mapData';
 
 export const gameService = {
+  // In gameService.js, update the structure to store checkStatus at game level, not location level
   createGame: (gameData) => {
     const newGame = {
       id: Date.now(),
@@ -13,9 +14,9 @@ export const gameService = {
       isFinished: false,
       finishedDate: null,
       locations: {},
-      globalNotes: []
+      globalNotes: [],
+      checkStatus: {} // Store checks at game level, keyed by group identifier
     };
-
     // Apply default locations based on randomizer type
     if (gameData.randomizerType === 'Vanilla') {
       newGame.locations = gameService.getDefaultLocations();
@@ -28,7 +29,7 @@ export const gameService = {
 
   getDefaultLocations: () => {
     const locations = {};
-    
+
     // Process both light and dark world locations
     [...mapData.light, ...mapData.dark].forEach(location => {
       if (location.defaultType) {
@@ -53,7 +54,7 @@ export const gameService = {
 
   getDungeonsSimpleLocations: () => {
     const locations = {};
-    
+
     // Get all locations with their defaults
     [...mapData.light, ...mapData.dark].forEach(location => {
       if (location.defaultType) {
@@ -106,7 +107,7 @@ export const gameService = {
     const connectorLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'connector').length;
     const dungeonLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'dungeon').length;
     const uselessLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'useless').length;
-    
+
     return {
       total: totalLocations,
       marked: markedLocations,
@@ -121,15 +122,15 @@ export const gameService = {
 
   sortGames: (games, showFinished = false) => {
     const filteredGames = games.filter(game => game.isFinished === showFinished);
-    
+
     if (showFinished) {
       // Sort finished games by finished date (most recent first)
-      return filteredGames.sort((a, b) => 
+      return filteredGames.sort((a, b) =>
         new Date(b.finishedDate || 0) - new Date(a.finishedDate || 0)
       );
     } else {
       // Sort active games by last saved date (most recent first)
-      return filteredGames.sort((a, b) => 
+      return filteredGames.sort((a, b) =>
         new Date(b.lastSaved || 0) - new Date(a.lastSaved || 0)
       );
     }
@@ -139,7 +140,7 @@ export const gameService = {
     try {
       const saved = localStorage.getItem('zelda_tracker_games');
       const games = saved ? JSON.parse(saved) : [];
-      
+
       // Migrate old games without finished status, notes, and isEditable properties
       return games.map(game => ({
         isFinished: false,

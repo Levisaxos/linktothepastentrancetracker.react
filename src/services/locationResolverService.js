@@ -1,5 +1,14 @@
 // src/services/locationResolverService.js
-import { dungeonData, connectorData, usefulLocationData, getDungeonById, getConnectorById, getUsefulLocationById } from '../data/locationTypes';
+import { 
+  dungeonData, 
+  connectorData, 
+  usefulLocationData, 
+  getDungeonById, 
+  getConnectorById, 
+  getUsefulLocationById,
+  dungeonGroupChecks,  // ADD THIS
+  connectorGroupChecks  // ADD THIS
+} from '../data/locationTypes';
 
 export const locationResolverService = {
   /**
@@ -97,8 +106,8 @@ export const locationResolverService = {
    */
   getAvailableDungeons(currentGame, excludeLocationId = null, locationWorld = null) {
     const usedDungeonIds = this.getUsedLocationIds(currentGame, excludeLocationId).dungeons;
-    
-    let availableDungeons = dungeonData.filter(dungeon => 
+
+    let availableDungeons = dungeonData.filter(dungeon =>
       !usedDungeonIds.includes(dungeon.id)
     );
 
@@ -107,13 +116,13 @@ export const locationResolverService = {
       if (locationWorld === 'light') {
         // Light world dungeons: Hyrule Castle sections, Eastern Palace, Desert Palace, Tower of Hera
         const lightWorldDungeonIds = [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]; // HM, HL, HR, AT, EP, DM, DL, DR, DB, TH
-        availableDungeons = availableDungeons.filter(dungeon => 
+        availableDungeons = availableDungeons.filter(dungeon =>
           lightWorldDungeonIds.includes(dungeon.id)
         );
       } else {
         // Dark world dungeons: everything else
         const lightWorldDungeonIds = [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010];
-        availableDungeons = availableDungeons.filter(dungeon => 
+        availableDungeons = availableDungeons.filter(dungeon =>
           !lightWorldDungeonIds.includes(dungeon.id)
         );
       }
@@ -130,7 +139,7 @@ export const locationResolverService = {
    */
   getAvailableConnectors(currentGame, excludeLocationId = null) {
     const usedConnectorIds = this.getUsedLocationIds(currentGame, excludeLocationId).connectors;
-    return connectorData.filter(connector => 
+    return connectorData.filter(connector =>
       !usedConnectorIds.includes(connector.id)
     );
   },
@@ -185,10 +194,73 @@ export const locationResolverService = {
       }
     });
 
-    return { 
-      dungeons: usedDungeons, 
-      connectors: usedConnectors, 
-      specialUseful: usedSpecialUseful 
+    return {
+      dungeons: usedDungeons,
+      connectors: usedConnectors,
+      specialUseful: usedSpecialUseful
     };
+  },
+
+  /**
+   * Gets checks for a location based on its ID
+   * @param {number} locationId - The location ID
+   * @returns {Array} - Array of check names
+   */
+  getLocationChecks(locationId) {
+    if (!locationId) {
+      return [];
+    }
+
+    // Check if it's a dungeon (1001-1099)
+    if (locationId >= 1001 && locationId <= 1099) {
+      const dungeon = getDungeonById(locationId);
+      if (dungeon && dungeon.groupId && dungeonGroupChecks[dungeon.groupId]) {
+        return dungeonGroupChecks[dungeon.groupId];
+      }
+    }
+
+    // Check if it's a connector (2001-2999)
+    if (locationId >= 2001 && locationId <= 2999) {
+      const connector = getConnectorById(locationId);
+      if (connector && connector.groupId && connectorGroupChecks[connector.groupId]) {
+        return connectorGroupChecks[connector.groupId];
+      }
+    }
+
+    // Check if it's a special useful location (3001-3999)
+    if (locationId >= 3001 && locationId <= 3999) {
+      const usefulLoc = getUsefulLocationById(locationId);
+      return usefulLoc?.checks || [];
+    }
+
+    return [];
+  },
+
+  /**
+   * Gets the group identifier for check storage
+   * @param {number} locationId - The location ID
+   * @returns {string|null} - Group key for storing checks
+   */
+  getLocationGroupKey(locationId) {
+    if (!locationId) return null;
+
+    // For dungeons, use the groupId
+    if (locationId >= 1001 && locationId <= 1099) {
+      const dungeon = getDungeonById(locationId);
+      return dungeon?.groupId ? `dungeon_${dungeon.groupId}` : null;
+    }
+
+    // For connectors, use the groupId
+    if (locationId >= 2001 && locationId <= 2999) {
+      const connector = getConnectorById(locationId);
+      return connector?.groupId ? `connector_${connector.groupId}` : null;
+    }
+
+    // For special locations, use the locationId directly
+    if (locationId >= 3001 && locationId <= 3999) {
+      return `location_${locationId}`;
+    }
+
+    return null;
   }
 };

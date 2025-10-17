@@ -9,42 +9,27 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
   const [checkTooltipPosition, setCheckTooltipPosition] = useState({ x: 0, y: 0 });
 
   if (!isVisible || !position.x || !position.y) return null;
-
-  // Get checks from the linked location data instead of mapData
+  // Update these functions in LocationHoverTooltip.jsx
   const getLocationChecks = () => {
     if (!locationData?.locationId) {
       return [];
     }
 
-    // Check if it's a dungeon (1001-1099)
-    if (locationData.locationId >= 1001 && locationData.locationId <= 1099) {
-      const dungeon = dungeonData.find(d => d.id === locationData.locationId);
-      return dungeon?.checks || [];
-    }
-
-    // Check if it's a connector (2001-2999)
-    if (locationData.locationId >= 2001 && locationData.locationId <= 2999) {
-      const connector = connectorData.find(c => c.id === locationData.locationId);
-      return connector?.checks || [];
-    }
-
-    // Check if it's a special useful location (3001-3999)
-    if (locationData.locationId >= 3001 && locationData.locationId <= 3999) {
-      const usefulLoc = usefulLocationData.find(u => u.id === locationData.locationId);
-      return usefulLoc?.checks || [];
-    }
-
-    return [];
+    return locationResolverService.getLocationChecks(locationData.locationId);
   };
 
-  // Get check completion status
   const getCheckStatus = () => {
-    if (!currentGame?.locations?.[location.id]?.checkStatus) {
+    if (!locationData?.locationId) {
       return {};
     }
-    return currentGame.locations[location.id].checkStatus;
-  };
 
+    const groupKey = locationResolverService.getLocationGroupKey(locationData.locationId);
+    if (!groupKey || !currentGame?.checkStatus) {
+      return {};
+    }
+
+    return currentGame.checkStatus[groupKey] || {};
+  };
   const checks = getLocationChecks();
   const checkStatus = getCheckStatus();
 
@@ -170,7 +155,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
   const boundedPos = getBoundedPosition();
 
   const tooltipContent = (
-    <div 
+    <div
       className="bg-gray-900 border-2 border-gray-600 rounded-lg shadow-2xl"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -192,8 +177,8 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
               {location?.name || 'Unknown Location'}
             </div>
             <div className="text-xs text-gray-500">
-              {locationInfo.type === 'Useless Location' 
-                ? '• Right click to unmark' 
+              {locationInfo.type === 'Useless Location'
+                ? '• Right click to unmark'
                 : '• Click to assign location'}
             </div>
           </>
