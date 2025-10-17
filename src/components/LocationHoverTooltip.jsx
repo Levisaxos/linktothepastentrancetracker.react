@@ -1,11 +1,52 @@
 // src/components/LocationHoverTooltip.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { locationResolverService } from '../services/locationResolverService';
-import { locationTypes } from '../data/locationTypes';
+import { locationTypes, dungeonData, connectorData, usefulLocationData } from '../data/locationTypes';
 
-const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave }) => {
+const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck }) => {
+  const [hoveredCheck, setHoveredCheck] = useState(null);
+  const [checkTooltipPosition, setCheckTooltipPosition] = useState({ x: 0, y: 0 });
+
   if (!isVisible || !position.x || !position.y) return null;
+
+  // Get checks from the linked location data instead of mapData
+  const getLocationChecks = () => {
+    if (!locationData?.locationId) {
+      return [];
+    }
+
+    // Check if it's a dungeon (1001-1099)
+    if (locationData.locationId >= 1001 && locationData.locationId <= 1099) {
+      const dungeon = dungeonData.find(d => d.id === locationData.locationId);
+      return dungeon?.checks || [];
+    }
+
+    // Check if it's a connector (2001-2999)
+    if (locationData.locationId >= 2001 && locationData.locationId <= 2999) {
+      const connector = connectorData.find(c => c.id === locationData.locationId);
+      return connector?.checks || [];
+    }
+
+    // Check if it's a special useful location (3001-3999)
+    if (locationData.locationId >= 3001 && locationData.locationId <= 3999) {
+      const usefulLoc = usefulLocationData.find(u => u.id === locationData.locationId);
+      return usefulLoc?.checks || [];
+    }
+
+    return [];
+  };
+
+  // Get check completion status
+  const getCheckStatus = () => {
+    if (!currentGame?.locations?.[location.id]?.checkStatus) {
+      return {};
+    }
+    return currentGame.locations[location.id].checkStatus;
+  };
+
+  const checks = getLocationChecks();
+  const checkStatus = getCheckStatus();
 
   // Resolve location data to get display information
   const getLocationInfo = () => {
@@ -79,9 +120,54 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
   };
 
   const locationInfo = getLocationInfo();
-
-  // Minimal tooltip for unassigned and useless locations
   const isMinimal = !locationInfo.linkedLocationName || locationInfo.type === 'Useless Location';
+
+  const handleCheckMouseEnter = (checkName, e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setCheckTooltipPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top
+    });
+    setHoveredCheck(checkName);
+  };
+
+  const handleCheckMouseLeave = () => {
+    setHoveredCheck(null);
+  };
+
+  // Calculate bounded position to keep tooltip within viewport
+  const getBoundedPosition = () => {
+    const tooltipWidth = isMinimal ? 180 : 220;
+    const tooltipHeight = isMinimal ? 100 : 300; // Approximate heights
+    const padding = 12; // Space between button and tooltip
+
+    let x = position.x;
+    let y = position.y - padding;
+    let transform = 'translate(-50%, -100%)';
+
+    // Check if tooltip would go off the left edge
+    if (x - tooltipWidth / 2 < 10) {
+      x = tooltipWidth / 2 + 10;
+      transform = 'translate(-50%, -100%)';
+    }
+
+    // Check if tooltip would go off the right edge
+    if (x + tooltipWidth / 2 > window.innerWidth - 10) {
+      x = window.innerWidth - tooltipWidth / 2 - 10;
+      transform = 'translate(-50%, -100%)';
+    }
+
+    // Check if tooltip would go off the top edge
+    if (y - tooltipHeight < 10) {
+      // Show below the button instead
+      y = position.y + padding + 20; // 20px is approximate button height
+      transform = 'translate(-50%, 0)';
+    }
+
+    return { x, y, transform };
+  };
+
+  const boundedPos = getBoundedPosition();
 
   const tooltipContent = (
     <div 
@@ -90,9 +176,9 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
       onMouseLeave={onMouseLeave}
       style={{
         position: 'fixed',
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        transform: 'translate(-50%, calc(-100% - 12px))',
+        left: `${boundedPos.x}px`,
+        top: `${boundedPos.y}px`,
+        transform: boundedPos.transform,
         zIndex: 999999,
         pointerEvents: 'auto',
         minWidth: isMinimal ? '180px' : '220px',
@@ -101,7 +187,6 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
     >
       <div className="p-4">
         {isMinimal ? (
-          // Minimal view for unassigned/useless
           <>
             <div className="font-bold text-base mb-2 text-gray-400">
               {location?.name || 'Unknown Location'}
@@ -113,23 +198,53 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
             </div>
           </>
         ) : (
-          // Full view for assigned locations
           <>
-            {/* Title showing connection */}
             <div className="font-bold text-lg mb-3 text-blue-300 border-b border-gray-700 pb-2">
               <div className="text-sm text-gray-400 mb-1">{location?.name || 'Unknown Location'}</div>
               <div className="flex items-center gap-1">
                 <span className="text-base">Connected to</span>
                 <span className={locationInfo.color}>{locationInfo.linkedLocationName}</span>
               </div>
-            </div>         
+            </div>
 
-            {/* Location Description */}
+            <div className="flex items-center gap-2 mb-2">
+              <span className={`px-2 py-1 rounded text-xs font-medium ${locationInfo.bgColor} text-white`}>
+                {locationInfo.type}
+              </span>
+              {locationData?.isEditable === false && (
+                <span className="px-2 py-1 rounded text-xs font-medium bg-gray-600 text-white">
+                  Locked
+                </span>
+              )}
+            </div>
+
             <div className={`text-sm ${locationInfo.color} mb-3`}>
               {locationInfo.description}
             </div>
 
-            {/* Controls Hint */}
+            {checks.length > 0 && (
+              <div className="mb-3 pb-3 border-b border-gray-700">
+                <div className="text-xs text-gray-400 mb-2">Checks:</div>
+                <div className="flex flex-wrap gap-1">
+                  {checks.map((checkName, index) => {
+                    const isCompleted = checkStatus[checkName] === true;
+                    return (
+                      <img
+                        key={index}
+                        src={isCompleted ? '/images/sprites/openchest.png' : '/images/sprites/chest.png'}
+                        alt={checkName}
+                        className="w-6 h-6 cursor-pointer hover:scale-110 transition-transform"
+                        onClick={() => onToggleCheck && onToggleCheck(location.id, checkName)}
+                        onMouseEnter={(e) => handleCheckMouseEnter(checkName, e)}
+                        onMouseLeave={handleCheckMouseLeave}
+                        title={checkName}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <div className="text-xs text-gray-500 pt-2 border-t border-gray-700">
               {locationData?.isEditable !== false ? (
                 <>
@@ -150,7 +265,28 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
     </div>
   );
 
-  return ReactDOM.createPortal(tooltipContent, document.body);
+  return (
+    <>
+      {ReactDOM.createPortal(tooltipContent, document.body)}
+      {hoveredCheck && ReactDOM.createPortal(
+        <div
+          className="bg-gray-800 border border-gray-600 rounded px-2 py-1 text-white text-xs"
+          style={{
+            position: 'fixed',
+            left: `${checkTooltipPosition.x}px`,
+            top: `${checkTooltipPosition.y}px`,
+            transform: 'translate(-50%, calc(-100% - 8px))',
+            zIndex: 9999999,
+            pointerEvents: 'none',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          {hoveredCheck}
+        </div>,
+        document.body
+      )}
+    </>
+  );
 };
 
 export default LocationHoverTooltip;

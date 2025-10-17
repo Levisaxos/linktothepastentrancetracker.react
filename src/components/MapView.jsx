@@ -7,7 +7,6 @@ import { mapData } from '../data/mapData';
 import { locationResolverService } from '../services/locationResolverService';
 import { IMAGE_PATHS } from '../constants/imagePaths';
 
-// Memoized WorldMap component to prevent unnecessary re-renders
 const WorldMap = React.memo(({ 
   world, 
   locations, 
@@ -18,6 +17,7 @@ const WorldMap = React.memo(({
   isReadOnly,
   onLocationClick,
   onLocationRightClick,
+  onToggleCheck,
   onImageLoad
 }) => {
   return (
@@ -52,6 +52,7 @@ const WorldMap = React.memo(({
                 locationData={currentGameLocations[location.id]}
                 onClick={() => onLocationClick(location)}
                 onRightClick={() => onLocationRightClick(location)}
+                onToggleCheck={onToggleCheck}
                 imageDimensions={dimensions}
                 isReadOnly={isReadOnly}
                 currentGame={currentGame}
@@ -63,7 +64,6 @@ const WorldMap = React.memo(({
     </div>
   );
 }, (prevProps, nextProps) => {
-  // Custom comparison function - only re-render if these specific props change
   return (
     prevProps.world === nextProps.world &&
     prevProps.dimensions === nextProps.dimensions &&
@@ -80,7 +80,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [imageDimensions, setImageDimensions] = useState({});
 
-  // Disable context menu for the entire MapView
   useEffect(() => {
     const handleContextMenu = (e) => {
       e.preventDefault();
@@ -92,10 +91,8 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     };
   }, []);
 
-  // Handle window resize to recalculate button positions
   useEffect(() => {
     const handleResize = () => {
-      // Force recalculation of image dimensions on resize
       const images = document.querySelectorAll('img[alt*="world map"]');
       images.forEach(img => {
         const world = img.alt.includes('light') ? 'light' : 'dark';
@@ -133,7 +130,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
       });
     };
 
-    // Debounce resize handler to avoid too many updates
     let resizeTimer;
     const debouncedResize = () => {
       clearTimeout(resizeTimer);
@@ -147,7 +143,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     };
   }, []);
 
-  // Memoize location click handler to prevent recreation on every render
   const handleLocationClick = useCallback((location) => {
     if (currentGame?.isFinished) return;
 
@@ -160,7 +155,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     setShowLocationModal(true);
   }, [currentGame?.isFinished, currentGame?.locations]);
 
-  // Memoize location update handler
   const handleLocationUpdate = useCallback((locationIdOrSpecial, completed = false, chestCount = 1) => {
     if (currentGame?.isFinished) return;
 
@@ -169,7 +163,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     
     if (!isLocationEditable) return;
 
-    // Handle reset case - remove location data entirely
     if (locationIdOrSpecial === 'reset') {
       const updatedLocations = { ...currentGame.locations };
       delete updatedLocations[selectedLocation.id];
@@ -186,7 +179,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
 
     let locationData;
 
-    // Handle chest locations (ID 4001)
     if (locationIdOrSpecial === 4001) {
       locationData = {
         locationId: 4001,
@@ -195,7 +187,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
         isEditable: true
       };
     } else {
-      // Handle normal ID-based locations
       locationData = {
         locationId: locationIdOrSpecial,
         completed: completed || false,
@@ -215,7 +206,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     setSelectedLocation(null);
   }, [currentGame, selectedLocation, setCurrentGame]);
 
-  // Memoize global notes update handler
   const handleUpdateGlobalNotes = useCallback((updatedNotes) => {
     if (currentGame?.isFinished) return;
 
@@ -225,7 +215,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     });
   }, [currentGame, setCurrentGame]);
 
-  // Memoize right click handler
   const handleRightClick = useCallback((location) => {
     if (currentGame?.isFinished) return;
 
@@ -234,12 +223,10 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     
     if (!isLocationEditable) return;
 
-    // Special handling for dungeon locations
     if (locationData && locationData.locationId) {
       const resolvedData = locationResolverService.resolveLocationById(locationData.locationId);
       
       if (resolvedData && resolvedData.type === 'dungeon') {
-        // Right-click on dungeon = toggle completion state
         const newLocationData = {
           ...locationData,
           completed: !locationData.completed
@@ -256,7 +243,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
       }
     }
 
-    // For all other location types, mark as useless (set to ID 5001)
     const uselessLocationData = {
       locationId: 5001,
       completed: false,
@@ -272,7 +258,29 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     });
   }, [currentGame, setCurrentGame]);
 
-  // Memoize image load handler
+  const handleToggleCheck = useCallback((locationId, checkName) => {
+    if (currentGame?.isFinished) return;
+
+    const locationData = currentGame?.locations[locationId] || {};
+    const currentCheckStatus = locationData.checkStatus || {};
+    
+    const newCheckStatus = {
+      ...currentCheckStatus,
+      [checkName]: !currentCheckStatus[checkName]
+    };
+
+    setCurrentGame({
+      ...currentGame,
+      locations: {
+        ...currentGame.locations,
+        [locationId]: {
+          ...locationData,
+          checkStatus: newCheckStatus
+        }
+      }
+    });
+  }, [currentGame, setCurrentGame]);
+
   const handleImageLoad = useCallback((world) => (event) => {
     const img = event.target;
     const container = img.parentElement;
@@ -308,16 +316,13 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     }));
   }, []);
 
-  // Determine world order based on inverted setting
   const isInverted = currentGame?.isInverted || false;
   const leftWorld = isInverted ? 'dark' : 'light';
   const rightWorld = isInverted ? 'light' : 'dark';
   
-  // Memoize locations arrays to prevent recreation
   const leftLocations = useMemo(() => mapData[leftWorld] || [], [leftWorld]);
   const rightLocations = useMemo(() => mapData[rightWorld] || [], [rightWorld]);
 
-  // Memoize image paths
   const leftImagePath = leftWorld === 'light' ? IMAGE_PATHS.LIGHT_WORLD_MAP : IMAGE_PATHS.DARK_WORLD_MAP;
   const rightImagePath = rightWorld === 'light' ? IMAGE_PATHS.LIGHT_WORLD_MAP : IMAGE_PATHS.DARK_WORLD_MAP;
 
@@ -348,6 +353,7 @@ const MapView = ({ currentGame, setCurrentGame }) => {
             isReadOnly={currentGame?.isFinished}
             onLocationClick={handleLocationClick}
             onLocationRightClick={handleRightClick}
+            onToggleCheck={handleToggleCheck}
             onImageLoad={handleImageLoad(leftWorld)}
           />
           <WorldMap 
@@ -360,6 +366,7 @@ const MapView = ({ currentGame, setCurrentGame }) => {
             isReadOnly={currentGame?.isFinished}
             onLocationClick={handleLocationClick}
             onLocationRightClick={handleRightClick}
+            onToggleCheck={handleToggleCheck}
             onImageLoad={handleImageLoad(rightWorld)}
           />
         </div>

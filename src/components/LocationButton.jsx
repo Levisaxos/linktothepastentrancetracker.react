@@ -10,10 +10,13 @@ const LocationButton = React.memo(({
   onClick, 
   onRightClick, 
   imageDimensions, 
-  isReadOnly = false
+  isReadOnly = false,
+  currentGame,
+  onToggleCheck
 }) => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const hideTimeoutRef = React.useRef(null);
 
   // Memoize the location display calculation
   const display = useMemo(() => {
@@ -99,6 +102,11 @@ const LocationButton = React.memo(({
 
   const handleMouseEnter = (e) => {
     e.stopPropagation();
+    // Clear any pending hide timeout
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
     const rect = e.currentTarget.getBoundingClientRect();
     setTooltipPosition({
       x: rect.left + rect.width / 2,
@@ -109,6 +117,23 @@ const LocationButton = React.memo(({
 
   const handleMouseLeave = (e) => {
     e.stopPropagation();
+    // Delay hiding to allow mouse to move to tooltip
+    hideTimeoutRef.current = setTimeout(() => {
+      setTooltipVisible(false);
+    }, 150);
+  };
+
+  const handleTooltipMouseEnter = () => {
+    // Cancel hide when mouse enters tooltip
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+    setTooltipVisible(true);
+  };
+
+  const handleTooltipMouseLeave = () => {
+    // Hide immediately when leaving tooltip
     setTooltipVisible(false);
   };
 
@@ -161,8 +186,10 @@ const LocationButton = React.memo(({
         position={tooltipPosition}
         location={location}
         locationData={locationData}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        currentGame={currentGame}
+        onToggleCheck={onToggleCheck}
+        onMouseEnter={handleTooltipMouseEnter}
+        onMouseLeave={handleTooltipMouseLeave}
       />
     </>
   );

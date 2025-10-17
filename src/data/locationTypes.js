@@ -106,9 +106,9 @@ export const usefulLocationData = [
   { id: 4001, type: 'chests', display: 'C', name: 'Chests (1-5)' },
   
   // Non-chest useful locations with numeric IDs
-  { id: 3001, type: 'special', value: 'MC', display: 'MC', name: 'Mimic Cave' },
-  { id: 3002, type: 'special', value: 'D', display: 'D', name: 'Dam' },  
-  { id: 3003, type: 'special', value: 'LH', display: 'LH', name: 'Link\'s House' },
+  { id: 3001, type: 'special', value: 'MC', display: 'MC', name: 'Mimic Cave', checks: ["Chest" ] },
+  { id: 3002, type: 'special', value: 'D', display: 'D', name: 'Dam', checks: ["Sunken Treasure" ] },  
+  { id: 3003, type: 'special', value: 'LH', display: 'LH', name: 'Link\'s House', checks: ["Uncle's Sword" ] },
   { id: 3004, type: 'special', value: 'DS', display: 'DS', name: 'Dark Sanctuary' },  
   { id: 3005, type: 'special', value: 'WH', display: 'WH', name: 'Witch\'s Hut' },
   { id: 3006, type: 'special', value: 'SK', display: 'SK', name: 'Sick Kid' },
