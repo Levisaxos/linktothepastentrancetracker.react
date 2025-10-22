@@ -64,12 +64,16 @@ const WorldMap = React.memo(({
     </div>
   );
 }, (prevProps, nextProps) => {
+  // Re-render if checkStatus changes
+  const checkStatusChanged = prevProps.currentGame?.checkStatus !== nextProps.currentGame?.checkStatus;
+  
   return (
     prevProps.world === nextProps.world &&
     prevProps.dimensions === nextProps.dimensions &&
     prevProps.currentGameLocations === nextProps.currentGameLocations &&
     prevProps.isReadOnly === nextProps.isReadOnly &&
-    prevProps.currentGame?.id === nextProps.currentGame?.id
+    prevProps.currentGame?.id === nextProps.currentGame?.id &&
+    !checkStatusChanged // Force re-render if checkStatus changed
   );
 });
 
@@ -258,14 +262,30 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     });
   }, [currentGame, setCurrentGame]);
 
-  const handleToggleCheck = useCallback((locationId, checkName) => {
+  const handleToggleCheck = useCallback((mapLocationId, checkName) => {
     if (currentGame?.isFinished) return;
 
-    const locationData = currentGame?.locations[locationId] || {};
+    // Get the location data using the map location ID
+    const locationData = currentGame?.locations[mapLocationId];
+    if (!locationData || !locationData.locationId) {
+      console.warn('No location data found for map location:', mapLocationId);
+      return;
+    }
 
-    // Get the group key for this location
+    // Get the group key for this location using the actual locationId (e.g., 1001, 2001)
     const groupKey = locationResolverService.getLocationGroupKey(locationData.locationId);
-    if (!groupKey) return;
+    if (!groupKey) {
+      console.warn('No group key found for location:', locationData.locationId);
+      return;
+    }
+
+    console.log('Toggle check:', {
+      mapLocationId,
+      checkName,
+      groupKey,
+      locationId: locationData.locationId,
+      currentStatus: currentGame.checkStatus?.[groupKey]?.[checkName]
+    });
 
     const currentCheckStatus = currentGame.checkStatus || {};
     const groupCheckStatus = currentCheckStatus[groupKey] || {};
@@ -275,14 +295,21 @@ const MapView = ({ currentGame, setCurrentGame }) => {
       [checkName]: !groupCheckStatus[checkName]
     };
 
-    setCurrentGame({
+    console.log('New check status for group:', groupKey, newGroupCheckStatus);
+
+    const updatedGame = {
       ...currentGame,
       checkStatus: {
         ...currentCheckStatus,
         [groupKey]: newGroupCheckStatus
       }
-    });
+    };
+
+    console.log('Updated game checkStatus:', updatedGame.checkStatus);
+    
+    setCurrentGame(updatedGame);
   }, [currentGame, setCurrentGame]);
+
   const handleImageLoad = useCallback((world) => (event) => {
     const img = event.target;
     const container = img.parentElement;

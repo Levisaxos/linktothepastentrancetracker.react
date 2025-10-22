@@ -194,14 +194,16 @@ const LocationButton = React.memo(({
     </>
   );
 }, (prevProps, nextProps) => {
-  // Custom comparison - only re-render if these specific props change
-  // Note: We don't compare onClick/onRightClick to avoid unnecessary re-renders
-  // State changes (like tooltip) will still cause re-renders as they're internal
+  // Custom comparison - re-render if any of these change
+  // IMPORTANT: Include currentGame.checkStatus to ensure tooltips update when checks are toggled
+  const checkStatusChanged = prevProps.currentGame?.checkStatus !== nextProps.currentGame?.checkStatus;
+  
   return (
     prevProps.location.id === nextProps.location.id &&
     prevProps.locationData === nextProps.locationData &&
     prevProps.imageDimensions === nextProps.imageDimensions &&
-    prevProps.isReadOnly === nextProps.isReadOnly
+    prevProps.isReadOnly === nextProps.isReadOnly &&
+    !checkStatusChanged // Force re-render if checkStatus changed
   );
 });
 

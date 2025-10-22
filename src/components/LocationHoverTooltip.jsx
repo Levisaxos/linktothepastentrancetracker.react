@@ -1,5 +1,5 @@
 // src/components/LocationHoverTooltip.jsx
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { locationResolverService } from '../services/locationResolverService';
 import { locationTypes, dungeonData, connectorData, usefulLocationData } from '../data/locationTypes';
@@ -7,17 +7,20 @@ import { locationTypes, dungeonData, connectorData, usefulLocationData } from '.
 const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck }) => {
   const [hoveredCheck, setHoveredCheck] = useState(null);
   const [checkTooltipPosition, setCheckTooltipPosition] = useState({ x: 0, y: 0 });
+  const renderCount = React.useRef(0);
+  
+  renderCount.current++;
+  console.log(`Tooltip render #${renderCount.current} for location ${location?.id}, checkStatus:`, currentGame?.checkStatus);
 
-  if (!isVisible || !position.x || !position.y) return null;
-  // Update these functions in LocationHoverTooltip.jsx
-  const getLocationChecks = () => {
+  // Memoize checks to ensure they update when locationData changes
+  const checks = useMemo(() => {
     if (!locationData?.locationId) {
       return [];
     }
-
     return locationResolverService.getLocationChecks(locationData.locationId);
-  };
+  }, [locationData?.locationId]);
 
+  // Calculate checkStatus directly (no memo) to ensure it's always current
   const getCheckStatus = () => {
     if (!locationData?.locationId) {
       return {};
@@ -30,8 +33,11 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
 
     return currentGame.checkStatus[groupKey] || {};
   };
-  const checks = getLocationChecks();
+  
   const checkStatus = getCheckStatus();
+
+  // Early return AFTER all hooks
+  if (!isVisible || !position.x || !position.y) return null;
 
   // Resolve location data to get display information
   const getLocationInfo = () => {
@@ -118,6 +124,30 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
 
   const handleCheckMouseLeave = () => {
     setHoveredCheck(null);
+  };
+
+  const handleCheckClick = (checkName, e) => {
+    e.stopPropagation();
+    
+    const locationDataForLog = currentGame?.locations[location.id];
+    const groupKey = locationResolverService.getLocationGroupKey(locationDataForLog?.locationId);
+    
+    console.log('Check clicked:', {
+      mapLocationId: location.id,
+      locationData: locationDataForLog,
+      locationId: locationDataForLog?.locationId,
+      groupKey: groupKey,
+      checkName: checkName,
+      currentGameCheckStatus: currentGame?.checkStatus,
+      groupCheckStatus: currentGame?.checkStatus?.[groupKey],
+      currentStatus: currentGame?.checkStatus?.[groupKey]?.[checkName],
+      checkStatusFromMemo: checkStatus,
+      checkStatusValue: checkStatus[checkName]
+    });
+    
+    if (onToggleCheck) {
+      onToggleCheck(location.id, checkName);
+    }
   };
 
   // Calculate bounded position to keep tooltip within viewport
@@ -209,7 +239,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
 
             {checks.length > 0 && (
               <div className="mb-3 pb-3 border-b border-gray-700">
-                <div className="text-xs text-gray-400 mb-2">Checks:</div>
+                <div className="text-xs text-gray-400 mb-2">Checks: ({Object.values(checkStatus).filter(Boolean).length}/{checks.length})</div>
                 <div className="flex flex-wrap gap-1">
                   {checks.map((checkName, index) => {
                     const isCompleted = checkStatus[checkName] === true;
@@ -219,7 +249,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
                         src={isCompleted ? '/images/sprites/openchest.png' : '/images/sprites/chest.png'}
                         alt={checkName}
                         className="w-6 h-6 cursor-pointer hover:scale-110 transition-transform"
-                        onClick={() => onToggleCheck && onToggleCheck(location.id, checkName)}
+                        onClick={(e) => handleCheckClick(checkName, e)}
                         onMouseEnter={(e) => handleCheckMouseEnter(checkName, e)}
                         onMouseLeave={handleCheckMouseLeave}
                         title={checkName}
