@@ -6,11 +6,7 @@ import { locationTypes, dungeonData, connectorData, usefulLocationData } from '.
 
 const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck }) => {
   const [hoveredCheck, setHoveredCheck] = useState(null);
-  const [checkTooltipPosition, setCheckTooltipPosition] = useState({ x: 0, y: 0 });
-  const renderCount = React.useRef(0);
-  
-  renderCount.current++;
-  console.log(`Tooltip render #${renderCount.current} for location ${location?.id}, checkStatus:`, currentGame?.checkStatus);
+  const [checkTooltipPosition, setCheckTooltipPosition] = useState({ x: 0, y: 0 });  
 
   // Memoize checks to ensure they update when locationData changes
   const checks = useMemo(() => {

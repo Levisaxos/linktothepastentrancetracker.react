@@ -141,13 +141,14 @@ export const gameService = {
       const saved = localStorage.getItem('zelda_tracker_games');
       const games = saved ? JSON.parse(saved) : [];
 
-      // Migrate old games without finished status, notes, and isEditable properties
+      // Migrate old games without finished status, notes, checkStatus, and isEditable properties
       return games.map(game => ({
         isFinished: false,
         finishedDate: null,
         notes: '',
         locationNotes: {},
         globalNotes: [],
+        checkStatus: {}, // Initialize checkStatus for old saves
         ...game,
         // Migrate locations to add isEditable property if missing
         locations: game.locations ? Object.fromEntries(
@@ -168,7 +169,13 @@ export const gameService = {
 
   saveGames: (games) => {
     try {
-      localStorage.setItem('zelda_tracker_games', JSON.stringify(games));
+      // Ensure all games have checkStatus before saving
+      const gamesWithCheckStatus = games.map(game => ({
+        ...game,
+        checkStatus: game.checkStatus || {}
+      }));
+      localStorage.setItem('zelda_tracker_games', JSON.stringify(gamesWithCheckStatus));
+      console.log('Games saved successfully:', gamesWithCheckStatus);
     } catch (error) {
       console.error('Error saving games:', error);
     }

@@ -50,6 +50,14 @@ const GameTracker = () => {
     }
   }, [currentGame?.globalNotes, currentView, autoSaveGame]);
 
+  // Also auto-save when checkStatus changes
+  useEffect(() => {
+    if (currentGame && currentView === 'tracker' && !currentGame.isFinished) {
+      console.log('Auto-saving due to checkStatus change:', currentGame.checkStatus);
+      autoSaveGame(currentGame);
+    }
+  }, [currentGame?.checkStatus, currentView, autoSaveGame]);
+
   const handleCreateGame = (gameData) => {
     const newGame = gameService.createGame(gameData);
     const updatedGames = [...games, newGame];
