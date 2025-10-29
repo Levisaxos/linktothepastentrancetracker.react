@@ -1,5 +1,5 @@
 // src/components/LocationButton.jsx
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { locationTypes } from '../data/locationTypes';
 import { locationResolverService } from '../services/locationResolverService';
 import LocationHoverTooltip from './LocationHoverTooltip';
@@ -10,10 +10,13 @@ const LocationButton = React.memo(({
   onClick, 
   onRightClick, 
   imageDimensions, 
-  isReadOnly = false
+  isReadOnly = false,
+  currentGame,
+  onToggleCheck
 }) => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const hideTimeoutRef = useRef(null);
 
   // Memoize the location display calculation
   const display = useMemo(() => {
@@ -94,27 +97,51 @@ const LocationButton = React.memo(({
   const isLocationEditable = !locationData || locationData.isEditable !== false;
   const canEdit = !isReadOnly && isLocationEditable;
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Early return after all hooks
   if (!imageDimensions || !position) return null;
 
   const handleMouseEnter = (e) => {
     e.stopPropagation();
-    const rect = e.currentTarget.getBoundingClientRect();
-    setTooltipPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top
-    });
+    
+    // Clear any pending hide timeout
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+    
+    // Only update position if this is from the button, not from the tooltip
+    if (e.currentTarget.tagName === 'BUTTON') {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setTooltipPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top
+      });
+    }
+    
     setTooltipVisible(true);
   };
 
   const handleMouseLeave = (e) => {
     e.stopPropagation();
-    setTooltipVisible(false);
+    
+    // Add a delay before hiding the tooltip
+    hideTimeoutRef.current = setTimeout(() => {
+      setTooltipVisible(false);
+    }, 100); // 100ms delay allows mouse to move to tooltip
   };
 
   return (
     <>
-      <div 
+      <div  
         className="absolute" 
         style={{
           ...position,
@@ -163,18 +190,41 @@ const LocationButton = React.memo(({
         locationData={locationData}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        currentGame={currentGame}
+        onToggleCheck={onToggleCheck}
       />
     </>
   );
 }, (prevProps, nextProps) => {
   // Custom comparison - only re-render if these specific props change
-  // Note: We don't compare onClick/onRightClick to avoid unnecessary re-renders
-  // State changes (like tooltip) will still cause re-renders as they're internal
+  const prevLocationId = prevProps.locationData?.locationId;
+  const nextLocationId = nextProps.locationData?.locationId;
+  
+  // If location IDs are different or one is undefined, re-render
+  if (prevLocationId !== nextLocationId) return false;
+  
+  // If we have a locationId, check if any checks for this location changed
+  if (prevLocationId && nextLocationId) {
+    const prevChecks = prevProps.currentGame?.checkStatus || {};
+    const nextChecks = nextProps.currentGame?.checkStatus || {};
+    
+    // Get all checks for this location
+    const locationChecks = locationResolverService.getLocationChecks(prevLocationId);
+    
+    // Check if any of these checks changed status
+    const hasCheckChanges = locationChecks.some(check => 
+      prevChecks[check.id] !== nextChecks[check.id]
+    );
+    
+    if (hasCheckChanges) return false;
+  }
+  
   return (
     prevProps.location.id === nextProps.location.id &&
     prevProps.locationData === nextProps.locationData &&
     prevProps.imageDimensions === nextProps.imageDimensions &&
-    prevProps.isReadOnly === nextProps.isReadOnly
+    prevProps.isReadOnly === nextProps.isReadOnly &&
+    prevProps.currentGame?.id === nextProps.currentGame?.id
   );
 });
 

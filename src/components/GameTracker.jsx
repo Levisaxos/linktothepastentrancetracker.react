@@ -16,10 +16,13 @@ const GameTracker = () => {
   }, []);
 
   // Auto-save function that doesn't depend on stale closures
+ // Auto-save function that doesn't depend on stale closures
   const autoSaveGame = useCallback((gameToSave) => {
     if (!gameToSave || gameToSave.isFinished) return;
 
     const updatedGame = gameService.updateGameLastSaved(gameToSave);
+    
+    console.log('Auto-saving game:', updatedGame.name, 'Check status:', updatedGame.checkStatus);
     
     setGames(prevGames => {
       const updatedGames = prevGames.map(g => 
@@ -27,21 +30,18 @@ const GameTracker = () => {
       );
       gameService.saveGames(updatedGames);
       return updatedGames;
-    });
-    
-    // Update the current game state with the new lastSaved timestamp
-    setCurrentGame(updatedGame);
+    });    
   }, []);
 
   useEffect(() => {
-  document.title = 'Link to the Past Tracker';
-}, []);
-  // Auto-save whenever currentGame.locations changes (only for active games)
-  useEffect(() => {
-    if (currentGame && currentView === 'tracker' && !currentGame.isFinished) {
-      autoSaveGame(currentGame);
-    }
-  }, [currentGame?.locations, currentView, autoSaveGame]);
+    document.title = 'Link to the Past Tracker';
+  }, []);
+
+useEffect(() => {
+  if (currentGame && currentView === 'tracker' && !currentGame.isFinished) {
+    autoSaveGame(currentGame);
+  }
+}, [JSON.stringify(currentGame?.checkStatus || {}), currentView, autoSaveGame, currentGame]);
 
   // Also auto-save when globalNotes change
   useEffect(() => {
@@ -49,6 +49,13 @@ const GameTracker = () => {
       autoSaveGame(currentGame);
     }
   }, [currentGame?.globalNotes, currentView, autoSaveGame]);
+
+  // Auto-save when checkStatus changes
+  useEffect(() => {
+    if (currentGame && currentView === 'tracker' && !currentGame.isFinished) {
+      autoSaveGame(currentGame);
+    }
+  }, [currentGame?.checkStatus, currentView, autoSaveGame]);
 
   const handleCreateGame = (gameData) => {
     const newGame = gameService.createGame(gameData);

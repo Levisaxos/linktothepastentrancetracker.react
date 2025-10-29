@@ -8,13 +8,15 @@ import { getCheckSpriteById } from '../data/checkData';
 const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck }) => {
   if (!isVisible || !position.x || !position.y) return null;
 
-  // ADD THIS FUNCTION HERE
   const handleCheckClick = (checkId, e) => {
     e.stopPropagation();
+    e.preventDefault(); // Prevent context menu
+
     if (onToggleCheck) {
-      onToggleCheck(checkId);
+      const isRightClick = e.button === 2 || e.type === 'contextmenu';
+      onToggleCheck(checkId, isRightClick);
     }
-  };  
+  };
 
   // Resolve location data to get display information
   const getLocationInfo = () => {
@@ -93,7 +95,8 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
   const isMinimal = !locationInfo.linkedLocationName || locationInfo.type === 'Useless Location';
 
   const tooltipContent = (
-    <div 
+    <div
+      key={JSON.stringify(currentGame?.checkStatus || {})}
       className="bg-gray-900 border-2 border-gray-600 rounded-lg shadow-2xl"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -116,8 +119,8 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
               {location?.name || 'Unknown Location'}
             </div>
             <div className="text-xs text-gray-500">
-              {locationInfo.type === 'Useless Location' 
-                ? '• Right click to unmark' 
+              {locationInfo.type === 'Useless Location'
+                ? '• Right click to unmark'
                 : '• Click to assign location'}
             </div>
           </>
@@ -131,9 +134,9 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
                 <span className="text-base">Connected to</span>
                 <span className={locationInfo.color}>{locationInfo.linkedLocationName}</span>
               </div>
-            </div>         
+            </div>
 
-           {/* Location Description */}
+            {/* Location Description */}
             <div className={`text-sm ${locationInfo.color} mb-3`}>
               {locationInfo.description}
             </div>
@@ -155,7 +158,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
                       {checks.map((check) => {
                         const isCollected = checkStatus[check.id] === true;
                         const sprite = getCheckSpriteById(check.type);
-                        
+
                         return (
                           <img
                             key={check.id}
@@ -163,6 +166,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
                             alt={check.name}
                             className="w-6 h-6 cursor-pointer hover:scale-110 transition-transform"
                             onClick={(e) => handleCheckClick(check.id, e)}
+                            onContextMenu={(e) => handleCheckClick(check.id, e)}
                             title={check.name}
                           />
                         );

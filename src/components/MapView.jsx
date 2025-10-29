@@ -8,9 +8,9 @@ import { locationResolverService } from '../services/locationResolverService';
 import { IMAGE_PATHS } from '../constants/imagePaths';
 
 // Memoized WorldMap component to prevent unnecessary re-renders
-const WorldMap = React.memo(({ 
-  world, 
-  locations, 
+const WorldMap = React.memo(({
+  world,
+  locations,
   imagePath,
   dimensions,
   currentGameLocations,
@@ -18,15 +18,16 @@ const WorldMap = React.memo(({
   isReadOnly,
   onLocationClick,
   onLocationRightClick,
-  onImageLoad
+  onImageLoad,
+  onToggleCheck
 }) => {
   return (
     <div className="flex-1">
-      <div 
+      <div
         className="relative"
         onContextMenu={(e) => e.preventDefault()}
       >
-        <img 
+        <img
           src={imagePath}
           alt={`${world} world map`}
           className="w-full h-auto max-h-[calc(100vh-120px)] object-contain"
@@ -35,7 +36,7 @@ const WorldMap = React.memo(({
           draggable={false}
         />
         {dimensions && (
-          <div 
+          <div
             className="absolute"
             style={{
               left: `${dimensions.offsetX}px`,
@@ -55,6 +56,7 @@ const WorldMap = React.memo(({
                 imageDimensions={dimensions}
                 isReadOnly={isReadOnly}
                 currentGame={currentGame}
+                onToggleCheck={onToggleCheck}
               />
             ))}
           </div>
@@ -100,13 +102,13 @@ const MapView = ({ currentGame, setCurrentGame }) => {
       images.forEach(img => {
         const world = img.alt.includes('light') ? 'light' : 'dark';
         const container = img.parentElement;
-        
+
         const containerRect = container.getBoundingClientRect();
         const naturalRatio = img.naturalWidth / img.naturalHeight;
         const containerRatio = containerRect.width / containerRect.height;
-        
+
         let renderedWidth, renderedHeight, offsetX, offsetY;
-        
+
         if (containerRatio > naturalRatio) {
           renderedHeight = containerRect.height;
           renderedWidth = renderedHeight * naturalRatio;
@@ -153,32 +155,59 @@ const MapView = ({ currentGame, setCurrentGame }) => {
 
     const locationData = currentGame?.locations[location.id];
     const isLocationEditable = locationData?.isEditable !== false;
-    
+
     if (!isLocationEditable) return;
-    
+
     setSelectedLocation(location);
     setShowLocationModal(true);
   }, [currentGame?.isFinished, currentGame?.locations]);
 
-  // Memoize location update handler
+
+  const handleToggleCheck = useCallback((checkId, isRightClick = false) => {
+    if (currentGame?.isFinished) return;
+
+    setCurrentGame(prevGame => {
+      const currentStatus = (prevGame?.checkStatus || {})[checkId] || false;
+      
+      let newStatus;
+      if (isRightClick) {
+        newStatus = false;
+      } else {
+        newStatus = true;
+      }
+
+      if (currentStatus === newStatus) return prevGame;
+
+      console.log('Toggling check:', checkId, 'from', currentStatus, 'to', newStatus);
+
+      return {
+        ...prevGame,
+        checkStatus: {
+          ...(prevGame.checkStatus || {}),
+          [checkId]: newStatus
+        }
+      };
+    });
+  }, [currentGame?.isFinished, setCurrentGame]);
+
   const handleLocationUpdate = useCallback((locationIdOrSpecial, completed = false, chestCount = 1) => {
     if (currentGame?.isFinished) return;
 
     const existingLocationData = currentGame?.locations[selectedLocation.id];
     const isLocationEditable = existingLocationData?.isEditable !== false;
-    
+
     if (!isLocationEditable) return;
 
     // Handle reset case - remove location data entirely
     if (locationIdOrSpecial === 'reset') {
       const updatedLocations = { ...currentGame.locations };
       delete updatedLocations[selectedLocation.id];
-      
+
       setCurrentGame({
         ...currentGame,
         locations: updatedLocations
       });
-      
+
       setShowLocationModal(false);
       setSelectedLocation(null);
       return;
@@ -231,13 +260,13 @@ const MapView = ({ currentGame, setCurrentGame }) => {
 
     const locationData = currentGame?.locations[location.id];
     const isLocationEditable = locationData?.isEditable !== false;
-    
+
     if (!isLocationEditable) return;
 
     // Special handling for dungeon locations
     if (locationData && locationData.locationId) {
       const resolvedData = locationResolverService.resolveLocationById(locationData.locationId);
-      
+
       if (resolvedData && resolvedData.type === 'dungeon') {
         // Right-click on dungeon = toggle completion state
         const newLocationData = {
@@ -262,7 +291,7 @@ const MapView = ({ currentGame, setCurrentGame }) => {
       completed: false,
       isEditable: true
     };
-    
+
     setCurrentGame({
       ...currentGame,
       locations: {
@@ -276,13 +305,13 @@ const MapView = ({ currentGame, setCurrentGame }) => {
   const handleImageLoad = useCallback((world) => (event) => {
     const img = event.target;
     const container = img.parentElement;
-    
+
     const containerRect = container.getBoundingClientRect();
     const naturalRatio = img.naturalWidth / img.naturalHeight;
     const containerRatio = containerRect.width / containerRect.height;
-    
+
     let renderedWidth, renderedHeight, offsetX, offsetY;
-    
+
     if (containerRatio > naturalRatio) {
       renderedHeight = containerRect.height;
       renderedWidth = renderedHeight * naturalRatio;
@@ -312,7 +341,7 @@ const MapView = ({ currentGame, setCurrentGame }) => {
   const isInverted = currentGame?.isInverted || false;
   const leftWorld = isInverted ? 'dark' : 'light';
   const rightWorld = isInverted ? 'light' : 'dark';
-  
+
   // Memoize locations arrays to prevent recreation
   const leftLocations = useMemo(() => mapData[leftWorld] || [], [leftWorld]);
   const rightLocations = useMemo(() => mapData[rightWorld] || [], [rightWorld]);
@@ -328,17 +357,17 @@ const MapView = ({ currentGame, setCurrentGame }) => {
           <div className="flex">
             <div className="ml-3">
               <p className="text-sm text-amber-200">
-                <strong>Read-Only Mode:</strong> This game is marked as finished and cannot be edited. 
+                <strong>Read-Only Mode:</strong> This game is marked as finished and cannot be edited.
                 Reactivate it from the games list to make changes.
               </p>
             </div>
           </div>
         </div>
       )}
-      
+
       <div className="p-2">
         <div className="flex gap-2">
-          <WorldMap 
+          <WorldMap
             world={leftWorld}
             locations={leftLocations}
             imagePath={leftImagePath}
@@ -349,8 +378,9 @@ const MapView = ({ currentGame, setCurrentGame }) => {
             onLocationClick={handleLocationClick}
             onLocationRightClick={handleRightClick}
             onImageLoad={handleImageLoad(leftWorld)}
+            onToggleCheck={handleToggleCheck}
           />
-          <WorldMap 
+          <WorldMap
             world={rightWorld}
             locations={rightLocations}
             imagePath={rightImagePath}
@@ -361,6 +391,7 @@ const MapView = ({ currentGame, setCurrentGame }) => {
             onLocationClick={handleLocationClick}
             onLocationRightClick={handleRightClick}
             onImageLoad={handleImageLoad(rightWorld)}
+            onToggleCheck={handleToggleCheck}
           />
         </div>
       </div>
