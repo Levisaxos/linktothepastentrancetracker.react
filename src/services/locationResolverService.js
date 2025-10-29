@@ -1,10 +1,11 @@
 // src/services/locationResolverService.js
-import { 
-  dungeonData, 
-  connectorData, 
-  usefulLocationData, 
-  getDungeonById, 
-  getConnectorById, 
+import { getChecksByLocationId } from '../data/checkData';
+import {
+  dungeonData,
+  connectorData,
+  usefulLocationData,
+  getDungeonById,
+  getConnectorById,
   getUsefulLocationById
 } from '../data/locationTypes';
 
@@ -148,6 +149,7 @@ export const locationResolverService = {
       return { dungeons: [], connectors: [], specialUseful: [] };
     }
 
+
     const usedDungeons = [];
     const usedConnectors = [];
     const usedSpecialUseful = [];
@@ -181,23 +183,19 @@ export const locationResolverService = {
     };
   },
 
+
   /**
    * Gets checks for a location based on its ID
    * @param {number} locationId - The location ID
-   * @returns {Array} - Array of check names
+   * @returns {Array} - Array of check objects
    */
   getLocationChecks(locationId) {
     if (!locationId) {
       return [];
     }
 
-    // Check if it's a special useful location (3001-3999)
-    if (locationId >= 3001 && locationId <= 3999) {
-      const usefulLoc = getUsefulLocationById(locationId);
-      return usefulLoc?.checks || [];
-    }
-
-    return [];
+    // Import and use the helper function from checkData
+    return getChecksByLocationId(locationId);
   },
 
   /**

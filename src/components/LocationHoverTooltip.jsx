@@ -3,10 +3,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { locationResolverService } from '../services/locationResolverService';
 import { locationTypes } from '../data/locationTypes';
-import { getCheckSpriteById } from '../data/checkSprites';
+import { getCheckSpriteById } from '../data/checkData';
 
-const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave }) => {
+const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck }) => {
   if (!isVisible || !position.x || !position.y) return null;
+
+  // ADD THIS FUNCTION HERE
+  const handleCheckClick = (checkId, e) => {
+    e.stopPropagation();
+    if (onToggleCheck) {
+      onToggleCheck(checkId);
+    }
+  };  
 
   // Resolve location data to get display information
   const getLocationInfo = () => {
@@ -125,10 +133,46 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
               </div>
             </div>         
 
-            {/* Location Description */}
+           {/* Location Description */}
             <div className={`text-sm ${locationInfo.color} mb-3`}>
               {locationInfo.description}
             </div>
+
+            {/* ADD THIS CHECKS SECTION HERE */}
+            {/* Checks Section */}
+            {(() => {
+              const locationId = locationData?.locationId;
+              const checks = locationId ? locationResolverService.getLocationChecks(locationId) : [];
+              const checkStatus = currentGame?.checkStatus || {};
+
+              if (checks.length > 0) {
+                return (
+                  <div className="pt-2 border-t border-gray-700 mb-3">
+                    <div className="text-xs text-gray-400 mb-2">
+                      Checks ({checks.filter(c => checkStatus[c.id]).length}/{checks.length}):
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {checks.map((check) => {
+                        const isCollected = checkStatus[check.id] === true;
+                        const sprite = getCheckSpriteById(check.type);
+                        
+                        return (
+                          <img
+                            key={check.id}
+                            src={isCollected ? sprite?.collectedSprite : sprite?.collectableSprite}
+                            alt={check.name}
+                            className="w-6 h-6 cursor-pointer hover:scale-110 transition-transform"
+                            onClick={(e) => handleCheckClick(check.id, e)}
+                            title={check.name}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            })()}
 
             {/* Controls Hint */}
             <div className="text-xs text-gray-500 pt-2 border-t border-gray-700">
