@@ -2,6 +2,7 @@
 import { mapData } from '../data/mapData';
 
 export const gameService = {
+  // Store checkStatus at game level, not location level
   createGame: (gameData) => {
     const newGame = {
       id: Date.now(),
@@ -13,9 +14,10 @@ export const gameService = {
       isFinished: false,
       finishedDate: null,
       locations: {},
-      globalNotes: []
+      globalNotes: [],
+      checkStatus: {} // Store checks at game level, keyed by group identifier
     };
-
+    
     // Apply default locations based on randomizer type
     if (gameData.randomizerType === 'Vanilla') {
       newGame.locations = gameService.getDefaultLocations();
@@ -28,8 +30,11 @@ export const gameService = {
 
   getDefaultLocations: () => {
     const locations = {};
-    
+
     // Process both light and dark world locations
+    // Note: Since defaultLocationId has been removed from mapData, 
+    // this method currently returns an empty object for Vanilla games.
+    // You may need to implement default location logic differently.
     [...mapData.light, ...mapData.dark].forEach(location => {
       if (location.defaultType) {
         const locationData = {
@@ -53,7 +58,7 @@ export const gameService = {
 
   getDungeonsSimpleLocations: () => {
     const locations = {};
-    
+
     // Get all locations with their defaults
     [...mapData.light, ...mapData.dark].forEach(location => {
       if (location.defaultType) {
@@ -106,7 +111,7 @@ export const gameService = {
     const connectorLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'connector').length;
     const dungeonLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'dungeon').length;
     const uselessLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'useless').length;
-    
+
     return {
       total: totalLocations,
       marked: markedLocations,
@@ -121,15 +126,15 @@ export const gameService = {
 
   sortGames: (games, showFinished = false) => {
     const filteredGames = games.filter(game => game.isFinished === showFinished);
-    
+
     if (showFinished) {
       // Sort finished games by finished date (most recent first)
-      return filteredGames.sort((a, b) => 
+      return filteredGames.sort((a, b) =>
         new Date(b.finishedDate || 0) - new Date(a.finishedDate || 0)
       );
     } else {
       // Sort active games by last saved date (most recent first)
-      return filteredGames.sort((a, b) => 
+      return filteredGames.sort((a, b) =>
         new Date(b.lastSaved || 0) - new Date(a.lastSaved || 0)
       );
     }
@@ -139,14 +144,15 @@ export const gameService = {
     try {
       const saved = localStorage.getItem('zelda_tracker_games');
       const games = saved ? JSON.parse(saved) : [];
-      
-      // Migrate old games without finished status, notes, and isEditable properties
+
+      // Migrate old games without finished status, notes, checkStatus, and isEditable properties
       return games.map(game => ({
         isFinished: false,
         finishedDate: null,
         notes: '',
         locationNotes: {},
         globalNotes: [],
+        checkStatus: {}, // Initialize checkStatus for old saves
         ...game,
         // Migrate locations to add isEditable property if missing
         locations: game.locations ? Object.fromEntries(
@@ -167,7 +173,13 @@ export const gameService = {
 
   saveGames: (games) => {
     try {
-      localStorage.setItem('zelda_tracker_games', JSON.stringify(games));
+      // Ensure all games have checkStatus before saving
+      const gamesWithCheckStatus = games.map(game => ({
+        ...game,
+        checkStatus: game.checkStatus || {}
+      }));
+      localStorage.setItem('zelda_tracker_games', JSON.stringify(gamesWithCheckStatus));
+      console.log('Games saved successfully:', gamesWithCheckStatus);
     } catch (error) {
       console.error('Error saving games:', error);
     }
