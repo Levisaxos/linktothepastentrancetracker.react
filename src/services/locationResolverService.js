@@ -6,7 +6,9 @@ import {
   usefulLocationData,
   getDungeonById,
   getConnectorById,
-  getUsefulLocationById
+  getUsefulLocationById,
+  staticLocationData,
+  getStaticLocationById
 } from '../data/locationTypes';
 
 export const locationResolverService = {
@@ -71,6 +73,18 @@ export const locationResolverService = {
           type: 'useful',
           displayValue: usefulLocation.display,
           description: usefulLocation.name
+        };
+      }
+    }
+
+    // Check if it's a static location (IDs 6001-6999)
+    if (locationId >= 6001 && locationId <= 6999) {
+      const staticLocation = getStaticLocationById(locationId);
+      if (staticLocation) {
+        return {
+          type: 'static',
+          displayValue: staticLocation.display,
+          description: staticLocation.name
         };
       }
     }
@@ -146,13 +160,13 @@ export const locationResolverService = {
    */
   getUsedLocationIds(currentGame, excludeLocationId = null) {
     if (!currentGame?.locations) {
-      return { dungeons: [], connectors: [], specialUseful: [] };
+      return { dungeons: [], connectors: [], specialUseful: [], staticLocations: [] };
     }
-
 
     const usedDungeons = [];
     const usedConnectors = [];
     const usedSpecialUseful = [];
+    const usedStaticLocations = [];
 
     Object.entries(currentGame.locations).forEach(([locId, locData]) => {
       // Skip the excluded location (when editing)
@@ -174,15 +188,29 @@ export const locationResolverService = {
       else if (locationId >= 3001 && locationId <= 3999) {
         usedSpecialUseful.push(locationId);
       }
+      // Static locations (6001-6999)
+      else if (locationId >= 6001 && locationId <= 6999) {
+        usedStaticLocations.push(locationId);
+      }
     });
 
     return {
       dungeons: usedDungeons,
       connectors: usedConnectors,
-      specialUseful: usedSpecialUseful
+      specialUseful: usedSpecialUseful,
+      staticLocations: usedStaticLocations
     };
   },
-
+  /**
+     * Gets available static locations that aren't already used
+     * @param {Object} currentGame - The current game object
+     * @param {string} excludeLocationId - Location ID to exclude from the check
+     * @returns {Array} - Available static location objects
+     */
+  getAvailableStaticLocations(currentGame, excludeLocationId = null) {
+    const usedStaticIds = this.getUsedLocationIds(currentGame, excludeLocationId).staticLocations;
+    return staticLocationData.filter(loc => !usedStaticIds.includes(loc.id));
+  },
 
   /**
    * Gets checks for a location based on its ID

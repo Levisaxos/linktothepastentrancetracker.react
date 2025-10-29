@@ -5,9 +5,12 @@ import { locationResolverService } from '../services/locationResolverService';
 import { locationTypes } from '../data/locationTypes';
 import { getCheckSpriteById } from '../data/checkData';
 
-const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck }) => {
+const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck, checkStatusVersion }) => {
   if (!isVisible || !position.x || !position.y) return null;
 
+  console.log('=== TOOLTIP RENDER ===', location?.name);
+  console.log('Full checkStatus:', currentGame?.checkStatus);
+  
   const handleCheckClick = (checkId, e) => {
     e.stopPropagation();
     e.preventDefault(); // Prevent context menu
@@ -17,6 +20,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
       onToggleCheck(checkId, isRightClick);
     }
   };
+
 
   // Resolve location data to get display information
   const getLocationInfo = () => {
@@ -96,7 +100,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
 
   const tooltipContent = (
     <div
-      key={JSON.stringify(currentGame?.checkStatus || {})}
+      key={`${JSON.stringify(currentGame?.checkStatus || {})}-${checkStatusVersion}`}
       className="bg-gray-900 border-2 border-gray-600 rounded-lg shadow-2xl"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

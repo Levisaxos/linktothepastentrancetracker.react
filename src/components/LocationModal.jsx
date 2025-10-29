@@ -27,7 +27,7 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
 
   // Get available location types based on randomizer mode
   const getAvailableLocationTypes = () => {
-    const allTypes = locationTypes;
+    const { static: _, dungeonCompleted: __, ...allTypes } = locationTypes;
     const { dungeonCompleted, ...selectableTypes } = allTypes;
 
     // For Dungeons Simple mode, only allow certain types
@@ -61,11 +61,11 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
         } else {
           // ID-based location
           const resolvedData = locationResolverService.resolveLocationById(locationData.locationId, locationData.completed);
-          
+
           if (resolvedData) {
             setSelectedType(resolvedData.type === 'dungeonCompleted' ? 'dungeon' : resolvedData.type);
             setSelectedLocationId(locationData.locationId);
-            
+
             if (resolvedData.type === 'useful') {
               setSelectedUsefulType('special');
             }
@@ -78,7 +78,7 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
       if (availableTypes.length === 1) {
         setSelectedType(availableTypes[0]);
       }
-      
+
       // Set initial selectedLocationId based on type
       if (selectedType === 'dungeon' && availableDungeons.length > 0) {
         setSelectedLocationId(availableDungeons[0].id);
@@ -95,7 +95,7 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
   // Handle type change - reset selectedLocationId when type changes
   const handleTypeChange = (newType) => {
     setSelectedType(newType);
-    
+
     // Set appropriate default locationId for the new type
     if (newType === 'dungeon' && availableDungeons.length > 0) {
       setSelectedLocationId(availableDungeons[0].id);
@@ -114,7 +114,7 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
   // Handle useful type change
   const handleUsefulTypeChange = (newUsefulType) => {
     setSelectedUsefulType(newUsefulType);
-    
+
     if (newUsefulType === 'special' && availableSpecialLocations.length > 0) {
       setSelectedLocationId(availableSpecialLocations[0].id);
     } else if (newUsefulType === 'chests') {
@@ -150,21 +150,19 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => handleUsefulTypeChange('chests')}
-                className={`p-3 rounded border text-left ${
-                  selectedUsefulType === 'chests'
+                className={`p-3 rounded border text-left ${selectedUsefulType === 'chests'
                     ? 'bg-green-600 border-white'
                     : 'bg-gray-700 border-gray-600 hover:border-gray-500'
-                }`}
+                  }`}
               >
                 <div className="font-medium">Chests</div>
               </button>
               <button
                 onClick={() => handleUsefulTypeChange('special')}
-                className={`p-3 rounded border text-left ${
-                  selectedUsefulType === 'special'
+                className={`p-3 rounded border text-left ${selectedUsefulType === 'special'
                     ? 'bg-green-600 border-white'
                     : 'bg-gray-700 border-gray-600 hover:border-gray-500'
-                }`}
+                  }`}
               >
                 <div className="font-medium">Special</div>
               </button>
@@ -179,11 +177,10 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
                     <button
                       key={num}
                       onClick={() => setSelectedChestCount(num.toString())}
-                      className={`p-2 rounded border text-center ${
-                        selectedChestCount === num.toString()
+                      className={`p-2 rounded border text-center ${selectedChestCount === num.toString()
                           ? 'bg-green-600 border-white text-white'
                           : 'bg-gray-700 border-gray-600 hover:border-gray-500 text-gray-300'
-                      }`}
+                        }`}
                     >
                       {num}
                     </button>
@@ -257,7 +254,7 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
       <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 w-96">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">{location.name}</h3>
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-400 hover:text-white"
           >
@@ -273,11 +270,10 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
                 <button
                   key={key}
                   onClick={() => handleTypeChange(key)}
-                  className={`p-3 rounded border text-left ${
-                    selectedType === key
+                  className={`p-3 rounded border text-left ${selectedType === key
                       ? `${type.color} border-white`
                       : 'bg-gray-700 border-gray-600 hover:border-gray-500'
-                  }`}
+                    }`}
                 >
                   <div className="font-medium">{type.name}</div>
                 </button>
@@ -288,9 +284,9 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
           {selectedType !== 'useless' && (
             <div>
               <label className="block text-sm font-medium mb-2">
-                {selectedType === 'useful' ? 'Location Details' : 
-                 selectedType === 'connector' ? 'Connector Type' : 
-                 'Dungeon'}
+                {selectedType === 'useful' ? 'Location Details' :
+                  selectedType === 'connector' ? 'Connector Type' :
+                    'Dungeon'}
               </label>
               {renderValueInput()}
             </div>

@@ -6,6 +6,7 @@ export const locationTypes = {
   connector: { name: 'Connector', icon: Link, color: 'bg-yellow-600', prefix: '#' },
   dungeon: { name: 'Dungeon', icon: Castle, color: 'bg-purple-600', prefix: '' },
   dungeonCompleted: { name: 'Dungeon Completed', icon: Castle, color: 'bg-red-900', prefix: '' },
+  static: { name: 'Static', icon: Package, color: 'bg-blue-600', prefix: '' },
   useless: { name: 'Useless', icon: X, color: 'bg-red-900', prefix: '' }
 };
 
@@ -119,18 +120,39 @@ export const usefulLocationData = [
   { id: 3011, type: 'special', value: 'SC', display: 'CH', name: 'Chicken Hut' },
   { id: 3012, type: 'special', value: 'SC', display: 'SH', name: 'Sahasrala' },
   { id: 3013, type: 'special', value: 'BS', display: 'BS', name: 'Bomb Shop' },
-  { id: 3014, type: 'special', value: 'DS', display: 'DS', name: 'Sanctuary' },  
+  { id: 3014, type: 'special', value: 'DS', display: 'DS', name: 'Sanctuary' },
   { id: 3098, type: 'special', value: 'S3', display: 'S3', name: 'Shop' },
   { id: 3099, type: 'special', value: 'DR', display: 'DR', name: 'Dark Room' },
+  
   
   // Useless location - special case with ID 5001
   { id: 5001, type: 'useless', display: '', name: 'Useless Location' }
 ];
 
+// Static locations - checks that are always in the same place (IDs 6001-6999)
+export const staticLocationData = [
+  { id: 6001, display: 'MS', name: 'Mushroom' },
+  { id: 6002, display: 'BV', name: 'Bottle Vendor' },
+  { id: 6003, display: 'HB', name: 'Hobo' },
+  { id: 6004, display: 'LI', name: 'Lake Hylia Island' },
+  { id: 6005, display: 'KZ', name: 'King Zora' },
+  { id: 6006, display: 'PC', name: 'Purple Chest' },
+  { id: 6007, display: 'MP', name: 'Master Sword Pedestal' },
+  { id: 6008, display: 'BT', name: 'Bombos Tablet' },
+  { id: 6009, display: 'ET', name: 'Ether Tablet' },
+  { id: 6014, display: 'DL', name: 'Desert Ledge' },
+  { id: 6022, display: 'FL', name: 'Flute Spot' },
+  { id: 6023, display: 'MR', name: 'Maze Race' },
+  { id: 6030, display: 'CF', name: 'Catfish' },
+  { id: 6031, display: 'PY', name: 'Pyramid' },
+  { id: 6032, display: 'DG', name: 'Digging Game' },
+  { id: 6033, display: 'ST', name: 'Stumpy' }
+];
 // Helper functions to get data by ID
 export const getDungeonById = (id) => dungeonData.find(d => d.id === id);
 export const getConnectorById = (id) => connectorData.find(c => c.id === id);
 export const getUsefulLocationById = (id) => usefulLocationData.find(u => u.id === id);
+export const getStaticLocationById = (id) => staticLocationData.find(s => s.id === id);
 
 // Keep the old export for backward compatibility
 export const dungeonAcronyms = dungeonData.map(d => d.acronym);

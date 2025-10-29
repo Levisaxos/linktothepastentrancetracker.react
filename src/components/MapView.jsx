@@ -66,13 +66,18 @@ const WorldMap = React.memo(({
   );
 }, (prevProps, nextProps) => {
   // Custom comparison function - only re-render if these specific props change
-  return (
-    prevProps.world === nextProps.world &&
-    prevProps.dimensions === nextProps.dimensions &&
-    prevProps.currentGameLocations === nextProps.currentGameLocations &&
-    prevProps.isReadOnly === nextProps.isReadOnly &&
-    prevProps.currentGame?.id === nextProps.currentGame?.id
-  );
+  if (prevProps.world !== nextProps.world) return false;
+  if (prevProps.dimensions !== nextProps.dimensions) return false;
+  if (prevProps.currentGameLocations !== nextProps.currentGameLocations) return false;
+  if (prevProps.isReadOnly !== nextProps.isReadOnly) return false;
+  if (prevProps.currentGame?.id !== nextProps.currentGame?.id) return false;
+  
+  // CHECK IF CHECKSTATUS CHANGED - This is what's missing!
+  if (prevProps.currentGame?.checkStatus !== nextProps.currentGame?.checkStatus) {
+    return false;
+  }
+  
+  return true; // No changes, skip re-render
 });
 
 WorldMap.displayName = 'WorldMap';
