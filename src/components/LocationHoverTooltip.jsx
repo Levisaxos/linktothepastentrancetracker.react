@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { locationResolverService } from '../services/locationResolverService';
 import { locationTypes } from '../data/locationTypes';
+import { getCheckSpriteById } from '../data/checkSprites';
 
 const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave }) => {
   if (!isVisible || !position.x || !position.y) return null;
