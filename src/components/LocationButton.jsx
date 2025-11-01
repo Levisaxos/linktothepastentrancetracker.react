@@ -3,7 +3,44 @@ import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { locationTypes } from '../data/locationTypes';
 import { locationResolverService } from '../services/locationResolverService';
 import LocationHoverTooltip from './LocationHoverTooltip';
+const areLocationButtonPropsEqual = (prevProps, nextProps) => {
+  // Step 1: Check basic props that always trigger re-render if changed
+  const basicPropsChanged =
+    prevProps.location.id !== nextProps.location.id ||
+    prevProps.locationData !== nextProps.locationData ||
+    prevProps.imageDimensions !== nextProps.imageDimensions ||
+    prevProps.isReadOnly !== nextProps.isReadOnly ||
+    prevProps.currentGame?.id !== nextProps.currentGame?.id;
 
+  if (basicPropsChanged) {
+    return false; // Props changed, need to re-render
+  }
+
+  // Step 2: Check if this location has any checks that need monitoring
+  const locationId = nextProps.locationData?.locationId;
+
+  if (!locationId) {
+    return true; // No location assigned, no need to check further
+  }
+
+  const checks = locationResolverService.getLocationChecks(locationId);
+
+  if (checks.length === 0) {
+    return true; // No checks for this location, no need to check further
+  }
+
+  // Step 3: Check if any of this location's check statuses changed
+  const prevCheckStatus = prevProps.currentGame?.checkStatus || {};
+  const nextCheckStatus = nextProps.currentGame?.checkStatus || {};
+
+  const hasCheckStatusChanged = checks.some(check => {
+    const prevStatus = prevCheckStatus[check.id] || false;
+    const nextStatus = nextCheckStatus[check.id] || false;
+    return prevStatus !== nextStatus;
+  });
+
+  return !hasCheckStatusChanged; // Return true to skip re-render if nothing changed
+};
 const LocationButton = React.memo(({
   location,
   locationData,
@@ -33,7 +70,7 @@ const LocationButton = React.memo(({
 
     // Only show user-set location data, not defaults
     if (locationData) {
-      if (locationData.locationId) {        
+      if (locationData.locationId) {
         resolvedData = locationResolverService.resolveLocationById(
           locationData.locationId,
           locationData.completed,
@@ -87,6 +124,7 @@ const LocationButton = React.memo(({
     };
   }, [locationData]);
 
+
   // Memoize position calculation
   const position = useMemo(() => {
     if (!imageDimensions) return null;
@@ -110,7 +148,7 @@ const LocationButton = React.memo(({
       }
     };
   }, []);
-  
+
   if (!imageDimensions || !position) return null;
 
   const handleMouseEnter = (e) => {
@@ -197,46 +235,7 @@ const LocationButton = React.memo(({
       />
     </>
   );
-}, (prevProps, nextProps) => {
-  // Basic props that should trigger re-render
-  if (prevProps.location.id !== nextProps.location.id) return false;
-  if (prevProps.locationData !== nextProps.locationData) return false;
-  if (prevProps.imageDimensions !== nextProps.imageDimensions) return false;
-  if (prevProps.isReadOnly !== nextProps.isReadOnly) return false;
-  if (prevProps.currentGame?.id !== nextProps.currentGame?.id) return false;
-
-  // Get the locationId to check which checks belong to this location
-  const locationId = nextProps.locationData?.locationId;
-
-  if (!locationId) {
-    // No location assigned, only re-render if other props changed
-    return true;
-  }
-
-  // Get all checks for this specific location
-  const checks = locationResolverService.getLocationChecks(locationId);
-
-  if (checks.length === 0) {
-    // No checks for this location, only re-render if other props changed
-    return true;
-  }
-
-  // Check if ANY of this location's checks changed status
-  const prevCheckStatus = prevProps.currentGame?.checkStatus || {};
-  const nextCheckStatus = nextProps.currentGame?.checkStatus || {};
-
-  for (const check of checks) {
-    const prevStatus = prevCheckStatus[check.id] || false;
-    const nextStatus = nextCheckStatus[check.id] || false;
-
-    if (prevStatus !== nextStatus) {
-      return false; // Status changed, need to re-render
-    }
-  }
-
-  // No relevant changes, skip re-render
-  return true;
-});
+}, areLocationButtonPropsEqual);
 
 LocationButton.displayName = 'LocationButton';
 

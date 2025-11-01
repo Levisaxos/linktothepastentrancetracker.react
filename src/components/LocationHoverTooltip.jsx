@@ -13,7 +13,6 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
   useEffect(() => {
     if (!isVisible || !tooltipRef.current || !position.x || !position.y) return;
 
-    console.log(locationData);
     const tooltip = tooltipRef.current;
     const rect = tooltip.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
@@ -74,7 +73,6 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
   };
 
   const getLocationInfo = () => {
-    console.log(locationData);
     if (locationData?.markedUseless && locationData?.locationId) {
       const resolvedData = locationResolverService.resolveLocationById(
         locationData.locationId,
@@ -137,7 +135,6 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
       locationData.completed,
     );
 
-    console.log(resolvedData)
     if (!resolvedData) {
       return {
         type: 'Unknown',
@@ -154,7 +151,6 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
     let linkedLocationName = null;
     let color = 'text-white';
     let bgColor = type?.color || 'bg-gray-700';
-    console.log(resolvedData.type);
     switch (resolvedData.type) {
       case 'location':
         typeDisplay = 'Useful Item';

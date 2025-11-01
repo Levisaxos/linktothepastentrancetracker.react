@@ -20,9 +20,6 @@ const GameTracker = () => {
     if (!gameToSave || gameToSave.isFinished) return;
 
     const updatedGame = gameService.updateGameLastSaved(gameToSave);
-
-    console.log('Auto-saving game:', updatedGame.name, 'Check status:', updatedGame.checkStatus);
-
     setGames(prevGames => {
       const updatedGames = prevGames.map(g =>
         g.id === gameToSave.id ? updatedGame : g
@@ -36,32 +33,38 @@ const GameTracker = () => {
     document.title = 'Link to the Past Tracker';
   }, []);
 
+  // Single auto-save effect that watches for any game changes
+  const previousGameRef = useRef(null);
+
   useEffect(() => {
-    if (currentGame && currentView === 'tracker' && !currentGame.isFinished) {
-      autoSaveGame(currentGame);
+    // Only auto-save if we're in tracker view and game isn't finished
+    if (!currentGame || currentView !== 'tracker' || currentGame.isFinished) {
+      previousGameRef.current = null;
+      return;
     }
-  }, [JSON.stringify(currentGame?.checkStatus || {}), currentView, autoSaveGame, currentGame]);
 
-  const checkStatusRef = useRef(JSON.stringify(currentGame?.checkStatus || {}));
+    // Skip the very first render (when game is initially loaded)
+    if (previousGameRef.current === null) {
+      previousGameRef.current = JSON.stringify({
+        checkStatus: currentGame.checkStatus,
+        locations: currentGame.locations,
+        globalNotes: currentGame.globalNotes
+      });
+      return;
+    }
 
-  useEffect(() => {
-    const newCheckStatus = JSON.stringify(currentGame?.checkStatus || {});
+    // Check if anything actually changed
+    const currentData = JSON.stringify({
+      checkStatus: currentGame.checkStatus,
+      locations: currentGame.locations,
+      globalNotes: currentGame.globalNotes
+    });
 
-    if (checkStatusRef.current !== newCheckStatus &&
-      currentGame &&
-      currentView === 'tracker' &&
-      !currentGame.isFinished) {
-      checkStatusRef.current = newCheckStatus;
+    if (previousGameRef.current !== currentData) {
+      previousGameRef.current = currentData;
       autoSaveGame(currentGame);
     }
   }, [currentGame, currentView, autoSaveGame]);
-
-  // Auto-save when checkStatus changes
-  useEffect(() => {
-    if (currentGame && currentView === 'tracker' && !currentGame.isFinished) {
-      autoSaveGame(currentGame);
-    }
-  }, [currentGame?.checkStatus, currentView, autoSaveGame]);
 
   const handleCreateGame = (gameData) => {
     const newGame = gameService.createGame(gameData);

@@ -181,7 +181,6 @@ export const gameService = {
         checkStatus: game.checkStatus || {}
       }));
       localStorage.setItem('zelda_tracker_games', JSON.stringify(gamesWithCheckStatus));
-      console.log('Games saved successfully:', gamesWithCheckStatus);
     } catch (error) {
       console.error('Error saving games:', error);
     }
