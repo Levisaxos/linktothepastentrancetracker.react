@@ -71,12 +71,12 @@ const WorldMap = React.memo(({
   if (prevProps.currentGameLocations !== nextProps.currentGameLocations) return false;
   if (prevProps.isReadOnly !== nextProps.isReadOnly) return false;
   if (prevProps.currentGame?.id !== nextProps.currentGame?.id) return false;
-  
+
   // CHECK IF CHECKSTATUS CHANGED - This is what's missing!
   if (prevProps.currentGame?.checkStatus !== nextProps.currentGame?.checkStatus) {
     return false;
   }
-  
+
   return true; // No changes, skip re-render
 });
 
@@ -173,7 +173,7 @@ const MapView = ({ currentGame, setCurrentGame }) => {
 
     setCurrentGame(prevGame => {
       const currentStatus = (prevGame?.checkStatus || {})[checkId] || false;
-      
+
       let newStatus;
       if (isRightClick) {
         newStatus = false;
@@ -198,56 +198,54 @@ const MapView = ({ currentGame, setCurrentGame }) => {
   const handleLocationUpdate = useCallback((locationIdOrSpecial, completed = false, chestCount = 1) => {
     if (currentGame?.isFinished) return;
 
-    const existingLocationData = currentGame?.locations[selectedLocation.id];
-    const isLocationEditable = existingLocationData?.isEditable !== false;
+    setCurrentGame(prevGame => {
+      const existingLocationData = prevGame?.locations[selectedLocation.id];
+      const isLocationEditable = existingLocationData?.isEditable !== false;
 
-    if (!isLocationEditable) return;
+      if (!isLocationEditable) return prevGame;
 
-    // Handle reset case - remove location data entirely
-    if (locationIdOrSpecial === 'reset') {
-      const updatedLocations = { ...currentGame.locations };
-      delete updatedLocations[selectedLocation.id];
+      // Handle reset case - remove location data entirely
+      if (locationIdOrSpecial === 'reset') {
+        const updatedLocations = { ...prevGame.locations };
+        delete updatedLocations[selectedLocation.id];
 
-      setCurrentGame({
-        ...currentGame,
-        locations: updatedLocations
-      });
-
-      setShowLocationModal(false);
-      setSelectedLocation(null);
-      return;
-    }
-
-    let locationData;
-
-    // Handle chest locations (ID 4001)
-    if (locationIdOrSpecial === 4001) {
-      locationData = {
-        locationId: 4001,
-        chestCount: chestCount,
-        completed: false,
-        isEditable: true
-      };
-    } else {
-      // Handle normal ID-based locations
-      locationData = {
-        locationId: locationIdOrSpecial,
-        completed: completed || false,
-        isEditable: true
-      };
-    }
-
-    setCurrentGame({
-      ...currentGame,
-      locations: {
-        ...currentGame.locations,
-        [selectedLocation.id]: locationData
+        return {
+          ...prevGame,
+          locations: updatedLocations
+        };
       }
+
+      let locationData;
+
+      // Handle chest locations (ID 4001)
+      if (locationIdOrSpecial === 4001) {
+        locationData = {
+          locationId: 4001,
+          chestCount: chestCount,
+          completed: false,
+          isEditable: true
+        };
+      } else {
+        // Handle normal ID-based locations
+        locationData = {
+          locationId: locationIdOrSpecial,
+          completed: completed || false,
+          isEditable: true
+        };
+      }
+
+      return {
+        ...prevGame,
+        locations: {
+          ...prevGame.locations,
+          [selectedLocation.id]: locationData
+        }
+      };
     });
 
     setShowLocationModal(false);
     setSelectedLocation(null);
-  }, [currentGame, selectedLocation, setCurrentGame]);
+  }, [currentGame?.isFinished, selectedLocation, setCurrentGame]);
 
   // Memoize global notes update handler
   const handleUpdateGlobalNotes = useCallback((updatedNotes) => {
@@ -263,48 +261,49 @@ const MapView = ({ currentGame, setCurrentGame }) => {
   const handleRightClick = useCallback((location) => {
     if (currentGame?.isFinished) return;
 
-    const locationData = currentGame?.locations[location.id];
-    const isLocationEditable = locationData?.isEditable !== false;
+    setCurrentGame(prevGame => {
+      const locationData = prevGame?.locations[location.id];
+      const isLocationEditable = locationData?.isEditable !== false;
 
-    if (!isLocationEditable) return;
+      if (!isLocationEditable) return prevGame;
 
-    // Special handling for dungeon locations
-    if (locationData && locationData.locationId) {
-      const resolvedData = locationResolverService.resolveLocationById(locationData.locationId);
+      // Special handling for dungeon locations
+      if (locationData && locationData.locationId) {
+        const resolvedData = locationResolverService.resolveLocationById(locationData.locationId);
 
-      if (resolvedData && resolvedData.type === 'dungeon') {
-        // Right-click on dungeon = toggle completion state
-        const newLocationData = {
-          ...locationData,
-          completed: !locationData.completed
-        };
+        if (resolvedData && resolvedData.type === 'dungeon') {
+          // Right-click on dungeon = toggle completion state
+          const newLocationData = {
+            ...locationData,
+            completed: !locationData.completed
+          };
 
-        setCurrentGame({
-          ...currentGame,
-          locations: {
-            ...currentGame.locations,
-            [location.id]: newLocationData
-          }
-        });
-        return;
+          return {
+            ...prevGame,
+            locations: {
+              ...prevGame.locations,
+              [location.id]: newLocationData
+            }
+          };
+        }
       }
-    }
 
-    // For all other location types, mark as useless (set to ID 5001)
-    const uselessLocationData = {
-      locationId: 5001,
-      completed: false,
-      isEditable: true
-    };
+      // For all other location types, mark as useless (set to ID 5001)
+      const uselessLocationData = {
+        locationId: 5001,
+        completed: false,
+        isEditable: true
+      };
 
-    setCurrentGame({
-      ...currentGame,
-      locations: {
-        ...currentGame.locations,
-        [location.id]: uselessLocationData
-      }
+      return {
+        ...prevGame,
+        locations: {
+          ...prevGame.locations,
+          [location.id]: uselessLocationData
+        }
+      };
     });
-  }, [currentGame, setCurrentGame]);
+  }, [currentGame?.isFinished, setCurrentGame]);
 
   // Memoize image load handler
   const handleImageLoad = useCallback((world) => (event) => {

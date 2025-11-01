@@ -1,5 +1,4 @@
-// src/components/GameTracker.jsx
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Header from './Header';
 import GameList from './GameList';
 import CreateGame from './CreateGame';
@@ -16,39 +15,46 @@ const GameTracker = () => {
   }, []);
 
   // Auto-save function that doesn't depend on stale closures
- // Auto-save function that doesn't depend on stale closures
+  // Auto-save function that doesn't depend on stale closures
   const autoSaveGame = useCallback((gameToSave) => {
     if (!gameToSave || gameToSave.isFinished) return;
 
     const updatedGame = gameService.updateGameLastSaved(gameToSave);
-    
+
     console.log('Auto-saving game:', updatedGame.name, 'Check status:', updatedGame.checkStatus);
-    
+
     setGames(prevGames => {
-      const updatedGames = prevGames.map(g => 
+      const updatedGames = prevGames.map(g =>
         g.id === gameToSave.id ? updatedGame : g
       );
       gameService.saveGames(updatedGames);
       return updatedGames;
-    });    
+    });
   }, []);
 
   useEffect(() => {
     document.title = 'Link to the Past Tracker';
   }, []);
 
-useEffect(() => {
-  if (currentGame && currentView === 'tracker' && !currentGame.isFinished) {
-    autoSaveGame(currentGame);
-  }
-}, [JSON.stringify(currentGame?.checkStatus || {}), currentView, autoSaveGame, currentGame]);
-
-  // Also auto-save when globalNotes change
   useEffect(() => {
     if (currentGame && currentView === 'tracker' && !currentGame.isFinished) {
       autoSaveGame(currentGame);
     }
-  }, [currentGame?.globalNotes, currentView, autoSaveGame]);
+  }, [JSON.stringify(currentGame?.checkStatus || {}), currentView, autoSaveGame, currentGame]);
+
+  const checkStatusRef = useRef(JSON.stringify(currentGame?.checkStatus || {}));
+
+  useEffect(() => {
+    const newCheckStatus = JSON.stringify(currentGame?.checkStatus || {});
+
+    if (checkStatusRef.current !== newCheckStatus &&
+      currentGame &&
+      currentView === 'tracker' &&
+      !currentGame.isFinished) {
+      checkStatusRef.current = newCheckStatus;
+      autoSaveGame(currentGame);
+    }
+  }, [currentGame, currentView, autoSaveGame]);
 
   // Auto-save when checkStatus changes
   useEffect(() => {
@@ -82,14 +88,14 @@ useEffect(() => {
     const game = games.find(g => g.id === gameId);
     if (!game) return;
 
-    const updatedGame = game.isFinished 
+    const updatedGame = game.isFinished
       ? gameService.markGameActive(game)
       : gameService.markGameFinished(game);
-    
-    const updatedGames = games.map(g => 
+
+    const updatedGames = games.map(g =>
       g.id === gameId ? updatedGame : g
     );
-    
+
     setGames(updatedGames);
     gameService.saveGames(updatedGames);
 
@@ -122,16 +128,16 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
-      <Header 
+      <Header
         currentView={currentView}
         currentGame={currentGame}
         games={games}
         onBackToGames={handleBackToGames}
         onImportGames={handleImportGames}
       />
-      
+
       {currentView === 'games' && (
-        <GameList 
+        <GameList
           games={games}
           onCreateGame={handleShowCreateGame}
           onLoadGame={handleLoadGame}
@@ -139,16 +145,16 @@ useEffect(() => {
           onToggleFinished={handleToggleFinished}
         />
       )}
-      
+
       {currentView === 'create' && (
-        <CreateGame 
+        <CreateGame
           onCreateGame={handleCreateGame}
           onCancel={handleBackToGames}
         />
       )}
-      
+
       {currentView === 'tracker' && (
-        <MapView 
+        <MapView
           currentGame={currentGame}
           setCurrentGame={setCurrentGame}
         />
