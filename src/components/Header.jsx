@@ -1,5 +1,5 @@
 // src/components/Header.jsx
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { Download, Upload, StickyNote } from 'lucide-react';
 import { exportImportService } from '../services/exportImportService';
 import { gameService } from '../services/gameService';
@@ -63,12 +63,11 @@ const Header = ({ currentView, currentGame, onBackToGames, games, onImportGames 
   };
 
   // Get progress stats for current game
-  const getProgressStats = () => {
+  // Get progress stats for current game - MEMOIZED
+  const progressStats = useMemo(() => {
     if (!currentGame || currentView !== 'tracker') return null;
     return gameService.getProgressStats(currentGame);
-  };
-
-  const progressStats = getProgressStats();
+  }, [currentGame?.locations, currentGame?.id, currentView]);
 
   return (
     <div className="bg-gray-800 border-b border-gray-700 px-6 py-4">
@@ -151,4 +150,14 @@ const Header = ({ currentView, currentGame, onBackToGames, games, onImportGames 
   );
 };
 
-export default Header;
+export default React.memo(Header, (prevProps, nextProps) => {
+  if (prevProps.currentView !== nextProps.currentView) return false;
+  if (prevProps.currentGame?.id !== nextProps.currentGame?.id) return false;
+  if (prevProps.currentGame?.name !== nextProps.currentGame?.name) return false;
+  if (prevProps.currentGame?.randomizerType !== nextProps.currentGame?.randomizerType) return false;
+  if (prevProps.currentGame?.isInverted !== nextProps.currentGame?.isInverted) return false;
+  if (prevProps.currentGame?.locations !== nextProps.currentGame?.locations) return false;
+  if (prevProps.games?.length !== nextProps.games?.length) return false;
+
+  return true; 
+});

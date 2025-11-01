@@ -31,11 +31,11 @@ const NotesPanel = ({ currentGame, onUpdateNotes, isReadOnly = false }) => {
 
   const handleSaveNote = (title, content) => {
     let updatedNotes;
-    
+
     if (editingNote) {
       // Edit existing note
-      updatedNotes = notes.map(note => 
-        note.id === editingNote.id 
+      updatedNotes = notes.map(note =>
+        note.id === editingNote.id
           ? { ...note, title, content, lastModified: new Date().toISOString() }
           : note
       );
@@ -50,7 +50,7 @@ const NotesPanel = ({ currentGame, onUpdateNotes, isReadOnly = false }) => {
       };
       updatedNotes = [...notes, newNote];
     }
-    
+
     onUpdateNotes(updatedNotes);
     setShowNoteModal(false);
     setEditingNote(null);
@@ -66,10 +66,9 @@ const NotesPanel = ({ currentGame, onUpdateNotes, isReadOnly = false }) => {
   return (
     <>
       {/* Notes Panel */}
-      <div className={`fixed bottom-0 right-4 bg-gray-800 border border-gray-700 rounded-t-lg shadow-lg transition-all duration-300 ${
-        isExpanded ? 'w-80 h-96' : 'w-auto h-auto'
-      }`}>
-        
+      <div className={`fixed bottom-0 right-4 bg-gray-800 border border-gray-700 rounded-t-lg shadow-lg transition-all duration-300 ${isExpanded ? 'w-80 h-96' : 'w-auto h-auto'
+        }`}>
+
         {/* Collapsed State - Clickable Button */}
         {!isExpanded && (
           <button
@@ -180,5 +179,10 @@ const NotesPanel = ({ currentGame, onUpdateNotes, isReadOnly = false }) => {
     </>
   );
 };
+export default React.memo(NotesPanel, (prevProps, nextProps) => {
+  if (prevProps.currentGame?.id !== nextProps.currentGame?.id) return false;
+  if (prevProps.currentGame?.globalNotes !== nextProps.currentGame?.globalNotes) return false;
+  if (prevProps.isReadOnly !== nextProps.isReadOnly) return false;
 
-export default NotesPanel;
+  return true;
+});
