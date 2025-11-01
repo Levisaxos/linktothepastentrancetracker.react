@@ -33,38 +33,46 @@ const GameTracker = () => {
     document.title = 'Link to the Past Tracker';
   }, []);
 
-  // Single auto-save effect that watches for any game changes
-  const previousGameRef = useRef(null);
-
+  // Single auto-save effect that watches for specific game changes
+  const previousCheckStatusRef = useRef(null);
+  const previousLocationsRef = useRef(null);
+  const previousNotesRef = useRef(null);
+  
   useEffect(() => {
     // Only auto-save if we're in tracker view and game isn't finished
     if (!currentGame || currentView !== 'tracker' || currentGame.isFinished) {
-      previousGameRef.current = null;
+      previousCheckStatusRef.current = null;
+      previousLocationsRef.current = null;
+      previousNotesRef.current = null;
       return;
     }
 
-    // Skip the very first render (when game is initially loaded)
-    if (previousGameRef.current === null) {
-      previousGameRef.current = JSON.stringify({
-        checkStatus: currentGame.checkStatus,
-        locations: currentGame.locations,
-        globalNotes: currentGame.globalNotes
-      });
+    // Check if this is the first render (when game is initially loaded)
+    const isFirstRender = previousCheckStatusRef.current === null;
+    
+    if (isFirstRender) {
+      // Store initial state without saving
+      previousCheckStatusRef.current = currentGame.checkStatus;
+      previousLocationsRef.current = currentGame.locations;
+      previousNotesRef.current = currentGame.globalNotes;
       return;
     }
 
-    // Check if anything actually changed
-    const currentData = JSON.stringify({
-      checkStatus: currentGame.checkStatus,
-      locations: currentGame.locations,
-      globalNotes: currentGame.globalNotes
-    });
+    // Check if anything actually changed by comparing references
+    const checkStatusChanged = previousCheckStatusRef.current !== currentGame.checkStatus;
+    const locationsChanged = previousLocationsRef.current !== currentGame.locations;
+    const notesChanged = previousNotesRef.current !== currentGame.globalNotes;
 
-    if (previousGameRef.current !== currentData) {
-      previousGameRef.current = currentData;
+    if (checkStatusChanged || locationsChanged || notesChanged) {
+      // Update refs
+      previousCheckStatusRef.current = currentGame.checkStatus;
+      previousLocationsRef.current = currentGame.locations;
+      previousNotesRef.current = currentGame.globalNotes;
+      
+      // Trigger save
       autoSaveGame(currentGame);
     }
-  }, [currentGame, currentView, autoSaveGame]);
+  }, [currentGame, currentView, autoSaveGame]);;
 
   const handleCreateGame = (gameData) => {
     const newGame = gameService.createGame(gameData);

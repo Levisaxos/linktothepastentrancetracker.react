@@ -1,5 +1,5 @@
 // src/components/LocationModal.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { X } from 'lucide-react';
 import { locationTypes } from '../data/locationTypes';
 import { locationResolverService } from '../services/locationResolverService';
@@ -18,11 +18,21 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
 
   const locationWorld = getLocationWorld();
 
-  // Get available options based on current game state
-  const availableDungeons = locationResolverService.getAvailableDungeons(currentGame, location.id, locationWorld);
-  const availableConnectors = locationResolverService.getAvailableConnectors(currentGame, location.id);
-  const availableSpecialLocations = locationResolverService.getAvailableSpecialLocations(currentGame, location.id);
+  // Get available options based on current game state - MEMOIZED
+  const availableDungeons = useMemo(() =>
+    locationResolverService.getAvailableDungeons(currentGame, location.id, locationWorld),
+    [currentGame?.locations, location.id, locationWorld]
+  );
 
+  const availableConnectors = useMemo(() =>
+    locationResolverService.getAvailableConnectors(currentGame, location.id),
+    [currentGame?.locations, location.id]
+  );
+
+  const availableSpecialLocations = useMemo(() =>
+    locationResolverService.getAvailableSpecialLocations(currentGame, location.id),
+    [currentGame?.locations, location.id]
+  );
   // Get available location types based on randomizer mode
   const getAvailableLocationTypes = () => {
     const { static: _, dungeonCompleted: __, ...allTypes } = locationTypes;
@@ -185,8 +195,8 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
                   key={key}
                   onClick={() => handleTypeChange(key)}
                   className={`p-3 rounded border text-left ${selectedType === key
-                      ? `${type.color} border-white`
-                      : 'bg-gray-700 border-gray-600 hover:border-gray-500'
+                    ? `${type.color} border-white`
+                    : 'bg-gray-700 border-gray-600 hover:border-gray-500'
                     }`}
                 >
                   <div className="font-medium">{type.name}</div>
