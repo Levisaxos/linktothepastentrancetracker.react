@@ -158,7 +158,7 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
   const isSaveDisabled = () => {
     if (selectedType === 'dungeon' && availableDungeons.length === 0) return true;
     if (selectedType === 'connector' && availableConnectors.length === 0) return true;
-    if (selectedType === 'useful' && availableSpecialLocations.length === 0) return true;
+    if (selectedType === 'location' && availableSpecialLocations.length === 0) return true;
     if (selectedType === 'useless') return false; // Useless is always available
     return !selectedLocationId;
   };

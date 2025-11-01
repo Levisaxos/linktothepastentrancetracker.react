@@ -61,7 +61,7 @@ export const locationResolverService = {
       const usefulLocation = getUsefulLocationById(locationId);
       if (usefulLocation) {
         return {
-          type: 'useful',
+          type: 'location',
           displayValue: usefulLocation.display,
           description: usefulLocation.name
         };
