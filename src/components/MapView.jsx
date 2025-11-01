@@ -6,6 +6,7 @@ import NotesPanel from './NotesPanel';
 import { mapData } from '../data/mapData';
 import { locationResolverService } from '../services/locationResolverService';
 import { IMAGE_PATHS } from '../constants/imagePaths';
+import { getStaticLocationData, restoreStaticLocation } from '../data/staticLocationData';
 
 // Memoized WorldMap component to prevent unnecessary re-renders
 const WorldMap = React.memo(({
@@ -183,8 +184,6 @@ const MapView = ({ currentGame, setCurrentGame }) => {
 
       if (currentStatus === newStatus) return prevGame;
 
-      console.log('Toggling check:', checkId, 'from', currentStatus, 'to', newStatus);
-
       return {
         ...prevGame,
         checkStatus: {
@@ -263,48 +262,43 @@ const MapView = ({ currentGame, setCurrentGame }) => {
 
     setCurrentGame(prevGame => {
       const locationData = prevGame?.locations[location.id];
-      const isLocationEditable = locationData?.isEditable !== false;
 
-      if (!isLocationEditable) return prevGame;
+      // If no location data exists, can't mark as useless
+      if (!locationData) return prevGame;
 
-      // Special handling for dungeon locations
-      if (locationData && locationData.locationId) {
+      // Check if this is a dungeon - toggle completion instead of useless
+      if (locationData.locationId) {
         const resolvedData = locationResolverService.resolveLocationById(locationData.locationId);
 
         if (resolvedData && resolvedData.type === 'dungeon') {
-          // Right-click on dungeon = toggle completion state
-          const newLocationData = {
-            ...locationData,
-            completed: !locationData.completed
-          };
-
+          // Toggle dungeon completion state
           return {
             ...prevGame,
             locations: {
               ...prevGame.locations,
-              [location.id]: newLocationData
+              [location.id]: {
+                ...locationData,
+                completed: !locationData.completed
+              }
             }
           };
         }
       }
 
-      // For all other location types, mark as useless (set to ID 5001)
-      const uselessLocationData = {
-        locationId: 5001,
-        completed: false,
-        isEditable: true
-      };
-
+      // For all other locations, toggle the markedUseless flag
       return {
         ...prevGame,
         locations: {
           ...prevGame.locations,
-          [location.id]: uselessLocationData
+          [location.id]: {
+            ...locationData,
+            markedUseless: !locationData.markedUseless
+          }
         }
       };
     });
   }, [currentGame?.isFinished, setCurrentGame]);
-
+  
   // Memoize image load handler
   const handleImageLoad = useCallback((world) => (event) => {
     const img = event.target;

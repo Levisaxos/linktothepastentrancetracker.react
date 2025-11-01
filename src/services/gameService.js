@@ -1,5 +1,5 @@
-// src/services/gameService.js
 import { mapData } from '../data/mapData';
+import { applyStaticLocations } from '../data/staticLocationData';
 
 export const gameService = {
   // Store checkStatus at game level, not location level
@@ -15,9 +15,9 @@ export const gameService = {
       finishedDate: null,
       locations: {},
       globalNotes: [],
-      checkStatus: {} // Store checks at game level, keyed by group identifier
+      checkStatus: {}
     };
-    
+
     // Apply default locations based on randomizer type
     if (gameData.randomizerType === 'Vanilla') {
       newGame.locations = gameService.getDefaultLocations();
@@ -25,9 +25,11 @@ export const gameService = {
       newGame.locations = gameService.getDungeonsSimpleLocations();
     }
 
+    // Apply static locations (these override any defaults and are locked)
+    newGame.locations = applyStaticLocations(newGame);
+
     return newGame;
   },
-
   getDefaultLocations: () => {
     const locations = {};
 

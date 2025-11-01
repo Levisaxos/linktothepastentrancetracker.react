@@ -1,19 +1,69 @@
 // src/components/LocationHoverTooltip.jsx
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { locationResolverService } from '../services/locationResolverService';
 import { locationTypes } from '../data/locationTypes';
 import { getCheckSpriteById } from '../data/checkData';
 
 const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck, checkStatusVersion }) => {
+  const tooltipRef = useRef(null);
+  const [adjustedPosition, setAdjustedPosition] = useState({ x: position.x, y: position.y });
+  // Calculate adjusted position to keep tooltip in bounds
+  useEffect(() => {
+    if (!isVisible || !tooltipRef.current || !position.x || !position.y) return;
+
+    const tooltip = tooltipRef.current;
+    const rect = tooltip.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const padding = 10; // Padding from viewport edges
+
+    let newX = position.x;
+    let newY = position.y;
+
+    // Default positioning: centered horizontally, above the button
+    let translateX = '-50%';
+    let translateY = 'calc(-100% - 12px)';
+
+    // Check if tooltip goes off the right edge
+    if (newX + rect.width / 2 > viewportWidth - padding) {
+      newX = viewportWidth - rect.width / 2 - padding;
+      translateX = '-50%';
+    }
+
+    // Check if tooltip goes off the left edge
+    if (newX - rect.width / 2 < padding) {
+      newX = rect.width / 2 + padding;
+      translateX = '-50%';
+    }
+
+    // Check if tooltip goes off the top edge
+    const wouldBeTop = newY - rect.height - 12;
+    if (wouldBeTop < padding) {
+      // Not enough space above, position below the button instead
+      translateY = '12px'; // Small gap below the button
+      newY = position.y;
+    }
+
+    // Check if tooltip would go off the bottom when positioned below
+    const wouldBeBottom = newY + rect.height + 12;
+    if (translateY === '12px' && wouldBeBottom > viewportHeight - padding) {
+      // Not enough space below either, stick to top of viewport
+      newY = rect.height / 2 + padding;
+      translateY = '-50%';
+    }
+
+    setAdjustedPosition({ x: newX, y: newY, translateX, translateY });
+  }, [isVisible, position.x, position.y]);
+
   if (!isVisible || !position.x || !position.y) return null;
 
   console.log('=== TOOLTIP RENDER ===', location?.name);
   console.log('Full checkStatus:', currentGame?.checkStatus);
-  
+
   const handleCheckClick = (checkId, e) => {
     e.stopPropagation();
-    e.preventDefault(); // Prevent context menu
+    e.preventDefault();
 
     if (onToggleCheck) {
       const isRightClick = e.button === 2 || e.type === 'contextmenu';
@@ -21,9 +71,18 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
     }
   };
 
-
-  // Resolve location data to get display information
   const getLocationInfo = () => {
+    // Check if marked as useless first
+    if (locationData?.markedUseless) {
+      return {
+        type: 'Marked Useless',
+        description: 'This location has been marked as not useful',
+        linkedLocationName: 'Marked as Useless',
+        color: 'text-red-400',
+        bgColor: 'bg-red-900'
+      };
+    }
+
     if (!locationData?.locationId) {
       return {
         type: 'Unassigned',
@@ -78,12 +137,6 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
         color = locationData.completed ? 'text-red-300' : 'text-purple-300';
         bgColor = locationData.completed ? 'bg-red-900' : 'bg-purple-600';
         break;
-      case 'useless':
-        typeDisplay = 'Useless Location';
-        linkedLocationName = 'Nothing Useful';
-        description = 'This location has been marked as not useful';
-        color = 'text-red-400';
-        break;
       default:
         typeDisplay = 'Unknown';
         description = 'Unknown location type';
@@ -94,21 +147,20 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
   };
 
   const locationInfo = getLocationInfo();
-
-  // Minimal tooltip for unassigned and useless locations
-  const isMinimal = !locationInfo.linkedLocationName || locationInfo.type === 'Useless Location';
+  const isMinimal = !locationInfo.linkedLocationName || locationInfo.type === 'Marked Useless';
 
   const tooltipContent = (
     <div
+      ref={tooltipRef}
       key={`${JSON.stringify(currentGame?.checkStatus || {})}-${checkStatusVersion}`}
       className="bg-gray-900 border-2 border-gray-600 rounded-lg shadow-2xl"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       style={{
         position: 'fixed',
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        transform: 'translate(-50%, calc(-100% - 12px))',
+        left: `${adjustedPosition.x}px`,
+        top: `${adjustedPosition.y}px`,
+        transform: `translate(${adjustedPosition.translateX || '-50%'}, ${adjustedPosition.translateY || 'calc(-100% - 12px)'})`,
         zIndex: 999999,
         pointerEvents: 'auto',
         minWidth: isMinimal ? '180px' : '220px',
@@ -117,21 +169,18 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
     >
       <div className="p-4">
         {isMinimal ? (
-          // Minimal view for unassigned/useless
           <>
             <div className="font-bold text-base mb-2 text-gray-400">
               {location?.name || 'Unknown Location'}
             </div>
             <div className="text-xs text-gray-500">
-              {locationInfo.type === 'Useless Location'
+              {locationInfo.type === 'Marked Useless'
                 ? '• Right click to unmark'
                 : '• Click to assign location'}
             </div>
           </>
         ) : (
-          // Full view for assigned locations
           <>
-            {/* Title showing connection */}
             <div className="font-bold text-lg mb-3 text-blue-300 border-b border-gray-700 pb-2">
               <div className="text-sm text-gray-400 mb-1">{location?.name || 'Unknown Location'}</div>
               <div className="flex items-center gap-1">
@@ -140,13 +189,10 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
               </div>
             </div>
 
-            {/* Location Description */}
             <div className={`text-sm ${locationInfo.color} mb-3`}>
               {locationInfo.description}
             </div>
 
-            {/* ADD THIS CHECKS SECTION HERE */}
-            {/* Checks Section */}
             {(() => {
               const locationId = locationData?.locationId;
               const checks = locationId ? locationResolverService.getLocationChecks(locationId) : [];
@@ -182,9 +228,15 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
               return null;
             })()}
 
-            {/* Controls Hint */}
             <div className="text-xs text-gray-500 pt-2 border-t border-gray-700">
-              {locationData?.isEditable !== false ? (
+              {locationData?.markedUseless ? (
+                <>
+                  <div>• Right click to unmark as useless</div>
+                  {locationData?.isEditable !== false && (
+                    <div>• Left click to edit location</div>
+                  )}
+                </>
+              ) : locationData?.isEditable !== false ? (
                 <>
                   <div>• Left click to edit</div>
                   {locationData?.locationId && locationResolverService.resolveLocationById(locationData.locationId)?.type === 'dungeon' ? (
@@ -194,7 +246,10 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
                   )}
                 </>
               ) : (
-                <div>• Location is locked (read-only)</div>
+                <>
+                  <div>• Location is locked</div>
+                  <div>• Right click to mark useless</div>
+                </>
               )}
             </div>
           </>

@@ -14,16 +14,22 @@ const LocationButton = React.memo(({
   currentGame,
   onToggleCheck
 }) => {
-  console.log('=== LOCATION BUTTON RENDER ===', location.name);
-  console.log('Current checkStatus:', currentGame?.checkStatus);
 
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const hideTimeoutRef = useRef(null);
 
-  // Memoize the location display calculation
   const display = useMemo(() => {
     let resolvedData = null;
+
+    // Check if marked as useless - if so, show useless state regardless of actual location
+    if (locationData?.markedUseless) {
+      return {
+        text: '',
+        color: 'bg-red-900',
+        size: 'w-4 h-4 text-xs'
+      };
+    }
 
     // Only show user-set location data, not defaults
     if (locationData) {
@@ -38,6 +44,7 @@ const LocationButton = React.memo(({
       }
     }
 
+    // ... rest of the existing display logic stays the same
     if (!resolvedData) {
       return null;
     }
@@ -96,11 +103,9 @@ const LocationButton = React.memo(({
     };
   }, [location.x, location.y, imageDimensions]);
 
-  // Check if location is editable
-  const isLocationEditable = !locationData || locationData.isEditable !== false;
-  const canEdit = !isReadOnly && isLocationEditable;
+  const canLeftClick = !isReadOnly && (!locationData || locationData.isEditable !== false);
+  const canRightClick = !isReadOnly;
 
-  // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (hideTimeoutRef.current) {
@@ -108,25 +113,17 @@ const LocationButton = React.memo(({
       }
     };
   }, []);
-  const checkStatusVersion = useMemo(() => {
-    if (!locationData?.locationId) return 0;
-    const checks = locationResolverService.getLocationChecks(locationData.locationId);
-    const checkStatus = currentGame?.checkStatus || {};
-    return checks.reduce((sum, check) => sum + (checkStatus[check.id] ? 1 : 0), 0);
-  }, [locationData?.locationId, currentGame?.checkStatus]);
-  // Early return after all hooks
+  
   if (!imageDimensions || !position) return null;
 
   const handleMouseEnter = (e) => {
     e.stopPropagation();
 
-    // Clear any pending hide timeout
     if (hideTimeoutRef.current) {
       clearTimeout(hideTimeoutRef.current);
       hideTimeoutRef.current = null;
     }
 
-    // Only update position if this is from the button, not from the tooltip
     if (e.currentTarget.tagName === 'BUTTON') {
       const rect = e.currentTarget.getBoundingClientRect();
       setTooltipPosition({
@@ -162,12 +159,12 @@ const LocationButton = React.memo(({
           onMouseUp={(e) => {
             e.stopPropagation();
 
-            if (e.button === 0) { // Left click
-              if (canEdit && onClick) {
+            if (e.button === 0) {
+              if (canLeftClick && onClick) {
                 onClick();
               }
-            } else if (e.button === 2) { // Right click
-              if (canEdit && onRightClick) {
+            } else if (e.button === 2) {
+              if (canRightClick && onRightClick) {
                 onRightClick();
               }
             }
@@ -179,12 +176,12 @@ const LocationButton = React.memo(({
           className={`border-2 border-gray-500 rounded flex items-center justify-center font-bold transition-colors ${display
             ? `${display.color} text-white ${display.size}`
             : 'w-6 h-6 bg-gray-600 hover:bg-gray-500 text-white text-xs'
-            } ${canEdit ? 'cursor-pointer hover:border-white' : 'opacity-75 cursor-default'}`}
+            } ${canLeftClick ? 'cursor-pointer hover:border-white' : 'opacity-75 cursor-default'}`}
           style={{
             zIndex: 10,
             pointerEvents: 'auto'
           }}
-          title={`${location.name}${!isLocationEditable ? ' (Locked)' : ''}`}
+          title={`${location.name}${!canLeftClick ? ' (Locked)' : ''}`}
         >
           {display ? display.text : '?'}
         </button>
@@ -210,37 +207,36 @@ const LocationButton = React.memo(({
   if (prevProps.imageDimensions !== nextProps.imageDimensions) return false;
   if (prevProps.isReadOnly !== nextProps.isReadOnly) return false;
   if (prevProps.currentGame?.id !== nextProps.currentGame?.id) return false;
-  
+
   // Get the locationId to check which checks belong to this location
   const locationId = nextProps.locationData?.locationId;
-  
+
   if (!locationId) {
     // No location assigned, only re-render if other props changed
     return true;
   }
-  
+
   // Get all checks for this specific location
   const checks = locationResolverService.getLocationChecks(locationId);
-  
+
   if (checks.length === 0) {
     // No checks for this location, only re-render if other props changed
     return true;
   }
-  
+
   // Check if ANY of this location's checks changed status
   const prevCheckStatus = prevProps.currentGame?.checkStatus || {};
   const nextCheckStatus = nextProps.currentGame?.checkStatus || {};
-  
+
   for (const check of checks) {
     const prevStatus = prevCheckStatus[check.id] || false;
     const nextStatus = nextCheckStatus[check.id] || false;
-    
+
     if (prevStatus !== nextStatus) {
-      console.log(`Check ${check.id} status changed: ${prevStatus} -> ${nextStatus}, re-rendering button for ${nextProps.location.name}`);
       return false; // Status changed, need to re-render
     }
   }
-  
+
   // No relevant changes, skip re-render
   return true;
 });
