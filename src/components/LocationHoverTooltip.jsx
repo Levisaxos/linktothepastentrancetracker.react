@@ -8,22 +8,25 @@ import { getCheckSpriteById } from '../data/checkData';
 const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck, checkStatusVersion }) => {
   const tooltipRef = useRef(null);
   const [adjustedPosition, setAdjustedPosition] = useState({ x: position.x, y: position.y });
+
   // Calculate adjusted position to keep tooltip in bounds
   useEffect(() => {
     if (!isVisible || !tooltipRef.current || !position.x || !position.y) return;
 
+    console.log(locationData);
     const tooltip = tooltipRef.current;
     const rect = tooltip.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const padding = 10; // Padding from viewport edges
+    const buttonHeight = locationData == null ? 24 : locationData.markedUseless ? 16 : 32; // Approximate button height
 
     let newX = position.x;
     let newY = position.y;
 
-    // Default positioning: centered horizontally, above the button
+    // Default positioning: centered horizontally, above the button (flush)
     let translateX = '-50%';
-    let translateY = 'calc(-100% - 12px)';
+    let translateY = '-100%';
 
     // Check if tooltip goes off the right edge
     if (newX + rect.width / 2 > viewportWidth - padding) {
@@ -38,19 +41,20 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
     }
 
     // Check if tooltip goes off the top edge
-    const wouldBeTop = newY - rect.height - 12;
+    const wouldBeTop = newY - rect.height;
     if (wouldBeTop < padding) {
       // Not enough space above, position below the button instead
-      translateY = '12px'; // Small gap below the button
+      // Add buttonHeight to position below the button, not on top of it
+      translateY = `${buttonHeight}px`;
       newY = position.y;
     }
 
     // Check if tooltip would go off the bottom when positioned below
-    const wouldBeBottom = newY + rect.height + 12;
-    if (translateY === '12px' && wouldBeBottom > viewportHeight - padding) {
-      // Not enough space below either, stick to top of viewport
-      newY = rect.height / 2 + padding;
-      translateY = '-50%';
+    const wouldBeBottom = newY + buttonHeight + rect.height;
+    if (translateY === `${buttonHeight}px` && wouldBeBottom > viewportHeight - padding) {
+      // Not enough space below either, stick to top of viewport (flush)
+      translateY = '0';
+      newY = padding;
     }
 
     setAdjustedPosition({ x: newX, y: newY, translateX, translateY });
@@ -58,8 +62,6 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
 
   if (!isVisible || !position.x || !position.y) return null;
 
-  console.log('=== TOOLTIP RENDER ===', location?.name);
-  console.log('Full checkStatus:', currentGame?.checkStatus);
 
   const handleCheckClick = (checkId, e) => {
     e.stopPropagation();
@@ -72,14 +74,51 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
   };
 
   const getLocationInfo = () => {
-    // Check if marked as useless first
+    console.log(locationData);
+    if (locationData?.markedUseless && locationData?.locationId) {
+      const resolvedData = locationResolverService.resolveLocationById(
+        locationData.locationId,
+        locationData.completed
+      );
+
+      if (resolvedData) {
+        const type = locationTypes[resolvedData.type];
+        let linkedLocationName = null;
+
+        switch (resolvedData.type) {
+          case 'location':
+            linkedLocationName = resolvedData.description || resolvedData.displayValue;
+            break;
+          case 'connector':
+            linkedLocationName = resolvedData.name;
+            break;
+          case 'dungeon':
+            linkedLocationName = resolvedData.fullName;
+            break;
+          default:
+            linkedLocationName = 'Unknown';
+        }
+
+        return {
+          type: 'Marked Useless',
+          description: 'This location has been marked as done',
+          linkedLocationName: linkedLocationName,
+          color: 'text-red-400',
+          bgColor: 'bg-red-900',
+          isMarkedUseless: true
+        };
+      }
+    }
+
+    // If marked useless but no location data, show minimal info
     if (locationData?.markedUseless) {
       return {
         type: 'Marked Useless',
-        description: 'This location has been marked as not useful',
-        linkedLocationName: 'Marked as Useless',
+        description: 'This location has been marked as done',
+        linkedLocationName: null,
         color: 'text-red-400',
-        bgColor: 'bg-red-900'
+        bgColor: 'bg-red-900',
+        isMarkedUseless: true
       };
     }
 
@@ -93,13 +132,12 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
       };
     }
 
-    const chestCount = locationData.chestCount || 1;
     const resolvedData = locationResolverService.resolveLocationById(
       locationData.locationId,
       locationData.completed,
-      chestCount
     );
 
+    console.log(resolvedData)
     if (!resolvedData) {
       return {
         type: 'Unknown',
@@ -116,9 +154,9 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
     let linkedLocationName = null;
     let color = 'text-white';
     let bgColor = type?.color || 'bg-gray-700';
-
+    console.log(resolvedData.type);
     switch (resolvedData.type) {
-      case 'useful':
+      case 'location':
         typeDisplay = 'Useful Item';
         linkedLocationName = resolvedData.description || resolvedData.displayValue;
         description = `Contains: ${resolvedData.displayValue}`;
@@ -131,6 +169,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
         color = 'text-yellow-300';
         break;
       case 'dungeon':
+      case 'dungeonCompleted':
         typeDisplay = locationData.completed ? 'Dungeon (Completed)' : 'Dungeon (Active)';
         linkedLocationName = resolvedData.fullName;
         description = locationData.completed ? 'This dungeon has been completed' : 'This dungeon is still active';
@@ -147,7 +186,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
   };
 
   const locationInfo = getLocationInfo();
-  const isMinimal = !locationInfo.linkedLocationName || locationInfo.type === 'Marked Useless';
+  const isMinimal = !locationInfo.linkedLocationName;
 
   const tooltipContent = (
     <div
@@ -174,7 +213,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
               {location?.name || 'Unknown Location'}
             </div>
             <div className="text-xs text-gray-500">
-              {locationInfo.type === 'Marked Useless'
+              {locationInfo.isMarkedUseless
                 ? '• Right click to unmark'
                 : '• Click to assign location'}
             </div>
@@ -198,7 +237,8 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
               const checks = locationId ? locationResolverService.getLocationChecks(locationId) : [];
               const checkStatus = currentGame?.checkStatus || {};
 
-              if (checks.length > 0) {
+              // Don't show checks if location is marked useless
+              if (checks.length > 0 && !locationInfo.isMarkedUseless && !locationData.completed) {
                 return (
                   <div className="pt-2 border-t border-gray-700 mb-3">
                     <div className="text-xs text-gray-400 mb-2">
@@ -229,16 +269,16 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
             })()}
 
             <div className="text-xs text-gray-500 pt-2 border-t border-gray-700">
-              {locationData?.markedUseless ? (
+              {locationInfo.isMarkedUseless ? (
                 <>
                   <div>• Right click to unmark as useless</div>
-                  {locationData?.isEditable !== false && (
+                  {locationData?.isEditable !== false && locationData?.isMarkedUseless && (
                     <div>• Left click to edit location</div>
                   )}
                 </>
               ) : locationData?.isEditable !== false ? (
                 <>
-                  <div>• Left click to edit</div>
+                  {!locationData?.completed && (<div>• Left click to edit</div>)}
                   {locationData?.locationId && locationResolverService.resolveLocationById(locationData.locationId)?.type === 'dungeon' ? (
                     <div>• Right click to toggle completion</div>
                   ) : (

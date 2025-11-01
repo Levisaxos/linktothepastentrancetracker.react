@@ -109,7 +109,7 @@ export const gameService = {
 
   getProgressStats: (game, totalLocations = 147) => {
     const markedLocations = Object.keys(game.locations || {}).length;
-    const usefulLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'useful').length;
+    const usefulLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'location').length;
     const connectorLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'connector').length;
     const dungeonLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'dungeon').length;
     const uselessLocations = Object.values(game.locations || {}).filter(loc => loc.type === 'useless').length;
@@ -118,7 +118,7 @@ export const gameService = {
       total: totalLocations,
       marked: markedLocations,
       unmarked: totalLocations - markedLocations,
-      useful: usefulLocations,
+      location: usefulLocations,
       connector: connectorLocations,
       dungeon: dungeonLocations,
       useless: uselessLocations,

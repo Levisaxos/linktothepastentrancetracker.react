@@ -2,8 +2,8 @@
 
 export const staticLocationSets = {
     ALWAYS: [
-        { mapLocationId: '1', locationTypeId: 3014 },
-        { mapLocationId: '18', locationTypeId: 4004},
+        { mapLocationId: 1, locationTypeId: 3014 },
+        { mapLocationId: 18, locationTypeId: 4004 },
     ],
     VANILLA: [],
     DUNGEONS_SIMPLE: [],
@@ -74,8 +74,8 @@ export const restoreStaticLocation = (mapLocationId, randomizerType) => {
         locationId: staticData.locationTypeId,
         completed: false,
         isEditable: false,
-        isStatic: true,
-        chestCount: staticData.chestCount || 1
+        isStatic: true
+        
     };
 };
 

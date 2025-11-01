@@ -2,7 +2,7 @@
 import { Package, Link, Castle, X } from 'lucide-react';
 
 export const locationTypes = {
-  useful: { name: 'Useful', icon: Package, color: 'bg-green-600', prefix: 'C' },
+  location: { name: 'Location', icon: Package, color: 'bg-green-600', prefix: 'C' },
   connector: { name: 'Connector', icon: Link, color: 'bg-yellow-600', prefix: '#' },
   dungeon: { name: 'Dungeon', icon: Castle, color: 'bg-purple-600', prefix: '' },
   dungeonCompleted: { name: 'Dungeon Completed', icon: Castle, color: 'bg-red-900', prefix: '' },
@@ -102,9 +102,6 @@ export const connectorData = [
 
 // Normalized useful location data
 export const usefulLocationData = [
-  // Chest location - special case with ID 4001
-  { id: 4001, type: 'chests', display: 'C', name: 'Chests (1-5)' },
-
   // Non-chest useful locations with numeric IDs
   { id: 3001, type: 'special', value: 'MC', display: 'MC', name: 'Mimic Cave' },
   { id: 3002, type: 'special', value: 'D', display: 'D', name: 'Dam' },

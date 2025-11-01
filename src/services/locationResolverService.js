@@ -19,17 +19,8 @@ export const locationResolverService = {
    * @param {number} chestCount - The chest count (only used for chest locations)
    * @returns {Object} - Resolved location data
    */
-  resolveLocationById(locationId, completed = false, chestCount = 1) {
-    if (!locationId) return null;
-
-    // Special case for chest location (ID 4001)
-    if (locationId === 4001) {
-      return {
-        type: 'useful',
-        displayValue: `C${chestCount}`,
-        description: `${chestCount} Chest${chestCount > 1 ? 's' : ''}`
-      };
-    }
+  resolveLocationById(locationId, completed = false) {
+    if (!locationId) return null;  
 
     // Special case for useless location (ID 5001)
     if (locationId === 5001) {

@@ -194,7 +194,7 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     });
   }, [currentGame?.isFinished, setCurrentGame]);
 
-  const handleLocationUpdate = useCallback((locationIdOrSpecial, completed = false, chestCount = 1) => {
+  const handleLocationUpdate = useCallback((locationIdOrSpecial, completed = false) => {
     if (currentGame?.isFinished) return;
 
     setCurrentGame(prevGame => {
@@ -214,24 +214,12 @@ const MapView = ({ currentGame, setCurrentGame }) => {
         };
       }
 
-      let locationData;
-
-      // Handle chest locations (ID 4001)
-      if (locationIdOrSpecial === 4001) {
-        locationData = {
-          locationId: 4001,
-          chestCount: chestCount,
-          completed: false,
-          isEditable: true
-        };
-      } else {
-        // Handle normal ID-based locations
-        locationData = {
-          locationId: locationIdOrSpecial,
-          completed: completed || false,
-          isEditable: true
-        };
-      }
+      // Handle normal ID-based locations
+      const locationData = {
+        locationId: locationIdOrSpecial,
+        completed: completed || false,
+        isEditable: true
+      };
 
       return {
         ...prevGame,
@@ -263,8 +251,19 @@ const MapView = ({ currentGame, setCurrentGame }) => {
     setCurrentGame(prevGame => {
       const locationData = prevGame?.locations[location.id];
 
-      // If no location data exists, can't mark as useless
-      if (!locationData) return prevGame;
+      // If no location data exists, create a new entry marked as useless
+      if (!locationData) {
+        return {
+          ...prevGame,
+          locations: {
+            ...prevGame.locations,
+            [location.id]: {
+              markedUseless: true,
+              isEditable: true
+            }
+          }
+        };
+      }
 
       // Check if this is a dungeon - toggle completion instead of useless
       if (locationData.locationId) {
@@ -298,7 +297,7 @@ const MapView = ({ currentGame, setCurrentGame }) => {
       };
     });
   }, [currentGame?.isFinished, setCurrentGame]);
-  
+
   // Memoize image load handler
   const handleImageLoad = useCallback((world) => (event) => {
     const img = event.target;

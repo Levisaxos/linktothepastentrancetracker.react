@@ -33,13 +33,10 @@ const LocationButton = React.memo(({
 
     // Only show user-set location data, not defaults
     if (locationData) {
-      if (locationData.locationId) {
-        // ID-based location (dungeons, connectors, special useful, chests)
-        const chestCount = locationData.chestCount || 1;
+      if (locationData.locationId) {        
         resolvedData = locationResolverService.resolveLocationById(
           locationData.locationId,
           locationData.completed,
-          chestCount
         );
       }
     }
@@ -66,7 +63,7 @@ const LocationButton = React.memo(({
     let color = type.color;
 
     switch (resolvedData.type) {
-      case 'useful':
+      case 'location':
         displayText = resolvedData.displayValue;
         break;
       case 'connector':
@@ -103,7 +100,7 @@ const LocationButton = React.memo(({
     };
   }, [location.x, location.y, imageDimensions]);
 
-  const canLeftClick = !isReadOnly && (!locationData || locationData.isEditable !== false);
+  const canLeftClick = !isReadOnly && (!locationData || locationData.isEditable !== false) && !locationData?.markedUseless && !locationData?.completed;
   const canRightClick = !isReadOnly;
 
   useEffect(() => {

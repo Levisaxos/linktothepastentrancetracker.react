@@ -7,10 +7,8 @@ import { mapData } from '../data/mapData';
 import SelectDropdown from './SelectDropdown';
 
 const LocationModal = ({ location, locationData, currentGame, onClose, onSave }) => {
-  const [selectedType, setSelectedType] = useState('useful');
+  const [selectedType, setSelectedType] = useState('location');
   const [selectedLocationId, setSelectedLocationId] = useState(null);
-  const [selectedUsefulType, setSelectedUsefulType] = useState('special');
-  const [selectedChestCount, setSelectedChestCount] = useState('1');
 
   // Determine which world this location is in
   const getLocationWorld = () => {
@@ -52,24 +50,11 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
   useEffect(() => {
     if (locationData) {
       if (locationData.locationId) {
-        // Special case for chest location (ID 4001)
-        if (locationData.locationId === 4001) {
-          setSelectedType('useful');
-          setSelectedUsefulType('chests');
-          setSelectedLocationId(4001);
-          setSelectedChestCount((locationData.chestCount || 1).toString());
-        } else {
-          // ID-based location
-          const resolvedData = locationResolverService.resolveLocationById(locationData.locationId, locationData.completed);
+        const resolvedData = locationResolverService.resolveLocationById(locationData.locationId, locationData.completed);
 
-          if (resolvedData) {
-            setSelectedType(resolvedData.type === 'dungeonCompleted' ? 'dungeon' : resolvedData.type);
-            setSelectedLocationId(locationData.locationId);
-
-            if (resolvedData.type === 'useful') {
-              setSelectedUsefulType('special');
-            }
-          }
+        if (resolvedData) {
+          setSelectedType(resolvedData.type === 'dungeonCompleted' ? 'dungeon' : resolvedData.type);
+          setSelectedLocationId(locationData.locationId);
         }
       }
     } else {
@@ -84,10 +69,8 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
         setSelectedLocationId(availableDungeons[0].id);
       } else if (selectedType === 'connector' && availableConnectors.length > 0) {
         setSelectedLocationId(availableConnectors[0].id);
-      } else if (selectedType === 'useful' && selectedUsefulType === 'special' && availableSpecialLocations.length > 0) {
+      } else if (selectedType === 'location' && availableSpecialLocations.length > 0) {
         setSelectedLocationId(availableSpecialLocations[0].id);
-      } else if (selectedType === 'useful' && selectedUsefulType === 'chests') {
-        setSelectedLocationId(4001);
       }
     }
   }, []); // Only run once when modal opens
@@ -101,34 +84,15 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
       setSelectedLocationId(availableDungeons[0].id);
     } else if (newType === 'connector' && availableConnectors.length > 0) {
       setSelectedLocationId(availableConnectors[0].id);
-    } else if (newType === 'useful') {
-      if (selectedUsefulType === 'special' && availableSpecialLocations.length > 0) {
-        setSelectedLocationId(availableSpecialLocations[0].id);
-      }
-      // For chests, no locationId needed
-    } else {
-      setSelectedLocationId(null);
-    }
-  };
-
-  // Handle useful type change
-  const handleUsefulTypeChange = (newUsefulType) => {
-    setSelectedUsefulType(newUsefulType);
-
-    if (newUsefulType === 'special' && availableSpecialLocations.length > 0) {
+    } else if (newType === 'location' && availableSpecialLocations.length > 0) {
       setSelectedLocationId(availableSpecialLocations[0].id);
-    } else if (newUsefulType === 'chests') {
-      setSelectedLocationId(4001); // Special chest ID
     } else {
       setSelectedLocationId(null);
     }
   };
 
   const handleSave = () => {
-    if (selectedType === 'useful' && selectedUsefulType === 'chests') {
-      // For chest locations - use special ID 4001 with chest count
-      onSave(4001, false, parseInt(selectedChestCount, 10));
-    } else if (selectedType === 'useless') {
+    if (selectedType === 'useless') {
       // For useless locations - use special ID 5001
       onSave(5001, false);
     } else if (selectedLocationId) {
@@ -143,67 +107,18 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
 
   const renderValueInput = () => {
     switch (selectedType) {
-      case 'useful':
+      case 'location':
         return (
-          <div className="space-y-4">
-            {/* Location Type Selection */}
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => handleUsefulTypeChange('chests')}
-                className={`p-3 rounded border text-left ${selectedUsefulType === 'chests'
-                    ? 'bg-green-600 border-white'
-                    : 'bg-gray-700 border-gray-600 hover:border-gray-500'
-                  }`}
-              >
-                <div className="font-medium">Chests</div>
-              </button>
-              <button
-                onClick={() => handleUsefulTypeChange('special')}
-                className={`p-3 rounded border text-left ${selectedUsefulType === 'special'
-                    ? 'bg-green-600 border-white'
-                    : 'bg-gray-700 border-gray-600 hover:border-gray-500'
-                  }`}
-              >
-                <div className="font-medium">Special</div>
-              </button>
-            </div>
-
-            {/* Chest Count Buttons */}
-            {selectedUsefulType === 'chests' && (
-              <div>
-                <label className="block text-sm font-medium mb-2">Number of Chests</label>
-                <div className="grid grid-cols-5 gap-1">
-                  {[1, 2, 3, 4, 5].map(num => (
-                    <button
-                      key={num}
-                      onClick={() => setSelectedChestCount(num.toString())}
-                      className={`p-2 rounded border text-center ${selectedChestCount === num.toString()
-                          ? 'bg-green-600 border-white text-white'
-                          : 'bg-gray-700 border-gray-600 hover:border-gray-500 text-gray-300'
-                        }`}
-                    >
-                      {num}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Special Location Selection */}
-            {selectedUsefulType === 'special' && (
-              <div>
-                <label className="block text-sm font-medium mb-2">Special Location</label>
-                <SelectDropdown
-                  value={selectedLocationId || ''}
-                  onChange={(id) => setSelectedLocationId(parseInt(id, 10))}
-                  options={availableSpecialLocations.map(loc => ({
-                    value: loc.id,
-                    label: loc.name
-                  }))}
-                  emptyMessage="All special locations are already assigned to other locations."
-                />
-              </div>
-            )}
+          <div>
+            <SelectDropdown
+              value={selectedLocationId || ''}
+              onChange={(id) => setSelectedLocationId(parseInt(id, 10))}
+              options={availableSpecialLocations.map(loc => ({
+                value: loc.id,
+                label: loc.name
+              }))}
+              emptyMessage="All special locations are already assigned to other locations."
+            />
           </div>
         );
       case 'connector':
@@ -243,8 +158,7 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
   const isSaveDisabled = () => {
     if (selectedType === 'dungeon' && availableDungeons.length === 0) return true;
     if (selectedType === 'connector' && availableConnectors.length === 0) return true;
-    if (selectedType === 'useful' && selectedUsefulType === 'special' && availableSpecialLocations.length === 0) return true;
-    if (selectedType === 'useful' && selectedUsefulType === 'chests') return false; // Chests are always available
+    if (selectedType === 'useful' && availableSpecialLocations.length === 0) return true;
     if (selectedType === 'useless') return false; // Useless is always available
     return !selectedLocationId;
   };
@@ -284,8 +198,8 @@ const LocationModal = ({ location, locationData, currentGame, onClose, onSave })
           {selectedType !== 'useless' && (
             <div>
               <label className="block text-sm font-medium mb-2">
-                {selectedType === 'useful' ? 'Location Details' :
-                  selectedType === 'connector' ? 'Connector Type' :
+                {selectedType === 'location' ? 'Specific Location' :
+                  selectedType === 'connector' ? 'Connector' :
                     'Dungeon'}
               </label>
               {renderValueInput()}
