@@ -147,7 +147,7 @@ const LocationButton = React.memo(({
         clearTimeout(hideTimeoutRef.current);
       }
     };
-  }, []);
+  }, [tooltipVisible]);
 
   if (!imageDimensions || !position) return null;
 
@@ -223,7 +223,7 @@ const LocationButton = React.memo(({
       </div>
 
       <LocationHoverTooltip
-        key={`tooltip-${location.id}-${JSON.stringify(currentGame?.checkStatus || {})}`}
+        key={`tooltip-${location.id}`}
         isVisible={tooltipVisible}
         position={tooltipPosition}
         location={location}

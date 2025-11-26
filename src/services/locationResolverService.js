@@ -20,7 +20,7 @@ export const locationResolverService = {
    * @returns {Object} - Resolved location data
    */
   resolveLocationById(locationId, completed = false) {
-    if (!locationId) return null;  
+    if (!locationId) return null;
 
     // Special case for useless location (ID 5001)
     if (locationId === 5001) {

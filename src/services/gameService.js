@@ -33,10 +33,6 @@ export const gameService = {
   getDefaultLocations: () => {
     const locations = {};
 
-    // Process both light and dark world locations
-    // Note: Since defaultLocationId has been removed from mapData, 
-    // this method currently returns an empty object for Vanilla games.
-    // You may need to implement default location logic differently.
     [...mapData.light, ...mapData.dark].forEach(location => {
       if (location.defaultType) {
         const locationData = {
