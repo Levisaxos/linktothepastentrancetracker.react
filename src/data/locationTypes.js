@@ -6,7 +6,7 @@ export const locationTypes = {
   connector: { name: 'Connector', icon: Link, color: 'bg-yellow-600', prefix: '#' },
   dungeon: { name: 'Dungeon', icon: Castle, color: 'bg-purple-600', prefix: '' },
   dungeonCompleted: { name: 'Dungeon Completed', icon: Castle, color: 'bg-red-900', prefix: '' },
-  static: { name: 'Static', icon: Package, color: 'bg-blue-600', prefix: '' }
+  static: { name: 'Static', icon: Package, color: 'bg-cyan-500', prefix: '' }
 };
 
 // Normalized dungeon data with numeric IDs
@@ -117,6 +117,30 @@ export const usefulLocationData = [
   { id: 3012, type: 'special', value: 'SC', display: 'SH', name: 'Sahasrala' },
   { id: 3013, type: 'special', value: 'BS', display: 'BS', name: 'Bomb Shop' },
   { id: 3014, type: 'special', value: 'DS', display: 'DS', name: 'Sanctuary' },
+  // Single-entrance caves/houses with checks (shuffled entrances in ER).
+  { id: 3015, type: 'special', value: 'HY', display: 'HY', name: 'Hype Cave' },
+  { id: 3016, type: 'special', value: 'MM', display: 'MM', name: 'Mini Moldorm Cave' },
+  { id: 3017, type: 'special', value: 'IR', display: 'IR', name: 'Ice Rod Cave' },
+  { id: 3018, type: 'special', value: 'CS', display: 'CS', name: 'C-Shaped House' },
+  { id: 3019, type: 'special', value: 'CG', display: 'CG', name: 'Chest Game' },
+  { id: 3020, type: 'special', value: 'KW', display: 'KW', name: 'Kakariko Well' },
+  { id: 3021, type: 'special', value: 'BH', display: 'BH', name: 'Blind\'s Hideout' },
+  { id: 3022, type: 'special', value: 'MS', display: 'MS', name: 'Mire Shed' },
+  { id: 3023, type: 'special', value: 'PG', display: 'PG', name: 'Peg Cave' },
+  { id: 3024, type: 'special', value: 'RC', display: 'RC', name: 'Rupee Cave' },
+  { id: 3025, type: 'special', value: 'TC', display: 'TC', name: 'Thief Cave' },
+  { id: 3026, type: 'special', value: 'CB', display: 'CB', name: 'Checkerboard Cave' },
+  { id: 3027, type: 'special', value: 'AG', display: 'AG', name: 'Aginah\'s Cave' },
+  { id: 3028, type: 'special', value: 'LB', display: 'LB', name: 'Library' },
+  { id: 3029, type: 'special', value: 'TV', display: 'TV', name: 'Back of Tavern' },
+  { id: 3030, type: 'special', value: 'WF', display: 'WF', name: 'Waterfall Fairy' },
+  { id: 3031, type: 'special', value: 'KT', display: 'KT', name: 'Kings Tomb' },
+  { id: 3032, type: 'special', value: 'SG', display: 'SG', name: 'South of Grove' },
+  { id: 3033, type: 'special', value: 'GL', display: 'GL', name: 'Graveyard Ledge' },
+  { id: 3034, type: 'special', value: 'LJ', display: 'LJ', name: 'Lumberjack Tree' },
+  { id: 3035, type: 'special', value: 'HP', display: 'HP', name: 'Hammer Pegs' },
+  { id: 3036, type: 'special', value: 'PS', display: 'PS', name: 'Secret Passage' },
+  { id: 3037, type: 'special', value: 'BR', display: 'BR', name: 'Brewery' }, // southernmost bombable hut, Village of Outcasts
   { id: 3098, type: 'special', value: 'S3', display: 'S3', name: 'Shop' },
   { id: 3099, type: 'special', value: 'DR', display: 'DR', name: 'Dark Room' }
 ];
@@ -138,7 +162,10 @@ export const staticLocationData = [
   { id: 6030, display: 'CF', name: 'Catfish' },
   { id: 6031, display: 'PY', name: 'Pyramid' },
   { id: 6032, display: 'DG', name: 'Digging Game' },
-  { id: 6033, display: 'ST', name: 'Stumpy' }
+  { id: 6033, display: 'SU', name: 'Stumpy' },
+  { id: 6034, display: 'ST', name: 'Sunken Treasure' },
+  { id: 6035, display: 'BS', name: 'Blacksmith (Frog)' },
+  { id: 6036, display: 'SR', name: 'Spectacle Rock' }
 ];
 // Helper functions to get data by ID
 export const getDungeonById = (id) => dungeonData.find(d => d.id === id);

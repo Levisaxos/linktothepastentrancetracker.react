@@ -1,9 +1,29 @@
 // src/data/staticLocationData.js
 
 export const staticLocationSets = {
+    // True surface checks — overworld items that never shuffle. Always present at
+    // their fixed map node, toggled off when collected, shown in cyan.
     ALWAYS: [
-        { mapLocationId: 1, locationTypeId: 3014 },
         { mapLocationId: 18, locationTypeId: 4004 },
+        { mapLocationId: 1, locationTypeId: 6007 },  // Master Sword Pedestal
+        { mapLocationId: 2, locationTypeId: 6001 },  // Mushroom
+        { mapLocationId: 3, locationTypeId: 6002 },  // Bottle Merchant
+        { mapLocationId: 16, locationTypeId: 6006 }, // Purple Chest
+        { mapLocationId: 9, locationTypeId: 6005 },  // King Zora
+        { mapLocationId: 7, locationTypeId: 6003 },  // Hobo
+        { mapLocationId: 11, locationTypeId: 6008 }, // Bombos Tablet
+        { mapLocationId: 12, locationTypeId: 6009 }, // Ether Tablet
+        { mapLocationId: 15, locationTypeId: 6022 }, // Flute Spot (Grove Digging Spot)
+        { mapLocationId: 8, locationTypeId: 6004 },  // Lake Hylia Island
+        { mapLocationId: 6, locationTypeId: 6034 },  // Sunken Treasure (Dam Exterior)
+        { mapLocationId: 5, locationTypeId: 6023 },  // Maze Race
+        { mapLocationId: 10, locationTypeId: 6014 }, // Desert Ledge
+        { mapLocationId: 97, locationTypeId: 6030 }, // Catfish
+        { mapLocationId: 96, locationTypeId: 6031 }, // Pyramid
+        { mapLocationId: 100, locationTypeId: 6032 }, // Digging Game
+        { mapLocationId: 98, locationTypeId: 6033 }, // Stumpy (Haunted Grove)
+        { mapLocationId: 99, locationTypeId: 6035 }, // DW Blacksmith / Frog (Dwarven Smiths)
+        { mapLocationId: 14, locationTypeId: 6036 }, // Spectacle Rock (Top of Spectacle Rock)
     ],
     VANILLA: [],
     DUNGEONS_SIMPLE: [],

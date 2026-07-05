@@ -10,6 +10,9 @@ const areLocationButtonPropsEqual = (prevProps, nextProps) => {
     prevProps.locationData !== nextProps.locationData ||
     prevProps.imageDimensions !== nextProps.imageDimensions ||
     prevProps.isReadOnly !== nextProps.isReadOnly ||
+    prevProps.logicState !== nextProps.logicState ||
+    prevProps.isSpawn !== nextProps.isSpawn ||
+    prevProps.editMode !== nextProps.editMode ||
     prevProps.currentGame?.id !== nextProps.currentGame?.id;
 
   if (basicPropsChanged) {
@@ -49,7 +52,10 @@ const LocationButton = React.memo(({
   imageDimensions,
   isReadOnly = false,
   currentGame,
-  onToggleCheck
+  onToggleCheck,
+  logicState = null, // 'in' | 'out' | 'unknown' | null — logic overlay ring
+  isSpawn = false, // this node holds a spawn location (Link's House, Sanctuary, …)
+  editMode = false, // region-edit mode: any node is clickable to reassign its region
 }) => {
 
   const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -101,6 +107,7 @@ const LocationButton = React.memo(({
 
     switch (resolvedData.type) {
       case 'location':
+      case 'static':
         displayText = resolvedData.displayValue;
         break;
       case 'connector':
@@ -125,6 +132,16 @@ const LocationButton = React.memo(({
   }, [locationData]);
 
 
+  // How many checks here are still uncollected — shown as a small corner badge
+  // and counts down as you open chests in the tooltip. Hidden at 0 (all done).
+  const remainingChecks = useMemo(() => {
+    if (!locationData?.locationId) return 0;
+    const checkStatus = currentGame?.checkStatus || {};
+    return locationResolverService
+      .getLocationChecks(locationData.locationId)
+      .filter((c) => !checkStatus[c.id]).length;
+  }, [locationData?.locationId, currentGame?.checkStatus]);
+
   // Memoize position calculation
   const position = useMemo(() => {
     if (!imageDimensions) return null;
@@ -138,8 +155,19 @@ const LocationButton = React.memo(({
     };
   }, [location.x, location.y, imageDimensions]);
 
-  const canLeftClick = !isReadOnly && (!locationData || locationData.isEditable !== false) && !locationData?.markedUseless && !locationData?.completed;
+  // In region-edit mode any node is clickable (you're reassigning its region).
+  const canLeftClick = editMode
+    ? true
+    : !isReadOnly && (!locationData || locationData.isEditable !== false) && !locationData?.markedUseless && !locationData?.completed;
   const canRightClick = !isReadOnly;
+
+  // Logic overlay. Unassigned "?" nodes get a coloured FILL (easier to read);
+  // assigned nodes already have a type colour, so they keep a ring instead so it
+  // isn't clobbered. Inline styles avoid Tailwind purge issues.
+  const RING = { in: '#22c55e', out: '#f59e0b', unknown: '#64748b' };
+  const FILL = { in: '#16a34a', out: '#d97706', unknown: '#475569' };
+  const logicRing = display && logicState ? `0 0 0 3px ${RING[logicState]}` : null;
+  const logicFill = !display && logicState ? FILL[logicState] : null;
 
   useEffect(() => {
     return () => {
@@ -213,13 +241,25 @@ const LocationButton = React.memo(({
             : 'w-6 h-6 bg-gray-600 hover:bg-gray-500 text-white text-xs'
             } ${canLeftClick ? 'cursor-pointer hover:border-white' : 'opacity-75 cursor-default'}`}
           style={{
-            zIndex: 10,
-            pointerEvents: 'auto'
+            zIndex: isSpawn ? 11 : 10,
+            pointerEvents: 'auto',
+            boxShadow: logicRing || undefined,
+            backgroundColor: logicFill || undefined,
+            outline: isSpawn ? '3px solid #3b82f6' : undefined,
+            outlineOffset: '1px'
           }}
-          title={`${location.name}${!canLeftClick ? ' (Locked)' : ''}`}
+          title={`${location.name}${isSpawn ? ' (Spawn)' : ''}${logicState ? ` — ${logicState} of logic` : ''}`}
         >
           {display ? display.text : '?'}
         </button>
+        {remainingChecks > 0 && (
+          <span
+            className="absolute -top-1.5 -right-1.5 bg-gray-900 text-white text-[9px] font-bold leading-none rounded-full border border-gray-400 flex items-center justify-center"
+            style={{ minWidth: '13px', height: '13px', padding: '0 2px', zIndex: 12, pointerEvents: 'none' }}
+          >
+            {remainingChecks}
+          </span>
+        )}
       </div>
 
       <LocationHoverTooltip
@@ -232,6 +272,8 @@ const LocationButton = React.memo(({
         onMouseLeave={handleMouseLeave}
         currentGame={currentGame}
         onToggleCheck={onToggleCheck}
+        onEdit={onClick}
+        canEdit={canLeftClick}
       />
     </>
   );

@@ -5,7 +5,7 @@ import { locationResolverService } from '../services/locationResolverService';
 import { locationTypes } from '../data/locationTypes';
 import { getCheckSpriteById } from '../data/checkData';
 
-const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck, checkStatusVersion }) => {
+const LocationHoverTooltip = ({ isVisible, position, location, locationData, onMouseEnter, onMouseLeave, currentGame, onToggleCheck, checkStatusVersion, onEdit, canEdit }) => {
   const tooltipRef = useRef(null);
   const [adjustedPosition, setAdjustedPosition] = useState({ x: position.x, y: position.y });
 
@@ -61,6 +61,12 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
 
   if (!isVisible || !position.x || !position.y) return null;
 
+
+  const handleEditClick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (canEdit && onEdit) onEdit();
+  };
 
   const handleCheckClick = (checkId, e) => {
     e.stopPropagation();
@@ -216,6 +222,16 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
           </>
         ) : (
           <>
+            {canEdit && (
+              <button
+                onClick={handleEditClick}
+                onContextMenu={handleEditClick}
+                className="w-full mb-3 px-2 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium"
+                title="Change what's behind this entrance"
+              >
+                ✎ Edit / change location
+              </button>
+            )}
             <div className="font-bold text-lg mb-3 text-blue-300 border-b border-gray-700 pb-2">
               <div className="text-sm text-gray-400 mb-1">{location?.name || 'Unknown Location'}</div>
               <div className="flex items-center gap-1">
@@ -240,21 +256,31 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
                     <div className="text-xs text-gray-400 mb-2">
                       Checks ({checks.filter(c => checkStatus[c.id]).length}/{checks.length}):
                     </div>
-                    <div className="flex flex-wrap gap-1">
+                    <div className="flex flex-col gap-0.5">
                       {checks.map((check) => {
                         const isCollected = checkStatus[check.id] === true;
                         const sprite = getCheckSpriteById(check.type);
+                        // Drop the "Region - " prefix; the tooltip header already
+                        // says where we are.
+                        const shortName = check.name.replace(/^[^-]+ - /, '');
 
                         return (
-                          <img
+                          <div
                             key={check.id}
-                            src={isCollected ? sprite?.collectedSprite : sprite?.collectableSprite}
-                            alt={check.name}
-                            className="w-6 h-6 cursor-pointer hover:scale-110 transition-transform"
+                            className="flex items-center gap-2 cursor-pointer rounded px-1 py-0.5 hover:bg-gray-800"
                             onClick={(e) => handleCheckClick(check.id, e)}
                             onContextMenu={(e) => handleCheckClick(check.id, e)}
                             title={check.name}
-                          />
+                          >
+                            <img
+                              src={isCollected ? sprite?.collectedSprite : sprite?.collectableSprite}
+                              alt=""
+                              className="w-5 h-5 flex-shrink-0"
+                            />
+                            <span className={`text-xs ${isCollected ? 'line-through text-gray-500' : 'text-gray-200'}`}>
+                              {shortName}
+                            </span>
+                          </div>
                         );
                       })}
                     </div>

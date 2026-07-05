@@ -1,0 +1,1575 @@
+﻿Archipelago Version 0.6.7  -  Seed: 67673624005637113056
+
+Filling Algorithm:               balanced
+Players:                         1
+Plando Options:                  connections, texts, bosses
+Game:                            A Link to the Past
+Location Count:                  259
+Progression Balancing:           50
+Accessibility:                   Items
+Local Items:                     
+Non-local Items:                 
+Start Inventory:                 
+Start Hints:                     
+Start Location Hints:            
+Excluded Locations:              
+Priority Locations:              
+Item Links:                      
+Plando Items:                    
+Plando Connections:              
+Plando Texts:                    {}
+Start Inventory from Pool:       
+Goal:                            Ganon
+Mode:                            Inverted
+Glitches Required:               No Glitches
+Dark Room Logic:                 Lamp
+Open Pyramid Hole:               Goal
+Crystals for GT:                 7
+Crystals for Ganon:              7
+Triforce Pieces Mode:            Available
+Triforce Pieces Percentage:      150
+Triforce Pieces Required:        20
+Triforce Pieces Available:       30
+Triforce Pieces Extra:           10
+Entrance Shuffle:                Crossed
+Entrance Shuffle Seed:           random
+Big Key Shuffle:                 Any World
+Small Key Shuffle:               Any World
+Key Drop Shuffle:                Yes
+Compass Shuffle:                 Start With
+Map Shuffle:                     Start With
+Prevent Dungeon Item on Boss:    No
+Item Pool:                       Normal
+Item Functionality:              Normal
+Enemy Health:                    Default
+Enemy Damage:                    Default
+Progressive Items:               On
+Swordless:                       No
+Dungeon Counters:                Pickup
+Retro Bow:                       No
+Retro Caves:                     No
+Hints:                           On
+Scams:                           Off
+Boss Shuffle:                    None
+Pot Shuffle:                     No
+Enemy Shuffle:                   No
+Killable Thieves:                No
+Bush Shuffle:                    No
+Available Shop Slots:            0
+Randomize Shop Inventories:      Default
+Shuffle Shop Inventories:        No
+Include Witch's Hut:             No
+Randomize Shop Prices:           No
+Randomize Cost Types:            No
+Shop Price Modifier:             100
+Shuffle Capacity Upgrades:       Off
+Bombless Start:                  No
+Shuffle Prizes:                  General
+Tile Shuffle:                    No
+Misery Mire Medallion:           Ether
+Turtle Rock Medallion:           Bombos
+Glitched Starting Boots:         Yes
+Beemizer Total Chance:           0
+Beemizer Trap Chance:            60
+Timer:                           None
+Countdown Start Time:            10
+Red Clock Time:                  -2
+Blue Clock Time:                 2
+Green Clock Time:                4
+Death Link:                      No
+Allow Collection of checks for other players:Yes
+Overworld Palette:               Default
+Underworld Palette:              Default
+Menu Palette:                    Default
+Sword Palette:                   Default
+Shield Palette:                  Default
+Heart Beep Rate:                 Normal
+Heart Color:                     Red
+L/R Quickswapping:               Yes
+Menu Speed:                      Normal
+Play music:                      Yes
+Reduce Screen Flashes:           Yes
+Display Method for Triforce Hunt:Normal
+
+
+Entrances:
+
+Skull Woods First Section Hole (East) => Skull Woods Second Section (Drop)
+Skull Woods First Section Hole (West) => Skull Woods First Section (Right)
+Skull Woods First Section Hole (North) => Skull Woods First Section (Left)
+Skull Woods Second Section Hole => Skull Woods First Section (Top)
+Skull Woods First Section Door <=> Skull Woods Second Section Exit (East)
+Skull Woods Second Section Door (East) <=> Skull Woods First Section Exit
+Skull Woods Second Section Door (West) <=> Skull Woods Second Section Exit (West)
+Fortune Teller (Light) <=> Inverted Agahnims Tower Exit
+Old Man House (Top) <=> Inverted Links House Exit
+Bumper Cave (Bottom) => Inverted Dark Sanctuary
+Tavern North => Tavern
+Desert Palace Entrance (West) <=> Hookshot Cave Exit (South)
+Hookshot Cave Back Entrance <=> Hookshot Cave Exit (North)
+Desert Palace Entrance (East) <=> Turtle Rock Ledge Exit (West)
+Two Brothers House (West) <=> Desert Palace Exit (West)
+Death Mountain Return Cave (West) <=> Hyrule Castle Exit (East)
+Paradox Cave (Top) <=> Turtle Rock Ledge Exit (East)
+Hookshot Cave <=> Turtle Rock Exit (Front)
+Dam <=> Turtle Rock Isolated Ledge Exit
+East Dark World Hint <=> Desert Palace Exit (South)
+Light World Bomb Hut <=> Desert Palace Exit (East)
+Inverted Ganons Tower <=> Hyrule Castle Exit (South)
+20 Rupee Cave <=> Hyrule Castle Exit (West)
+Inverted Agahnims Tower <=> Old Man Cave Exit (East)
+Bush Covered House => Blacksmiths Hut
+Turtle Rock => Inverted Big Bomb Shop
+Death Mountain Return Cave (East) <=> Old Man Cave Exit (West)
+Ice Palace <=> Paradox Cave Exit (Top)
+Tower of Hera <=> Paradox Cave Exit (Middle)
+Light Hype Fairy <=> Paradox Cave Exit (Bottom)
+Old Man Cave (East) <=> Spectacle Rock Cave Exit (Peak)
+Dark Death Mountain Ledge (East) <=> Spectacle Rock Cave Exit (Top)
+Graveyard Cave <=> Spectacle Rock Cave Exit
+Kakariko Gamble Game <=> Death Mountain Return Cave Exit (East)
+Dark World Hammer Peg Cave <=> Death Mountain Return Cave Exit (West)
+Paradox Cave (Middle) <=> Superbunny Cave Exit (Bottom)
+Hookshot Fairy <=> Superbunny Cave Exit (Top)
+Palace of Darkness <=> Fairy Ascension Cave Exit (Top)
+Paradox Cave (Bottom) <=> Fairy Ascension Cave Exit (Bottom)
+Ice Rod Cave <=> Two Brothers House Exit (West)
+Thieves Town <=> Two Brothers House Exit (East)
+Palace of Darkness Hint <=> Old Man House Exit (Top)
+Chicken House <=> Old Man House Exit (Bottom)
+Bonk Rock Cave <=> Spiral Cave Exit (Top)
+Desert Fairy <=> Spiral Cave Exit
+Old Man House (Bottom) <=> Bumper Cave Exit (Top)
+Pyramid Fairy <=> Bumper Cave Exit (Bottom)
+Dark Death Mountain Ledge (West) <=> Elder House Exit (East)
+Old Man Cave (West) <=> Elder House Exit (West)
+Mimic Cave <=> Inverted Ganons Tower Exit
+Dark Lake Hylia Ledge Fairy <=> Thieves Town Exit
+Hyrule Castle Entrance (West) <=> Swamp Palace Exit
+Swamp Palace <=> Palace of Darkness Exit
+Dark World Potion Shop <=> Tower of Hera Exit
+Mini Moldorm Cave <=> Ice Palace Exit
+Spectacle Rock Cave Peak <=> Skull Woods Final Section Exit
+Chest Game <=> Misery Mire Exit
+Hyrule Castle Entrance (South) <=> Eastern Palace Exit
+Hyrule Castle Entrance (East) <=> Desert Palace Exit (North)
+Inverted Pyramid Entrance <=> Bat Cave Exit
+Inverted Pyramid Hole => Bat Cave (right)
+Kakariko Well Cave <=> Lumberjack Tree Exit
+Kakariko Well Drop => Lumberjack Tree (top)
+Bat Cave Cave <=> Lost Woods Hideout Exit
+Bat Cave Drop => Lost Woods Hideout (top)
+North Fairy Cave <=> North Fairy Cave Exit
+North Fairy Cave Drop => North Fairy Cave
+Lost Woods Hideout Stump <=> Pyramid Exit
+Lost Woods Hideout Drop => Pyramid
+Lumberjack Tree Cave <=> Hyrule Castle Secret Entrance Exit
+Lumberjack Tree Tree => Hyrule Castle Secret Entrance
+Sanctuary <=> Sanctuary Exit
+Sanctuary Grave => Sewer Drop
+Hyrule Castle Secret Entrance Stairs <=> Kakariko Well Exit
+Hyrule Castle Secret Entrance Drop => Kakariko Well (top)
+Dark Lake Hylia Fairy => Lost Woods Gamble
+Misery Mire => Dark Death Mountain Healer Fairy
+Dark Desert Hint => Aginahs Cave
+Two Brothers House (East) => Checkerboard Cave
+Dark Lake Hylia Ledge Hint => Lake Hylia Fortune Teller
+Good Bee Cave => Snitch Lady (West)
+Capacity Upgrade => Library
+Library => Dark Desert Healer Fairy
+Dark World Lumberjack Shop => Good Bee Cave
+Potion Shop => Swamp Healer Fairy
+Superbunny Cave (Top) => Dark World Lumberjack Shop
+Kakariko Shop => Bonk Rock Cave
+Spectacle Rock Cave => Bonk Fairy (Light)
+Kings Grave => Kings Grave
+Village of Outcasts Shop => C-Shaped House
+Inverted Big Bomb Shop => Fortune Teller (Light)
+Spiral Cave (Bottom) => Bonk Fairy (Dark)
+Bonk Fairy (Light) => Desert Healer Fairy
+Lake Hylia Fairy => Brewery
+Hype Cave => Waterfall of Wishing
+Long Fairy Cave => Potion Shop
+Dark Lake Hylia Shop => Graveyard Cave
+Turtle Rock Isolated Ledge Entrance => Spike Cave
+Dark Lake Hylia Ledge Spike Cave => Dark Lake Hylia Ledge Spike Cave
+Brewery => Cave Shop (Dark Death Mountain)
+Elder House (East) => Kakariko Gamble Game
+Spiral Cave => East Dark World Hint
+Sick Kids House => Snitch Lady (East)
+Red Shield Shop => Long Fairy Cave
+Cave 45 => Dam
+Eastern Palace => Dark Lake Hylia Ledge Healer Fairy
+Dark Desert Fairy => Tavern (Front)
+Desert Palace Entrance (North) => Capacity Upgrade
+Desert Palace Entrance (South) => Dark World Hammer Peg Cave
+C-Shaped House => Sahasrahlas Hut
+Aginahs Cave => Dark Desert Hint
+Elder House (West) => Sick Kids House
+Fairy Ascension Cave (Bottom) => Pyramid Fairy
+Fairy Ascension Cave (Top) => Fortune Teller (Dark)
+Mire Shed => Red Shield Shop
+Waterfall of Wishing => Mini Moldorm Cave
+Bumper Cave (Top) => Mimic Cave
+Skull Woods Final Section => Village of Outcasts Shop
+50 Rupee Cave => 20 Rupee Cave
+Lumberjack House => Lake Hylia Healer Fairy
+Blacksmiths Hut => Dark Lake Hylia Shop
+Spike Cave => 50 Rupee Cave
+Snitch Lady (West) => Light World Bomb Hut
+Tavern (Front) => Palace of Darkness Hint
+Bonk Fairy (Dark) => Dark Lake Hylia Healer Fairy
+Cave Shop (Dark Death Mountain) => Kakariko Shop
+Sahasrahlas Hut => Dark World Potion Shop
+Snitch Lady (East) => Cave 45
+Lake Hylia Fortune Teller => Mire Shed
+Dark Death Mountain Fairy => Ice Rod Cave
+Spectacle Rock Cave (Bottom) => Blinds Hideout
+Inverted Links House => Chest Game
+Superbunny Cave (Bottom) => Chicken House
+Archery Game => Lumberjack House
+Inverted Dark Sanctuary => Cave Shop (Lake Hylia)
+Checkerboard Cave => Hype Cave
+Cave Shop (Lake Hylia) => Hookshot Fairy
+Fortune Teller (Dark) => Bush Covered House
+Lost Woods Gamble => Dark Lake Hylia Ledge Hint
+Blinds Hideout => Archery Game
+
+Medallions:
+
+Misery Mire (Levisaxos): Ether
+Turtle Rock (Levisaxos): Bombos
+
+Fairy Fountain Bottle Fill:
+
+Pyramid Fairy (Levisaxos): Bottle (Bee)
+Waterfall Fairy (Levisaxos): Bottle (Red Potion)
+
+Shops:
+
+Cave Shop (Dark Death Mountain) [Shop]
+    Red Potion - 150 Rupees
+    Small Heart - 10 Rupees
+    Bombs (10) - 50 Rupees
+Red Shield Shop [Shop]
+    Red Shield - 500 Rupees
+    Bee - 10 Rupees
+    Arrows (10) - 30 Rupees
+Dark Lake Hylia Shop [Shop]
+    Blue Potion - 160 Rupees
+    Blue Shield - 50 Rupees
+    Bombs (10) - 50 Rupees
+Dark World Lumberjack Shop [Shop]
+    Red Potion - 150 Rupees
+    Blue Shield - 50 Rupees
+    Bombs (10) - 50 Rupees
+Village of Outcasts Shop [Shop]
+    Red Potion - 150 Rupees
+    Blue Shield - 50 Rupees
+    Bombs (10) - 50 Rupees
+Dark World Potion Shop [Shop]
+    Red Potion - 150 Rupees
+    Blue Shield - 50 Rupees
+    Bombs (10) - 50 Rupees
+Light World Death Mountain Shop [Shop]
+    Red Potion - 150 Rupees
+    Small Heart - 10 Rupees
+    Bombs (10) - 50 Rupees
+Kakariko Shop [Shop]
+    Red Potion - 150 Rupees
+    Small Heart - 10 Rupees
+    Bombs (10) - 50 Rupees
+Cave Shop (Lake Hylia) [Shop]
+    Red Potion - 150 Rupees
+    Small Heart - 10 Rupees
+    Bombs (10) - 50 Rupees
+Potion Shop [Shop]
+    Red Potion - 120 Rupees
+    Green Potion - 60 Rupees
+    Blue Potion - 160 Rupees
+Capacity Upgrade [Shop]
+    Bomb Upgrade (+5) - 100 Rupees x 7
+    Arrow Upgrade (+5) - 100 Rupees x 7
+
+
+Starting Items:
+
+Compass (Ganons Tower)
+Map (Ganons Tower)
+Compass (Turtle Rock)
+Map (Turtle Rock)
+Compass (Misery Mire)
+Map (Misery Mire)
+Compass (Ice Palace)
+Map (Ice Palace)
+Compass (Swamp Palace)
+Map (Swamp Palace)
+Compass (Skull Woods)
+Map (Skull Woods)
+Compass (Thieves Town)
+Map (Thieves Town)
+Compass (Palace of Darkness)
+Map (Palace of Darkness)
+Compass (Tower of Hera)
+Map (Tower of Hera)
+Compass (Desert Palace)
+Map (Desert Palace)
+Compass (Eastern Palace)
+Map (Eastern Palace)
+Map (Hyrule Castle)
+
+Locations:
+
+Mushroom: Big Key (Hyrule Castle)
+Bottle Merchant: Big Key (Skull Woods)
+Flute Spot: Boss Heart Container
+Sunken Treasure: Small Key (Eastern Palace)
+Purple Chest: Arrows (10)
+Bombos Tablet: Rupees (20)
+Blind's Hideout - Top: Bombs (3)
+Blind's Hideout - Left: Arrows (10)
+Blind's Hideout - Right: Progressive Shield
+Blind's Hideout - Far Left: Rupees (20)
+Blind's Hideout - Far Right: Rupees (50)
+Link's Uncle: Bombs (3)
+Secret Passage: Pegasus Boots
+King Zora: Small Key (Skull Woods)
+Zora's Ledge: Rupees (20)
+Waterfall Fairy - Left: Small Key (Turtle Rock)
+Waterfall Fairy - Right: Boss Heart Container
+King's Tomb: Piece of Heart
+Floodgate: Open Floodgate
+Floodgate Chest: Rupees (20)
+Link's House: Small Key (Turtle Rock)
+Kakariko Tavern: Single Arrow
+Chicken House: Progressive Bow
+Aginah's Cave: Rupees (50)
+Sahasrahla's Hut - Left: Rupees (5)
+Sahasrahla's Hut - Middle: Bottle (Red Potion)
+Sahasrahla's Hut - Right: Small Key (Misery Mire)
+Sahasrahla: Small Key (Ice Palace)
+Kakariko Well - Top: Small Key (Agahnims Tower)
+Kakariko Well - Left: Bombs (3)
+Kakariko Well - Middle: Progressive Glove
+Kakariko Well - Right: Ice Rod
+Kakariko Well - Bottom: Small Key (Desert Palace)
+Blacksmith: Rupees (20)
+Missing Smith: Return Smith
+Magic Bat: Boss Heart Container
+Sick Kid: Arrows (10)
+Hobo: Piece of Heart
+Lost Woods Hideout: Rupees (300)
+Lumberjack Tree: Big Key (Palace of Darkness)
+Cave 45: Rupees (20)
+Graveyard Cave: Small Key (Ganons Tower)
+Checkerboard Cave: Bombs (3)
+Mini Moldorm Cave - Far Left: Bombs (3)
+Mini Moldorm Cave - Left: Piece of Heart
+Mini Moldorm Cave - Right: Rupee (1)
+Mini Moldorm Cave - Far Right: Big Key (Tower of Hera)
+Mini Moldorm Cave - Generous Guy: Rupees (20)
+Ice Rod Cave: Arrows (10)
+Bonk Rock Cave: Small Key (Misery Mire)
+Library: Small Key (Hyrule Castle)
+Potion Shop: Boss Heart Container
+Lake Hylia Island: Progressive Sword
+Capacity Upgrade Shop: Capacity Upgrade Shop
+Maze Race: Rupees (50)
+Desert Ledge: Rupees (300)
+Desert Palace - Big Chest: Small Key (Skull Woods)
+Desert Palace - Torch: Rupees (5)
+Desert Palace - Map Chest: Arrows (10)
+Desert Palace - Compass Chest: Piece of Heart
+Desert Palace - Big Key Chest: Rupees (20)
+Desert Palace - Desert Tiles 1 Pot Key: Piece of Heart
+Desert Palace - Beamos Hall Pot Key: Rupees (20)
+Desert Palace - Desert Tiles 2 Pot Key: Fire Rod
+Desert Palace - Boss: Progressive Glove
+Desert Palace - Prize: Crystal 6
+Eastern Palace - Compass Chest: Small Key (Eastern Palace)
+Eastern Palace - Big Chest: Bombs (3)
+Eastern Palace - Cannonball Chest: Arrows (10)
+Eastern Palace - Dark Square Pot Key: Small Key (Swamp Palace)
+Eastern Palace - Dark Eyegore Key Drop: Rupees (20)
+Eastern Palace - Big Key Chest: Rupees (20)
+Eastern Palace - Map Chest: Boss Heart Container
+Eastern Palace - Boss: Hookshot
+Eastern Palace - Prize: Red Pendant
+Master Sword Pedestal: Progressive Shield
+Hyrule Castle - Boomerang Chest: Piece of Heart
+Hyrule Castle - Map Chest: Bombs (3)
+Hyrule Castle - Zelda's Chest: Piece of Heart
+Hyrule Castle - Map Guard Key Drop: Bombs (3)
+Hyrule Castle - Boomerang Guard Key Drop: Bombs (3)
+Hyrule Castle - Big Key Drop: Progressive Shield
+Sewers - Dark Cross: Rupees (20)
+Sewers - Key Rat Key Drop: Small Key (Ganons Tower)
+Sewers - Secret Room - Left: Flippers
+Sewers - Secret Room - Middle: Rupees (300)
+Sewers - Secret Room - Right: Arrows (10)
+Sanctuary: Bottle (Good Bee)
+Castle Tower - Room 03: Bombs (3)
+Castle Tower - Dark Maze: Boss Heart Container
+Castle Tower - Dark Archer Key Drop: Rupees (20)
+Castle Tower - Circle of Pots Key Drop: Small Key (Palace of Darkness)
+Agahnim 1: Beat Agahnim 1
+Old Man: Bottle (Blue Potion)
+Spectacle Rock Cave: Small Key (Misery Mire)
+Paradox Cave Lower - Far Left: Rupees (20)
+Paradox Cave Lower - Left: Rupees (20)
+Paradox Cave Lower - Right: Piece of Heart
+Paradox Cave Lower - Far Right: Rupees (50)
+Paradox Cave Lower - Middle: Small Key (Turtle Rock)
+Paradox Cave Upper - Left: Rupees (5)
+Paradox Cave Upper - Right: Small Key (Turtle Rock)
+Floating Island: Rupee (1)
+Spiral Cave: Small Key (Agahnims Tower)
+Ether Tablet: Progressive Mail
+Spectacle Rock: Bombs (3)
+Bumper Cave Ledge: Rupee (1)
+Tower of Hera - Basement Cage: Magic Mirror
+Tower of Hera - Map Chest: Arrows (10)
+Tower of Hera - Big Key Chest: Big Key (Ganons Tower)
+Tower of Hera - Compass Chest: Boss Heart Container
+Tower of Hera - Big Chest: Bombs (3)
+Tower of Hera - Boss: Rupees (20)
+Tower of Hera - Prize: Crystal 4
+Pyramid: Piece of Heart
+Catfish: Small Key (Swamp Palace)
+Stumpy: Piece of Heart
+Digging Game: Big Key (Turtle Rock)
+Hype Cave - Top: Piece of Heart
+Hype Cave - Middle Right: Blue Boomerang
+Hype Cave - Middle Left: Big Key (Swamp Palace)
+Hype Cave - Bottom: Rupees (20)
+Hype Cave - Generous Guy: Small Key (Hyrule Castle)
+Frog: Get Frog
+Flute Activation Spot: Activated Flute
+Dark Blacksmith Ruins: Pick Up Purple Chest
+Peg Cave: Big Key (Misery Mire)
+Pyramid Fairy - Left: Rupees (20)
+Pyramid Fairy - Right: Piece of Heart
+Brewery: Small Key (Misery Mire)
+C-Shaped House: Arrows (10)
+Chest Game: Boss Heart Container
+Mire Shed - Left: Arrows (10)
+Mire Shed - Right: Rupees (20)
+Superbunny Cave - Top: Small Key (Skull Woods)
+Superbunny Cave - Bottom: Small Key (Swamp Palace)
+Spike Cave: Rupees (20)
+Hookshot Cave - Top Right: Piece of Heart
+Hookshot Cave - Top Left: Small Key (Ice Palace)
+Hookshot Cave - Bottom Right: Small Key (Misery Mire)
+Hookshot Cave - Bottom Left: Rupees (50)
+Mimic Cave: Cape
+Swamp Palace - Entrance: Boss Heart Container
+Swamp Palace - Map Chest: Arrows (10)
+Swamp Palace - Pot Row Pot Key: Small Key (Palace of Darkness)
+Swamp Palace - Trench 1 Pot Key: Rupees (300)
+Swamp Palace - Big Chest: Small Key (Swamp Palace)
+Swamp Palace - Compass Chest: Big Key (Ice Palace)
+Swamp Palace - Hookshot Pot Key: Piece of Heart
+Swamp Palace - Trench 2 Pot Key: Rupees (50)
+Swamp Palace - Big Key Chest: Piece of Heart
+Swamp Palace - West Chest: Progressive Bow
+Swamp Palace - Flooded Room - Left: Progressive Sword
+Swamp Palace - Flooded Room - Right: Red Boomerang
+Swamp Palace - Waterway Pot Key: Big Key (Thieves Town)
+Swamp Palace - Waterfall Room: Arrows (10)
+Swamp Palace - Boss: Piece of Heart
+Swamp Palace - Prize: Green Pendant
+Thieves' Town - Big Key Chest: Bombs (3)
+Thieves' Town - Map Chest: Ether
+Thieves' Town - Compass Chest: Rupees (20)
+Thieves' Town - Ambush Chest: Piece of Heart
+Thieves' Town - Attic: Small Key (Hyrule Castle)
+Thieves' Town - Big Chest: Rupees (20)
+Thieves' Town - Hallway Pot Key: Rupees (5)
+Thieves' Town - Spike Switch Pot Key: Bombs (3)
+Thieves' Town - Blind's Cell: Piece of Heart
+Thieves' Town - Boss: Magic Powder
+Thieves' Town - Prize: Crystal 1
+Skull Woods - Map Chest: Cane of Somaria
+Skull Woods - Pinball Room: Small Key (Skull Woods)
+Skull Woods - Compass Chest: Small Key (Palace of Darkness)
+Skull Woods - Pot Prison: Small Key (Ganons Tower)
+Skull Woods - Big Chest: Small Key (Ganons Tower)
+Skull Woods - Big Key Chest: Moon Pearl
+Skull Woods - West Lobby Pot Key: Rupees (20)
+Skull Woods - Bridge Room: Flute
+Skull Woods - Spike Corner Key Drop: Rupees (20)
+Skull Woods - Boss: Quake
+Skull Woods - Prize: Blue Pendant
+Ice Palace - Jelly Key Drop: Bombs (3)
+Ice Palace - Compass Chest: Rupees (20)
+Ice Palace - Conveyor Key Drop: Big Key (Desert Palace)
+Ice Palace - Freezor Chest: Mushroom
+Ice Palace - Many Pots Pot Key: Bombs (3)
+Ice Palace - Big Chest: Sanctuary Heart Container
+Ice Palace - Iced T Room: Small Key (Turtle Rock)
+Ice Palace - Spike Room: Small Key (Palace of Darkness)
+Ice Palace - Big Key Chest: Rupees (20)
+Ice Palace - Map Chest: Arrows (10)
+Ice Palace - Hammer Block Key Drop: Boss Heart Container
+Ice Palace - Boss: Arrows (10)
+Ice Palace - Prize: Crystal 5
+Misery Mire - Big Chest: Rupees (100)
+Misery Mire - Map Chest: Piece of Heart
+Misery Mire - Main Lobby: Cane of Byrna
+Misery Mire - Bridge Chest: Small Key (Desert Palace)
+Misery Mire - Spike Chest: Lamp
+Misery Mire - Spikes Pot Key: Rupees (20)
+Misery Mire - Fishbone Pot Key: Small Key (Thieves Town)
+Misery Mire - Conveyor Crystal Key Drop: Bottle (Red Potion)
+Misery Mire - Compass Chest: Rupees (50)
+Misery Mire - Big Key Chest: Big Key (Eastern Palace)
+Misery Mire - Boss: Small Key (Thieves Town)
+Misery Mire - Prize: Crystal 7
+Turtle Rock - Compass Chest: Rupees (20)
+Turtle Rock - Roller Room - Left: Rupees (20)
+Turtle Rock - Roller Room - Right: Small Key (Skull Woods)
+Turtle Rock - Pokey 1 Key Drop: Piece of Heart
+Turtle Rock - Chain Chomps: Rupees (20)
+Turtle Rock - Big Key Chest: Bug Catching Net
+Turtle Rock - Pokey 2 Key Drop: Hammer
+Turtle Rock - Big Chest: Piece of Heart
+Turtle Rock - Crystaroller Room: Shovel
+Turtle Rock - Eye Bridge - Bottom Left: Rupees (20)
+Turtle Rock - Eye Bridge - Bottom Right: Small Key (Desert Palace)
+Turtle Rock - Eye Bridge - Top Left: Small Key (Agahnims Tower)
+Turtle Rock - Eye Bridge - Top Right: Bombs (3)
+Turtle Rock - Boss: Small Key (Thieves Town)
+Turtle Rock - Prize: Crystal 2
+Palace of Darkness - Shooter Room: Arrows (10)
+Palace of Darkness - The Arena - Bridge: Small Key (Ice Palace)
+Palace of Darkness - Stalfos Basement: Small Key (Ganons Tower)
+Palace of Darkness - Big Key Chest: Small Key (Ice Palace)
+Palace of Darkness - The Arena - Ledge: Small Key (Turtle Rock)
+Palace of Darkness - Map Chest: Bombs (10)
+Palace of Darkness - Compass Chest: Progressive Sword
+Palace of Darkness - Dark Basement - Left: Rupees (20)
+Palace of Darkness - Dark Basement - Right: Small Key (Swamp Palace)
+Palace of Darkness - Dark Maze - Top: Rupees (20)
+Palace of Darkness - Dark Maze - Bottom: Small Key (Agahnims Tower)
+Palace of Darkness - Big Chest: Rupees (50)
+Palace of Darkness - Harmless Hellway: Small Key (Swamp Palace)
+Palace of Darkness - Boss: Rupees (20)
+Palace of Darkness - Prize: Crystal 3
+Ganons Tower - Bob's Torch: Bombs (3)
+Ganons Tower - Hope Room - Left: Bombs (3)
+Ganons Tower - Hope Room - Right: Small Key (Ganons Tower)
+Ganons Tower - Conveyor Cross Pot Key: Small Key (Misery Mire)
+Ganons Tower - Tile Room: Rupees (300)
+Ganons Tower - Compass Room - Top Left: Small Key (Desert Palace)
+Ganons Tower - Compass Room - Top Right: Small Key (Ganons Tower)
+Ganons Tower - Compass Room - Bottom Left: Rupees (50)
+Ganons Tower - Compass Room - Bottom Right: Arrows (10)
+Ganons Tower - Conveyor Star Pits Pot Key: Rupees (50)
+Ganons Tower - DMs Room - Top Left: Book of Mudora
+Ganons Tower - DMs Room - Top Right: Piece of Heart
+Ganons Tower - DMs Room - Bottom Left: Rupees (50)
+Ganons Tower - DMs Room - Bottom Right: Progressive Mail
+Ganons Tower - Double Switch Pot Key: Small Key (Ganons Tower)
+Ganons Tower - Map Chest: Small Key (Palace of Darkness)
+Ganons Tower - Firesnake Room: Small Key (Ice Palace)
+Ganons Tower - Randomizer Room - Top Left: Bombos
+Ganons Tower - Randomizer Room - Top Right: Small Key (Tower of Hera)
+Ganons Tower - Randomizer Room - Bottom Left: Piece of Heart
+Ganons Tower - Randomizer Room - Bottom Right: Rupees (20)
+Ganons Tower - Bob's Chest: Magic Upgrade (1/2)
+Ganons Tower - Big Chest: Small Key (Palace of Darkness)
+Ganons Tower - Big Key Room - Left: Small Key (Hyrule Castle)
+Ganons Tower - Big Key Room - Right: Piece of Heart
+Ganons Tower - Big Key Chest: Bombs (3)
+Ganons Tower - Mini Helmasaur Room - Left: Progressive Sword
+Ganons Tower - Mini Helmasaur Room - Right: Small Key (Ice Palace)
+Ganons Tower - Pre-Moldorm Chest: Rupees (20)
+Ganons Tower - Mini Helmasaur Key Drop: Bombs (3)
+Ganons Tower - Validation Chest: Rupees (20)
+Agahnim 2: Beat Agahnim 2
+Ganon: Triforce
+
+Playthrough:
+
+0: {
+
+}
+1: {
+  Bottle Merchant: Big Key (Skull Woods)
+  Digging Game: Big Key (Turtle Rock)
+  Graveyard Cave: Small Key (Ganons Tower)
+  Link's House: Small Key (Turtle Rock)
+  Lumberjack Tree: Big Key (Palace of Darkness)
+  Sahasrahla's Hut - Right: Small Key (Misery Mire)
+  Skull Woods - Big Key Chest: Moon Pearl
+  Skull Woods - Compass Chest: Small Key (Palace of Darkness)
+  Skull Woods - Map Chest: Cane of Somaria
+  Skull Woods - Pot Prison: Small Key (Ganons Tower)
+  Waterfall Fairy - Left: Small Key (Turtle Rock)
+}
+2: {
+  Bonk Rock Cave: Small Key (Misery Mire)
+  Brewery: Small Key (Misery Mire)
+  Eastern Palace - Compass Chest: Small Key (Eastern Palace)
+  Floodgate: Open Floodgate
+  Kakariko Well - Bottom: Small Key (Desert Palace)
+  Kakariko Well - Middle: Progressive Glove
+  Kakariko Well - Right: Ice Rod
+  Kakariko Well - Top: Small Key (Agahnims Tower)
+  Palace of Darkness - Stalfos Basement: Small Key (Ganons Tower)
+  Palace of Darkness - The Arena - Bridge: Small Key (Ice Palace)
+  Secret Passage: Pegasus Boots
+  Skull Woods - Big Chest: Small Key (Ganons Tower)
+  Superbunny Cave - Bottom: Small Key (Swamp Palace)
+}
+3: {
+  Catfish: Small Key (Swamp Palace)
+  Hype Cave - Generous Guy: Small Key (Hyrule Castle)
+  Hype Cave - Middle Left: Big Key (Swamp Palace)
+  Misery Mire - Bridge Chest: Small Key (Desert Palace)
+  Misery Mire - Main Lobby: Cane of Byrna
+  Sewers - Secret Room - Left: Flippers
+  Spectacle Rock Cave: Small Key (Misery Mire)
+  Spiral Cave: Small Key (Agahnims Tower)
+  Sunken Treasure: Small Key (Eastern Palace)
+  Tower of Hera - Basement Cage: Magic Mirror
+}
+4: {
+  Chicken House: Progressive Bow
+  Lake Hylia Island: Progressive Sword
+  Library: Small Key (Hyrule Castle)
+  Mini Moldorm Cave - Far Right: Big Key (Tower of Hera)
+  Misery Mire - Fishbone Pot Key: Small Key (Thieves Town)
+  Misery Mire - Spike Chest: Lamp
+  Paradox Cave Lower - Middle: Small Key (Turtle Rock)
+  Paradox Cave Upper - Right: Small Key (Turtle Rock)
+  Swamp Palace - Pot Row Pot Key: Small Key (Palace of Darkness)
+  Turtle Rock - Eye Bridge - Bottom Right: Small Key (Desert Palace)
+  Turtle Rock - Eye Bridge - Top Left: Small Key (Agahnims Tower)
+}
+5: {
+  Castle Tower - Circle of Pots Key Drop: Small Key (Palace of Darkness)
+  Desert Palace - Desert Tiles 2 Pot Key: Fire Rod
+  Eastern Palace - Dark Square Pot Key: Small Key (Swamp Palace)
+  Palace of Darkness - The Arena - Ledge: Small Key (Turtle Rock)
+  Tower of Hera - Prize: Crystal 4
+  Turtle Rock - Pokey 2 Key Drop: Hammer
+}
+6: {
+  Ganons Tower - Conveyor Cross Pot Key: Small Key (Misery Mire)
+  Ganons Tower - Double Switch Pot Key: Small Key (Ganons Tower)
+  Ganons Tower - Hope Room - Right: Small Key (Ganons Tower)
+  Hookshot Cave - Bottom Right: Small Key (Misery Mire)
+  Ice Palace - Conveyor Key Drop: Big Key (Desert Palace)
+  Swamp Palace - Big Chest: Small Key (Swamp Palace)
+  Swamp Palace - Compass Chest: Big Key (Ice Palace)
+}
+7: {
+  Misery Mire - Big Key Chest: Big Key (Eastern Palace)
+}
+8: {
+  Eastern Palace - Boss: Hookshot
+}
+9: {
+  Ganons Tower - DMs Room - Top Left: Book of Mudora
+  Hookshot Cave - Top Left: Small Key (Ice Palace)
+}
+10: {
+  Ice Palace - Iced T Room: Small Key (Turtle Rock)
+  Ice Palace - Spike Room: Small Key (Palace of Darkness)
+  Peg Cave: Big Key (Misery Mire)
+}
+11: {
+  Misery Mire - Boss: Small Key (Thieves Town)
+  Misery Mire - Prize: Crystal 7
+  Palace of Darkness - Compass Chest: Progressive Sword
+  Palace of Darkness - Dark Basement - Right: Small Key (Swamp Palace)
+  Turtle Rock - Boss: Small Key (Thieves Town)
+  Turtle Rock - Prize: Crystal 2
+}
+12: {
+  Swamp Palace - Waterway Pot Key: Big Key (Thieves Town)
+}
+13: {
+  Thieves' Town - Attic: Small Key (Hyrule Castle)
+  Thieves' Town - Prize: Crystal 1
+}
+14: {
+  Sewers - Key Rat Key Drop: Small Key (Ganons Tower)
+}
+15: {
+  Ganons Tower - Compass Room - Top Left: Small Key (Desert Palace)
+  Ganons Tower - Compass Room - Top Right: Small Key (Ganons Tower)
+  Ganons Tower - Firesnake Room: Small Key (Ice Palace)
+}
+16: {
+  Desert Palace - Prize: Crystal 6
+  Ganons Tower - Map Chest: Small Key (Palace of Darkness)
+  Ganons Tower - Randomizer Room - Top Right: Small Key (Tower of Hera)
+}
+17: {
+  Tower of Hera - Big Key Chest: Big Key (Ganons Tower)
+}
+18: {
+  Agahnim 2: Beat Agahnim 2
+  Ganons Tower - Big Chest: Small Key (Palace of Darkness)
+  Ganons Tower - Mini Helmasaur Room - Right: Small Key (Ice Palace)
+}
+19: {
+  Palace of Darkness - Big Key Chest: Small Key (Ice Palace)
+  Palace of Darkness - Harmless Hellway: Small Key (Swamp Palace)
+  Palace of Darkness - Prize: Crystal 3
+}
+20: {
+  Ice Palace - Prize: Crystal 5
+  Swamp Palace - West Chest: Progressive Bow
+}
+21: {
+  Ganon: Triforce
+}
+
+Paths:
+
+Agahnim 2
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance) -> Ganons Tower Big Key Door
+   =>   Ganons Tower (Top) -> Ganons Tower Torch Rooms
+   =>   Ganons Tower (Before Moldorm) -> Ganons Tower Moldorm Door
+   =>   Ganons Tower (Moldorm) -> Ganons Tower Moldorm Gap
+   =>   Agahnim 2
+Bonk Rock Cave
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Kakariko Shop
+   =>   Bonk Rock Cave
+Bottle Merchant
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World
+Brewery
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Fairy
+   =>   Brewery
+Castle Tower - Circle of Pots Key Drop
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Fortune Teller (Light)
+   =>   Inverted Agahnims Tower
+Catfish
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Bomb Hut Outer Bushes
+   =>   Bomb Hut Area -> Light World Bomb Hut
+   =>   Desert Palace Main (Outer) -> Desert Palace Pots (Outer)
+   =>   Desert Palace Main (Inner) -> Desert Palace Exit (South)
+   =>   East Dark World -> Northeast Dark World Broken Bridge Pass
+   =>   Northeast Dark World -> Catfish Entrance Rock
+   =>   Catfish
+Chicken House
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Bomb Hut Outer Bushes
+   =>   Bomb Hut Area -> Light World Bomb Hut
+   =>   Desert Palace Main (Outer) -> Desert Palace Pots (Outer)
+   =>   Desert Palace Main (Inner) -> Desert Palace Exit (South)
+   =>   East Dark World -> Palace of Darkness
+   =>   Fairy Ascension Cave (Top) -> Fairy Ascension Cave Drop
+   =>   Fairy Ascension Cave (Drop) -> Fairy Ascension Cave Pots
+   =>   Fairy Ascension Cave (Bottom) -> Fairy Ascension Cave Exit (Bottom)
+   =>   East Death Mountain (Bottom) -> East Death Mountain Mirror Spot (Bottom)
+   =>   Dark Death Mountain (East Bottom) -> Superbunny Cave (Bottom)
+   =>   Chicken House
+Desert Palace - Desert Tiles 2 Pot Key
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> 20 Rupee Cave
+   =>   Hyrule Castle -> Hyrule Castle Exit (South)
+   =>   Hyrule Castle Ledge -> Hyrule Castle Entrance (East)
+   =>   Desert Palace North
+Desert Palace - Prize
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> 20 Rupee Cave
+   =>   Hyrule Castle -> Hyrule Castle Exit (South)
+   =>   Hyrule Castle Ledge -> Hyrule Castle Entrance (East)
+   =>   Desert Palace North
+Digging Game
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World
+Eastern Palace - Boss
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Hyrule Castle Entrance (South)
+   =>   Eastern Palace
+Eastern Palace - Compass Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Hyrule Castle Entrance (South)
+   =>   Eastern Palace
+Eastern Palace - Dark Square Pot Key
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Hyrule Castle Entrance (South)
+   =>   Eastern Palace
+Floodgate
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Cave 45
+   =>   Dam
+Ganon
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lost Woods Hideout Drop
+   =>   Pyramid
+Ganons Tower - Big Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance) -> Ganons Tower (Tile Room)
+   =>   Ganons Tower (Tile Room) -> Ganons Tower (Tile Room) Key Door
+   =>   Ganons Tower (Compass Room) -> Ganons Tower (Bottom) (East)
+   =>   Ganons Tower (Bottom)
+Ganons Tower - Compass Room - Top Left
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance) -> Ganons Tower (Tile Room)
+   =>   Ganons Tower (Tile Room) -> Ganons Tower (Tile Room) Key Door
+   =>   Ganons Tower (Compass Room)
+Ganons Tower - Compass Room - Top Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance) -> Ganons Tower (Tile Room)
+   =>   Ganons Tower (Tile Room) -> Ganons Tower (Tile Room) Key Door
+   =>   Ganons Tower (Compass Room)
+Ganons Tower - Conveyor Cross Pot Key
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance)
+Ganons Tower - DMs Room - Top Left
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance) -> Ganons Tower (Hookshot Room)
+   =>   Ganons Tower (Hookshot Room)
+Ganons Tower - Double Switch Pot Key
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance) -> Ganons Tower (Hookshot Room)
+   =>   Ganons Tower (Hookshot Room)
+Ganons Tower - Firesnake Room
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance) -> Ganons Tower (Hookshot Room)
+   =>   Ganons Tower (Hookshot Room) -> Ganons Tower (Double Switch Room)
+   =>   Ganons Tower (Firesnake Room)
+Ganons Tower - Hope Room - Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance)
+Ganons Tower - Map Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance) -> Ganons Tower (Hookshot Room)
+   =>   Ganons Tower (Hookshot Room) -> Ganons Tower (Map Room)
+   =>   Ganons Tower (Map Room)
+Ganons Tower - Mini Helmasaur Room - Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance) -> Ganons Tower Big Key Door
+   =>   Ganons Tower (Top) -> Ganons Tower Torch Rooms
+   =>   Ganons Tower (Before Moldorm)
+Ganons Tower - Randomizer Room - Top Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Mimic Cave Ledge Access
+   =>   Mimic Cave Ledge -> Mimic Cave
+   =>   Inverted Ganons Tower (Entrance) -> Ganons Tower (Hookshot Room)
+   =>   Ganons Tower (Hookshot Room) -> Ganons Tower (Double Switch Room)
+   =>   Ganons Tower (Firesnake Room) -> Ganons Tower (Firesnake Room)
+   =>   Ganons Tower (Teleport Room)
+Graveyard Cave
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World -> Dark Lake Hylia Shop
+   =>   Graveyard Cave
+Hookshot Cave - Bottom Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Floating Island Mirror Spot
+   =>   Death Mountain Floating Island (Dark World) -> Hookshot Cave Back Entrance
+   =>   Hookshot Cave (Upper) -> Hookshot Cave Bomb Wall (North)
+   =>   Hookshot Cave
+Hookshot Cave - Top Left
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Exit (Middle)
+   =>   Death Mountain (Top) -> East Death Mountain (Top)
+   =>   East Death Mountain (Top) -> Floating Island Mirror Spot
+   =>   Death Mountain Floating Island (Dark World) -> Hookshot Cave Back Entrance
+   =>   Hookshot Cave (Upper) -> Hookshot Cave Bomb Wall (North)
+   =>   Hookshot Cave
+Hype Cave - Generous Guy
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Checkerboard Cave
+   =>   Hype Cave
+Hype Cave - Middle Left
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Checkerboard Cave
+   =>   Hype Cave
+Ice Palace - Conveyor Key Drop
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Mini Moldorm Cave
+   =>   Ice Palace (Entrance) -> Ice Palace (Second Section)
+   =>   Ice Palace (Second Section)
+Ice Palace - Iced T Room
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Mini Moldorm Cave
+   =>   Ice Palace (Entrance) -> Ice Palace (Second Section)
+   =>   Ice Palace (Second Section) -> Ice Palace (Main)
+   =>   Ice Palace (Main)
+Ice Palace - Prize
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Mini Moldorm Cave
+   =>   Ice Palace (Entrance) -> Ice Palace (Second Section)
+   =>   Ice Palace (Second Section) -> Ice Palace (Main)
+   =>   Ice Palace (Main) -> Ice Palace (Kholdstare)
+   =>   Ice Palace (Kholdstare)
+Ice Palace - Spike Room
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Mini Moldorm Cave
+   =>   Ice Palace (Entrance) -> Ice Palace (Second Section)
+   =>   Ice Palace (Second Section) -> Ice Palace (Main)
+   =>   Ice Palace (Main) -> Ice Palace (East)
+   =>   Ice Palace (East)
+Kakariko Well - Bottom
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Hyrule Castle Secret Entrance Drop
+   =>   Kakariko Well (top)
+Kakariko Well - Middle
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Hyrule Castle Secret Entrance Drop
+   =>   Kakariko Well (top)
+Kakariko Well - Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Hyrule Castle Secret Entrance Drop
+   =>   Kakariko Well (top)
+Kakariko Well - Top
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Hyrule Castle Secret Entrance Drop
+   =>   Kakariko Well (top)
+Lake Hylia Island
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Island Pier
+   =>   Lake Hylia Island
+Library
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Capacity Upgrade
+   =>   Library
+Link's House
+        Inverted Links House
+Lumberjack Tree
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Kakariko Well Drop
+   =>   Lumberjack Tree (top)
+Mini Moldorm Cave - Far Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Potion Shop Outer Bushes
+   =>   Potion Shop Area -> Potion Shop Inner Rock
+   =>   Northeast Light World -> Waterfall of Wishing Cave
+   =>   Waterfall of Wishing Cave -> Waterfall of Wishing
+   =>   Mini Moldorm Cave
+Misery Mire - Big Key Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Chest Game
+   =>   Misery Mire (Entrance) -> Misery Mire Entrance Gap
+   =>   Misery Mire (Main) -> Misery Mire (West)
+   =>   Misery Mire (West)
+Misery Mire - Boss
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Chest Game
+   =>   Misery Mire (Entrance) -> Misery Mire Entrance Gap
+   =>   Misery Mire (Main) -> Misery Mire Big Key Door
+   =>   Misery Mire (Final Area) -> Misery Mire (Vitreous)
+   =>   Misery Mire (Vitreous)
+Misery Mire - Bridge Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Chest Game
+   =>   Misery Mire (Entrance) -> Misery Mire Entrance Gap
+   =>   Misery Mire (Main)
+Misery Mire - Fishbone Pot Key
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Chest Game
+   =>   Misery Mire (Entrance) -> Misery Mire Entrance Gap
+   =>   Misery Mire (Main)
+Misery Mire - Main Lobby
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Chest Game
+   =>   Misery Mire (Entrance) -> Misery Mire Entrance Gap
+   =>   Misery Mire (Main)
+Misery Mire - Prize
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Chest Game
+   =>   Misery Mire (Entrance) -> Misery Mire Entrance Gap
+   =>   Misery Mire (Main) -> Misery Mire Big Key Door
+   =>   Misery Mire (Final Area) -> Misery Mire (Vitreous)
+   =>   Misery Mire (Vitreous)
+Misery Mire - Spike Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Chest Game
+   =>   Misery Mire (Entrance) -> Misery Mire Entrance Gap
+   =>   Misery Mire (Main)
+Palace of Darkness - Big Key Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World -> Swamp Palace
+   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
+   =>   Palace of Darkness (Center) -> Palace of Darkness Big Key Chest Staircase
+   =>   Palace of Darkness (Big Key Chest)
+Palace of Darkness - Compass Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World -> Swamp Palace
+   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
+   =>   Palace of Darkness (Center) -> Palace of Darkness (North)
+   =>   Palace of Darkness (North)
+Palace of Darkness - Dark Basement - Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World -> Swamp Palace
+   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
+   =>   Palace of Darkness (Center) -> Palace of Darkness (North)
+   =>   Palace of Darkness (North)
+Palace of Darkness - Harmless Hellway
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World -> Swamp Palace
+   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
+   =>   Palace of Darkness (Center) -> Palace of Darkness (North)
+   =>   Palace of Darkness (North) -> Palace of Darkness Spike Statue Room Door
+   =>   Palace of Darkness (Harmless Hellway)
+Palace of Darkness - Prize
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World -> Swamp Palace
+   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
+   =>   Palace of Darkness (Center) -> Palace of Darkness Big Key Door
+   =>   Palace of Darkness (Final Section)
+Palace of Darkness - Stalfos Basement
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World -> Swamp Palace
+   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
+   =>   Palace of Darkness (Center)
+Palace of Darkness - The Arena - Bridge
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World -> Swamp Palace
+   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
+   =>   Palace of Darkness (Center)
+Palace of Darkness - The Arena - Ledge
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World -> Swamp Palace
+   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bonk Wall
+   =>   Palace of Darkness (Bonk Section)
+Paradox Cave Lower - Middle
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Drop
+   =>   Paradox Cave Chest Area
+Paradox Cave Upper - Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lake Hylia Central Island Pier
+   =>   Lake Hylia Central Island -> Lake Hylia Central Island Mirror Spot
+   =>   Dark Lake Hylia Central Island -> Ice Palace
+   =>   Paradox Cave -> Paradox Cave Drop
+   =>   Paradox Cave Chest Area
+Peg Cave
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Desert Palace Stairs
+   =>   Desert Palace Stairs -> Desert Palace Entrance (South)
+   =>   Dark World Hammer Peg Cave
+Sahasrahla's Hut - Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> C-Shaped House
+   =>   Sahasrahlas Hut
+Secret Passage
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Lumberjack Tree Cave
+   =>   Hyrule Castle Secret Entrance
+Sewers - Key Rat Key Drop
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> 20 Rupee Cave
+   =>   Hyrule Castle -> Throne Room
+   =>   Sewers (Dark)
+Sewers - Secret Room - Left
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Sanctuary Grave
+   =>   Sewer Drop -> Sewer Drop
+   =>   Sewers -> Sewers Secret Room
+   =>   Sewers Secret Room
+Skull Woods - Big Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Skull Woods Forest
+   =>   Skull Woods Forest -> Skull Woods First Section Door
+   =>   Skull Woods Second Section -> Skull Woods Second Section Exit (West)
+   =>   Skull Woods Forest (West) -> Skull Woods Second Section Hole
+   =>   Skull Woods First Section (Top)
+Skull Woods - Big Key Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Skull Woods Forest
+   =>   Skull Woods Forest -> Skull Woods First Section Door
+   =>   Skull Woods Second Section
+Skull Woods - Compass Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Skull Woods Forest
+   =>   Skull Woods Forest -> Skull Woods First Section Hole (North)
+   =>   Skull Woods First Section (Left)
+Skull Woods - Map Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Skull Woods Forest
+   =>   Skull Woods Forest -> Skull Woods Second Section Door (East)
+   =>   Skull Woods First Section
+Skull Woods - Pot Prison
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Skull Woods Forest
+   =>   Skull Woods Forest -> Skull Woods First Section Hole (North)
+   =>   Skull Woods First Section (Left)
+Spectacle Rock Cave
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Death Mountain Entrance Rock
+   =>   Death Mountain Entrance -> Old Man Cave (West)
+   =>   Elder House -> Elder House Exit (East)
+   =>   Dark Death Mountain Ledge -> Dark Death Mountain Ledge (East)
+   =>   Spectacle Rock Cave (Top)
+Spiral Cave
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Bonk Rock Cave
+   =>   Spiral Cave (Top)
+Sunken Treasure
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World
+Superbunny Cave - Bottom
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Bomb Hut Outer Bushes
+   =>   Bomb Hut Area -> Light World Bomb Hut
+   =>   Desert Palace Main (Outer) -> Desert Palace Pots (Outer)
+   =>   Desert Palace Main (Inner) -> Desert Palace Exit (South)
+   =>   East Dark World -> Palace of Darkness
+   =>   Fairy Ascension Cave (Top) -> Fairy Ascension Cave Drop
+   =>   Fairy Ascension Cave (Drop) -> Fairy Ascension Cave Pots
+   =>   Fairy Ascension Cave (Bottom) -> Fairy Ascension Cave Exit (Bottom)
+   =>   East Death Mountain (Bottom) -> Hookshot Fairy
+   =>   Superbunny Cave (Top)
+Swamp Palace - Big Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> 20 Rupee Cave
+   =>   Hyrule Castle -> Hyrule Castle Exit (South)
+   =>   Hyrule Castle Ledge -> Hyrule Castle Entrance (West)
+   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
+   =>   Swamp Palace (First Room) -> Swamp Palace Small Key Door
+   =>   Swamp Palace (Starting Area) -> Swamp Palace (Center)
+   =>   Swamp Palace (Center)
+Swamp Palace - Compass Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> 20 Rupee Cave
+   =>   Hyrule Castle -> Hyrule Castle Exit (South)
+   =>   Hyrule Castle Ledge -> Hyrule Castle Entrance (West)
+   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
+   =>   Swamp Palace (First Room) -> Swamp Palace Small Key Door
+   =>   Swamp Palace (Starting Area) -> Swamp Palace (Center)
+   =>   Swamp Palace (Center)
+Swamp Palace - Pot Row Pot Key
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> 20 Rupee Cave
+   =>   Hyrule Castle -> Hyrule Castle Exit (South)
+   =>   Hyrule Castle Ledge -> Hyrule Castle Entrance (West)
+   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
+   =>   Swamp Palace (First Room) -> Swamp Palace Small Key Door
+   =>   Swamp Palace (Starting Area)
+Swamp Palace - Waterway Pot Key
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> 20 Rupee Cave
+   =>   Hyrule Castle -> Hyrule Castle Exit (South)
+   =>   Hyrule Castle Ledge -> Hyrule Castle Entrance (West)
+   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
+   =>   Swamp Palace (First Room) -> Swamp Palace Small Key Door
+   =>   Swamp Palace (Starting Area) -> Swamp Palace (Center)
+   =>   Swamp Palace (Center) -> Swamp Palace (North)
+   =>   Swamp Palace (North)
+Swamp Palace - West Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> 20 Rupee Cave
+   =>   Hyrule Castle -> Hyrule Castle Exit (South)
+   =>   Hyrule Castle Ledge -> Hyrule Castle Entrance (West)
+   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
+   =>   Swamp Palace (First Room) -> Swamp Palace Small Key Door
+   =>   Swamp Palace (Starting Area) -> Swamp Palace (Center)
+   =>   Swamp Palace (Center) -> Swamp Palace (West)
+   =>   Swamp Palace (West)
+Thieves' Town - Attic
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Shopping Mall Mirror Spot
+   =>   Dark Lake Hylia Ledge -> Dark Lake Hylia Ledge Fairy
+   =>   Thieves Town (Entrance) -> Thieves Town Big Key Door
+   =>   Thieves Town (Deep)
+Thieves' Town - Prize
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Shopping Mall Mirror Spot
+   =>   Dark Lake Hylia Ledge -> Dark Lake Hylia Ledge Fairy
+   =>   Thieves Town (Entrance) -> Thieves Town Big Key Door
+   =>   Thieves Town (Deep) -> Blind Fight
+   =>   Blind Fight
+Tower of Hera - Basement Cage
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Bomb Hut Outer Bushes
+   =>   Bomb Hut Area -> Light World Bomb Hut
+   =>   Desert Palace Main (Outer) -> Desert Palace Pots (Outer)
+   =>   Desert Palace Main (Inner) -> Desert Palace Exit (South)
+   =>   East Dark World -> Northeast Dark World Broken Bridge Pass
+   =>   Northeast Dark World -> Dark World Potion Shop
+   =>   Tower of Hera (Bottom)
+Tower of Hera - Big Key Chest
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Bomb Hut Outer Bushes
+   =>   Bomb Hut Area -> Light World Bomb Hut
+   =>   Desert Palace Main (Outer) -> Desert Palace Pots (Outer)
+   =>   Desert Palace Main (Inner) -> Desert Palace Exit (South)
+   =>   East Dark World -> Northeast Dark World Broken Bridge Pass
+   =>   Northeast Dark World -> Dark World Potion Shop
+   =>   Tower of Hera (Bottom) -> Tower of Hera Small Key Door
+   =>   Tower of Hera (Basement)
+Tower of Hera - Prize
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Bomb Hut Outer Bushes
+   =>   Bomb Hut Area -> Light World Bomb Hut
+   =>   Desert Palace Main (Outer) -> Desert Palace Pots (Outer)
+   =>   Desert Palace Main (Inner) -> Desert Palace Exit (South)
+   =>   East Dark World -> Northeast Dark World Broken Bridge Pass
+   =>   Northeast Dark World -> Dark World Potion Shop
+   =>   Tower of Hera (Bottom) -> Tower of Hera Big Key Door
+   =>   Tower of Hera (Top)
+Turtle Rock - Boss
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Dam
+   =>   Turtle Rock (Eye Bridge Bomb Wall) -> Turtle Rock Eye Bridge from Bomb Wall
+   =>   Turtle Rock (Eye Bridge) -> Turtle Rock (Trinexx)
+   =>   Turtle Rock (Trinexx)
+Turtle Rock - Eye Bridge - Bottom Right
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Dam
+   =>   Turtle Rock (Eye Bridge Bomb Wall) -> Turtle Rock Eye Bridge from Bomb Wall
+   =>   Turtle Rock (Eye Bridge)
+Turtle Rock - Eye Bridge - Top Left
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Dam
+   =>   Turtle Rock (Eye Bridge Bomb Wall) -> Turtle Rock Eye Bridge from Bomb Wall
+   =>   Turtle Rock (Eye Bridge)
+Turtle Rock - Pokey 2 Key Drop
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Dam
+   =>   Turtle Rock (Eye Bridge Bomb Wall) -> Turtle Rock Eye Bridge from Bomb Wall
+   =>   Turtle Rock (Eye Bridge) -> Turtle Rock Dark Room (South)
+   =>   Turtle Rock (Dark Room) -> Turtle Rock (Dark Room) (North)
+   =>   Turtle Rock (Crystaroller Room) -> Turtle Rock Big Key Door Reverse
+   =>   Turtle Rock (Second Section)
+Turtle Rock - Prize
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Thieves Town
+   =>   Two Brothers House -> Two Brothers House Exit (West)
+   =>   Light World -> Dam
+   =>   Turtle Rock (Eye Bridge Bomb Wall) -> Turtle Rock Eye Bridge from Bomb Wall
+   =>   Turtle Rock (Eye Bridge) -> Turtle Rock (Trinexx)
+   =>   Turtle Rock (Trinexx)
+Waterfall Fairy - Left
+        Inverted Dark Sanctuary -> Inverted Dark Sanctuary Exit
+   =>   Bumper Cave Entrance -> Bumper Cave Entrance Drop
+   =>   West Dark World -> Village of Outcasts Drop
+   =>   South Dark World -> Hype Cave
+   =>   Waterfall of Wishing

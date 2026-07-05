@@ -15,7 +15,10 @@ export const gameService = {
       finishedDate: null,
       locations: {},
       globalNotes: [],
-      checkStatus: {}
+      checkStatus: {},
+      items: {}
+      // Spawn points are derived from placed spawn locations (Link's House,
+      // Sanctuary, …) — see logicEngine.SPAWN_LOCATION_IDS. Not stored.
     };
 
     // Apply default locations based on randomizer type
@@ -144,25 +147,36 @@ export const gameService = {
       const games = saved ? JSON.parse(saved) : [];
 
       // Migrate old games without finished status, notes, checkStatus, and isEditable properties
-      return games.map(game => ({
-        isFinished: false,
-        finishedDate: null,
-        notes: '',
-        locationNotes: {},
-        globalNotes: [],
-        checkStatus: {}, // Initialize checkStatus for old saves
-        ...game,
-        // Migrate locations to add isEditable property if missing
-        locations: game.locations ? Object.fromEntries(
-          Object.entries(game.locations).map(([locationId, locationData]) => [
-            locationId,
-            {
-              isEditable: true, // Default to editable for existing games
-              ...locationData
-            }
-          ])
-        ) : {}
-      }));
+      return games.map(game => {
+        const migrated = {
+          isFinished: false,
+          finishedDate: null,
+          notes: '',
+          locationNotes: {},
+          globalNotes: [],
+          checkStatus: {}, // Initialize checkStatus for old saves
+          items: {}, // Initialize items (logic tracking) for old saves
+          ...game,
+          // Migrate locations to add isEditable property if missing, and strip the
+          // old hardcoded Sanctuary (3014) that was wrongly pinned to the Master
+          // Sword Pedestal (node 1) by the ALWAYS static set.
+          locations: game.locations ? Object.fromEntries(
+            Object.entries(game.locations)
+              .filter(([nodeId, d]) => !(Number(nodeId) === 1 && d?.locationId === 3014))
+              .map(([locationId, locationData]) => [
+                locationId,
+                {
+                  isEditable: true, // Default to editable for existing games
+                  ...locationData
+                }
+              ])
+          ) : {}
+        };
+        // Backfill the always-present surface checks (overworld items don't
+        // shuffle) so existing saves get them too, not just new games.
+        migrated.locations = applyStaticLocations(migrated);
+        return migrated;
+      });
     } catch (error) {
       console.error('Error loading games:', error);
       return [];

@@ -37,24 +37,27 @@ const GameTracker = () => {
   const previousCheckStatusRef = useRef(null);
   const previousLocationsRef = useRef(null);
   const previousNotesRef = useRef(null);
-  
+  const previousItemsRef = useRef(null);
+
   useEffect(() => {
     // Only auto-save if we're in tracker view and game isn't finished
     if (!currentGame || currentView !== 'tracker' || currentGame.isFinished) {
       previousCheckStatusRef.current = null;
       previousLocationsRef.current = null;
       previousNotesRef.current = null;
+      previousItemsRef.current = null;
       return;
     }
 
     // Check if this is the first render (when game is initially loaded)
     const isFirstRender = previousCheckStatusRef.current === null;
-    
+
     if (isFirstRender) {
       // Store initial state without saving
       previousCheckStatusRef.current = currentGame.checkStatus;
       previousLocationsRef.current = currentGame.locations;
       previousNotesRef.current = currentGame.globalNotes;
+      previousItemsRef.current = currentGame.items;
       return;
     }
 
@@ -62,13 +65,15 @@ const GameTracker = () => {
     const checkStatusChanged = previousCheckStatusRef.current !== currentGame.checkStatus;
     const locationsChanged = previousLocationsRef.current !== currentGame.locations;
     const notesChanged = previousNotesRef.current !== currentGame.globalNotes;
+    const itemsChanged = previousItemsRef.current !== currentGame.items;
 
-    if (checkStatusChanged || locationsChanged || notesChanged) {
+    if (checkStatusChanged || locationsChanged || notesChanged || itemsChanged) {
       // Update refs
       previousCheckStatusRef.current = currentGame.checkStatus;
       previousLocationsRef.current = currentGame.locations;
       previousNotesRef.current = currentGame.globalNotes;
-      
+      previousItemsRef.current = currentGame.items;
+
       // Trigger save
       autoSaveGame(currentGame);
     }
