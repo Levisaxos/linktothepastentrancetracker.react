@@ -20,15 +20,19 @@ import { buildGraph } from './entranceGraph';
 import { regionOfNode } from './nodeRegions';
 import { getCheckRule } from './checkRules';
 import { checksData } from '../data/checkData';
-import { START_REGION } from './regions';
-import { MODES, startRegion } from './mode';
+import { START_REGION, getRegion } from './regions';
+import { MODES, startRegion, pearlWorld } from './mode';
+import { rules } from './rules';
 
 /**
  * Set of region ids reachable from the start given items + entrance layout.
- * Traversal does NOT require the Moon Pearl — in either mode you can WALK the
- * off-world as a bunny, and connectors carry you between regions. The pearl is
- * needed only for specific actions (swimming, opening gates, reading medallion
- * tablets), gated on the individual edges/nodes that require it.
+ *
+ * Bunny rule: entering the OFF-world (the pearlWorld for the mode — Dark World in
+ * standard, Light World in inverted) requires the Moon Pearl. Without it you're a
+ * bunny there and can't meaningfully act, so those regions don't count as reached.
+ * The HOME world is always pearl-free — you walk it and its connectors freely.
+ * Spawn regions are seeded directly (save & quit), so they're reachable even if
+ * off-world.
  * @param {string|string[]} startRegionIds - the region(s) the player can begin
  *   from (each recorded spawn point: Link's House, Sanctuary, rescued Old Man,
  *   …). Reachability seeds from all of them. Defaults to the mode's home hub.
@@ -42,16 +46,22 @@ export function getReachableRegions(
   const starts = (Array.isArray(startRegionIds) ? startRegionIds : [startRegionIds]).filter(Boolean);
   const adjacency = buildGraph(gameLocations, mode, starts);
 
+  const offWorld = pearlWorld(mode);
+  const hasPearl = rules.hasMoonPearl(itemState);
+
   // Seed Menu + every spawn region (a spawn is always reachable — save & quit).
   const reachable = new Set([START_REGION, ...starts]);
   const queue = [START_REGION, ...starts];
   while (queue.length) {
     const current = queue.shift();
     for (const edge of adjacency[current] || []) {
-      if (!reachable.has(edge.to) && edge.requires(itemState)) {
-        reachable.add(edge.to);
-        queue.push(edge.to);
-      }
+      if (reachable.has(edge.to) || !edge.requires(itemState)) continue;
+      // Bunny gate: can't enter the off-world without the Moon Pearl — unless the
+      // edge is pearl-exempt (e.g. an inverted mirror spot, which lands you as Link).
+      const toRegion = getRegion(edge.to);
+      if (toRegion && toRegion.world === offWorld && !hasPearl && !edge.bypassPearl) continue;
+      reachable.add(edge.to);
+      queue.push(edge.to);
     }
   }
   return reachable;

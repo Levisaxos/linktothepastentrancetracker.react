@@ -17,9 +17,12 @@
 import { keyItems } from './dungeons';
 
 const ICON_BASE = '/images/items';
+// Icons live at stable URLs (no content hash), so browsers cache them hard. Bump
+// this whenever the icon PNGs change to bust that cache (the URL changes → refetch).
+const ICON_VERSION = '2';
 
 // Build a browser-safe src from a filename that may contain spaces.
-export const itemIconSrc = (file) => `${ICON_BASE}/${encodeURIComponent(file)}`;
+export const itemIconSrc = (file) => `${ICON_BASE}/${encodeURIComponent(file)}?v=${ICON_VERSION}`;
 
 // Inventory items shown in the manual panel. Dungeon keys (group 'keys') are
 // appended below from dungeons.js — they're logic/AP-driven and hidden from the

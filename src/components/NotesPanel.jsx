@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ChevronUp, ChevronDown, Plus, Edit2, Trash2 } from 'lucide-react';
 import NotesModal from './NotesModal';
 
@@ -7,6 +7,18 @@ const NotesPanel = ({ currentGame, onUpdateNotes, isReadOnly = false }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showNoteModal, setShowNoteModal] = useState(false);
   const [editingNote, setEditingNote] = useState(null);
+  const panelRef = useRef(null);
+
+  // Collapse when the user clicks outside the panel — but not while the note
+  // modal is open (that overlay lives outside the panel).
+  useEffect(() => {
+    if (!isExpanded || showNoteModal) return;
+    const onDown = (e) => {
+      if (panelRef.current && !panelRef.current.contains(e.target)) setIsExpanded(false);
+    };
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, [isExpanded, showNoteModal]);
 
   const notes = currentGame?.globalNotes || [];
 
@@ -66,7 +78,7 @@ const NotesPanel = ({ currentGame, onUpdateNotes, isReadOnly = false }) => {
   return (
     <>
       {/* Notes Panel */}
-      <div className={`fixed bottom-0 right-4 bg-gray-800 border border-gray-700 rounded-t-lg shadow-lg transition-all duration-300 ${isExpanded ? 'w-80 h-96' : 'w-auto h-auto'
+      <div ref={panelRef} className={`fixed bottom-0 right-4 bg-gray-800 border border-gray-700 rounded-t-lg shadow-lg transition-all duration-300 ${isExpanded ? 'w-80 h-96' : 'w-auto h-auto'
         }`}>
 
         {/* Collapsed State - Clickable Button */}

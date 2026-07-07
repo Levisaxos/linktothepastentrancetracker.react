@@ -208,6 +208,7 @@ const LocationHoverTooltip = ({ isVisible, position, location, locationData, onM
         maxWidth: '350px'
       }}
     >
+      <span className="absolute top-1 right-2 text-[10px] font-mono text-gray-500 pointer-events-none">#{location?.id}</span>
       <div className="p-4">
         {isMinimal ? (
           <>

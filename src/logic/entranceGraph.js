@@ -79,13 +79,56 @@ export function buildEntranceEdges(gameLocations = {}) {
  * @param {string|string[]} startRegionIds - overworld region(s) the player can
  *   spawn in (defaults to the mode's home hub). A Menu edge is added to each.
  */
+// Corresponding overworld positions between the Dark and Light worlds — the Magic
+// Mirror warps you to the SAME map spot in the other world. Listed [dark, light].
+// Most dark overworld quadrants mirror to the single big 'Light World' region (once
+// you land anywhere in it you can walk it all); ledges/mountain map to their
+// counterparts. (APPROX — refine specific spots as they come up.)
+const MIRROR_PAIRS = [
+  ['East Dark World', 'Light World'],
+  ['Catfish', 'Light World'],
+  ['Northeast Dark World', 'Light World'],
+  ['South Dark World', 'Light World'],
+  ['Dark Lake Hylia', 'Light World'],
+  ['Dark Lake Hylia Central Island', 'Lake Hylia Island'],
+  ['Dark Lake Hylia Ledge', 'Light World'],
+  ['West Dark World', 'Light World'],
+  ['West Dark World', 'Kings Grave Area'], // the graveyard ledge, specifically
+  ['Dark Grassy Lawn', 'Light World'],
+  ['Hammer Peg Area', 'Light World'],
+  ['Bumper Cave Entrance', 'Light World'],
+  ['Bumper Cave Ledge', 'Death Mountain Return Ledge'],
+  ['Skull Woods Forest', 'Light World'],
+  ['Skull Woods Forest (West)', 'Light World'],
+  ['Dark Desert', 'Light World'],
+  ['Pyramid Ledge', 'Light World'],
+  ['Dark Death Mountain (West Bottom)', 'Death Mountain'],
+  ['Dark Death Mountain (Top)', 'Death Mountain (Top)'],
+  ['Dark Death Mountain Ledge', 'Death Mountain (Top)'],
+  ['Dark Death Mountain (East Bottom)', 'East Death Mountain (Bottom)'],
+  ['Death Mountain Floating Island (Dark World)', 'Death Mountain Floating Island (Light World)'],
+];
+
+// The Mirror warps HOME world -> OFF world at the matching position.
+//   INVERTED: dark(home) -> light(off), no pearl ('...Mirror Spot' = mirror only,
+//             Rules.py inverted) — so it bypasses the off-world bunny/pearl gate.
+//   STANDARD: light(home) -> dark(off), needs the pearl to arrive as Link, not a
+//             bunny ('Kings Grave Mirror Spot' = Moon Pearl + Magic Mirror).
+// One-way edges (you mirror INTO the off-world; getting back is a separate route).
+function mirrorEdges(mode) {
+  const inverted = mode === MODES.INVERTED;
+  return MIRROR_PAIRS.map(([dark, light]) => inverted
+    ? { from: dark, to: light, requires: rules.hasMirror, bypassPearl: true }
+    : { from: light, to: dark, requires: (s) => rules.hasMirror(s) && rules.hasMoonPearl(s) });
+}
+
 export function buildGraph(gameLocations = {}, mode = MODES.STANDARD, startRegionIds = [startRegion(mode)]) {
   const starts = (Array.isArray(startRegionIds) ? startRegionIds : [startRegionIds]).filter(Boolean);
   const startEdges = starts.map((to) => ({ from: START_REGION, to, requires: rules.always }));
-  const all = [...startEdges, ...overworldEdges, ...crossWorldPortals, ...buildEntranceEdges(gameLocations)];
+  const all = [...startEdges, ...overworldEdges, ...crossWorldPortals, ...mirrorEdges(mode), ...buildEntranceEdges(gameLocations)];
   const adjacency = {};
   for (const e of all) {
-    (adjacency[e.from] ||= []).push({ to: e.to, requires: e.requires });
+    (adjacency[e.from] ||= []).push({ to: e.to, requires: e.requires, bypassPearl: e.bypassPearl });
   }
   return adjacency;
 }

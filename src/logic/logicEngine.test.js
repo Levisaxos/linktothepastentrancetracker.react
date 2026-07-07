@@ -14,10 +14,13 @@ describe('getReachableRegions', () => {
     expect(r.has('Light World')).toBe(true);
   });
 
-  test('a connector opens the far region by walking (no pearl needed for traversal)', () => {
+  test('a connector opens the far region, but the off-world needs the Moon Pearl (bunny rule)', () => {
     const layout = { 2: { locationId: 2005 }, 117: { locationId: 2006 } }; // LW ↔ South Dark World
-    // Reaching one end reaches the other — you can walk through as a bunny.
-    expect(getReachableRegions({}, layout).has('South Dark World')).toBe(true);
+    // Standard: the Dark World is the off-world. Without the pearl you're a bunny
+    // there, so the far (dark) region does NOT count as reachable…
+    expect(getReachableRegions({}, layout).has('South Dark World')).toBe(false);
+    // …but with the pearl the connector opens it.
+    expect(getReachableRegions({ moonPearl: 1 }, layout).has('South Dark World')).toBe(true);
   });
 
   test('a connector with only one end placed opens nothing', () => {
@@ -29,7 +32,7 @@ describe('getReachableRegions', () => {
     // Dark world is home in inverted → reachable from the start with nothing.
     expect(getReachableRegions({}, {}, 'inverted').has('East Dark World')).toBe(true);
     // Light World has no fixed edge from the dark world — only a recorded
-    // connector/portal opens it (not gated by the pearl for traversal).
+    // connector/portal opens it (and, being the off-world in inverted, the pearl).
     expect(getReachableRegions({}, {}, 'inverted').has('Light World')).toBe(false);
   });
 

@@ -147,7 +147,7 @@ export const nodeRegions = {
   121: 'Dark Desert',
   122: 'Dark Desert', // V
   123: 'Dark Lake Hylia Central Island', // Ice Palace sits on the lake island
-  124: 'Dark Lake Hylia Ledge', // Fortune Teller — hammer to reach from the east
+  124: 'South Dark World', // Dark Hylia Fortune Teller — traversable with the southern strip (116/118)
   125: 'Dark Lake Hylia Central Island', // Dark Ice Rod corner — flippers to reach
   126: 'Dark Lake Hylia Central Island', // Dark Ice Rod corner — flippers to reach
   127: 'Dark Lake Hylia Central Island', // Dark Ice Rod Rock — flippers to reach
@@ -195,6 +195,13 @@ export const nodeAccessRules = {
   11: (items) => rules.hasMoonPearl(items) && rules.hasBook(items) && rules.hasSwordLevel(items, 2),
   // Checkerboard Cave: lift the rock to enter (glove). Verbatim from Rules.py.
   60: (items) => rules.canLiftRocks(items),
+  // Bonk-rock caves (Bonk Rock Cave, Bonk Fairy): dash into the rocks with Boots.
+  24: (items) => rules.hasBoots(items),
+  49: (items) => rules.hasBoots(items),
+  115: (items) => rules.hasBoots(items),
+  // King's Grave: dash the grave open with the Boots ('Kings Grave' = Pegasus
+  // Boots, Rules.py). Reaching the grave area itself is the mitts edge / mirror.
+  27: (items) => rules.hasBoots(items),
   // Pyramid Fairy: you carry the Big Bomb from the bomb shop to the pyramid
   // crack. That depends on Agahnim/crystal state we don't track yet, so it's
   // conservatively gated OFF — it reads as unreachable until the Big Bomb is

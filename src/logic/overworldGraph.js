@@ -54,12 +54,23 @@ link('Death Mountain (Top)', 'Dark Death Mountain (West Bottom)', rules.always, 
 link('Light World', 'Zoras River', rules.always, 'VALIDATE');
 link('Light World', 'Hyrule Castle Courtyard', rules.always, 'VALIDATE');
 link('Light World', 'Desert Palace Stairs', rules.hasBook, 'VALIDATE'); // Book opens the desert stairs (Rules.py)
-// NOTE: the desert BACK/north entrance is a top ledge — in crossed ER it does NOT
-// connect to the front stairs by walking, so there's no Stairs→North edge here.
+// Desert BACK (north cliffs): 'Desert Palace Entrance (North) Rocks' = can_lift_rocks
+// (Rules.py). Lift the rocks by the north entrance to drop to the Light World (and
+// climb back up). This connects to the Light World, NOT to the book-gated front
+// stairs — so reaching the back + a glove opens the light world overworld, while
+// Desert Main (South) stays gated behind the book.
+link('Desert Northern Cliffs', 'Light World', rules.canLiftRocks);
+// Desert WEST entrance shares that northern ledge with the back, one rock-lift
+// away — so reaching the back + a glove also opens the West entrance.
+link('Desert Northern Cliffs', 'Desert Palace Lone Stairs', rules.canLiftRocks);
 // Hobo + Capacity Upgrade Cave: reached by swimming (Hobo Bridge = flippers, Rules.py).
 link('Light World', 'Hobo Bridge', rules.hasFlippers);
-// King's Tomb: lift the outer rocks (Titan's Mitts) or boots-dash in (Rules.py).
-link('Light World', 'Kings Grave Area', (s) => rules.canLiftHeavy(s) || rules.hasBoots(s));
+// King's Tomb: reach the grave area by lifting the outer+inner rocks — Titan's
+// Mitts ('Kings Grave Outer/Inner Rocks' = can_lift_heavy_rocks, Rules.py). Opening
+// the grave itself needs the Boots (checkRules 203). The mirror route (from the
+// dark-world graveyard by the Dark Sanctuary) is deferred with the other mirror
+// portals — so for now the grave area is mitts-gated.
+link('Light World', 'Kings Grave Area', rules.canLiftHeavy);
 
 // ── Dark World surface ───────────────────────────────────────────────────────
 // Edges carry only terrain/item gates. The bunny/Moon-Pearl gate is NOT here —
@@ -80,6 +91,7 @@ dwLink('East Dark World', 'South Dark World', rules.hasHammer);          // Sout
 dwLink('East Dark World', 'Northeast Dark World', brokenBridge);         // broken-bridge pass
 dwLink('East Dark World', 'West Dark World', villageAccess);             // into the Village of Outcasts
 dwLink('West Dark World', 'Northeast Dark World', rules.hasHookshot);    // West Dark World Gap (hookshot)
+dwLink('West Dark World', 'South Dark World', null);                     // village opens south to the swamp/bomb-shop strip (traversable)
 
 // --- East / pyramid / lake (lake shore walkable from the east hub) ---
 dwLink('East Dark World', 'Pyramid Ledge', null);

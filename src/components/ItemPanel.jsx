@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import { itemData, getItemIconFile, itemIconSrc } from '../data/itemData';
 import { itemStateService } from '../services/itemStateService';
@@ -49,6 +49,17 @@ const ItemCell = ({ item, count, isReadOnly, onStep }) => {
 
 const ItemPanel = ({ currentGame, onUpdateItems, isReadOnly = false }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const panelRef = useRef(null);
+
+  // Collapse when the user clicks anywhere outside the panel.
+  useEffect(() => {
+    if (!isExpanded) return;
+    const onDown = (e) => {
+      if (panelRef.current && !panelRef.current.contains(e.target)) setIsExpanded(false);
+    };
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, [isExpanded]);
 
   const items = useMemo(() => currentGame?.items || {}, [currentGame?.items]);
 
@@ -74,6 +85,7 @@ const ItemPanel = ({ currentGame, onUpdateItems, isReadOnly = false }) => {
 
   return (
     <div
+      ref={panelRef}
       className={`fixed bottom-0 left-4 bg-gray-800 border border-gray-700 rounded-t-lg shadow-lg transition-all duration-300 ${
         isExpanded ? 'w-80' : 'w-auto'
       }`}
